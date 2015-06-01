@@ -1,0 +1,1196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="getting-started-with-boostmetaparse">Getting started with boost::metaparse</h1>
+<h2 id="table-of-contents">Table of contents</h2>
+<ul>
+<li><a href="#introduction">1. Introduction</a>
+<ul>
+<li><a href="#testing-environment">1.1. Testing environment</a></li>
+</ul></li>
+<li><a href="#the-text-to-parse">2. The text to parse</a></li>
+<li><a href="#creating-a-simple-parser">3. Creating a simple parser</a>
+<ul>
+<li><a href="#dealing-with-invalid-input">3.1. Dealing with invalid input</a></li>
+<li><a href="#dealing-with-input-containing-more-than-what-is-needed">3.2. Dealing with input containing more than what is needed</a></li>
+<li><a href="#accepting-optional-whitespaces-at-the-end-of-the-input">3.3. Accepting optional whitespaces at the end of the input</a></li>
+</ul></li>
+<li><a href="#parsing-simple-expressions">4. Parsing simple expressions</a>
+<ul>
+<li><a href="#tokeniser">4.1. Tokeniser</a></li>
+<li><a href="#evaluating-the-expression">4.2. Evaluating the expression</a></li>
+</ul></li>
+<li><a href="#parsing-longer-expressions">5. Parsing longer expressions</a>
+<ul>
+<li><a href="#parsing-a-subexpression-repeatedly">5.1. Parsing a subexpression repeatedly</a></li>
+<li><a href="#evaluating-the-parsed-expression">5.2. Evaluating the parsed expression</a>
+<ul>
+<li><a href="#learning-about-boostmplfold">5.2.1. Learning about <code>boost::mpl::fold</code></a></li>
+<li><a href="#evaluating-the-expression-using-boostmplfold">5.2.2. Evaluating the expression using <code>boost::mpl::fold</code></a></li>
+<li><a href="#using-a-folding-parser-combinator">5.2.3. Using a folding parser combinator</a></li>
+<li><a href="#processing-the-initial-element-with-the-folding-parser-combinator">5.2.4. Processing the initial element with the folding parser combinator</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#adding-support-for-other-operators">6. Adding support for other operators</a>
+<ul>
+<li><a href="#parsing-expressions-containing---operators">6.1. Parsing expressions containing <code>-</code> operators</a></li>
+<li><a href="#evaluating-expressions-containing---operators">6.2. Evaluating expressions containing <code>-</code> operators</a></li>
+</ul></li>
+<li><a href="#dealing-with-precedence">7. Dealing with precedence</a>
+<ul>
+<li><a href="#adding-support-for-the-*-operator">7.1. Adding support for the <code>*</code> operator</a></li>
+<li><a href="#adding-support-for-precedence-of-operators">7.2. Adding support for precedence of operators</a></li>
+</ul></li>
+<li><a href="#dealing-with-associativity">8. Dealing with associativity</a>
+<ul>
+<li><a href="#understanding-the-current-implementation">8.1. Understanding the current implementation</a></li>
+<li><a href="#folding-in-reverse-order">8.2. Folding in reverse order</a></li>
+</ul></li>
+<li><a href="#dealing-with-unary-operators">9. Dealing with unary operators</a></li>
+<li><a href="#dealing-with-parens">10. Dealing with parens</a></li>
+<li><a href="#dealing-with-invalid-input-1">11. Dealing with invalid input</a>
+<ul>
+<li><a href="#improving-the-error-messages">11.1. Improving the error messages</a></li>
+<li><a href="#defining-custom-errors">11.2. Defining custom errors</a></li>
+<li><a href="#missing-closing-parens">11.3. Missing closing parens</a></li>
+<li><a href="#simplifying-the-parser">11.3.1 Simplifying the parser</a></li>
+<li><a href="#using-foldlfp-at-other-places-as-well">11.3.2 Using <code>foldlfp</code> at other places as well</a></li>
+</ul></li>
+<li><a href="#summary">12. Summary</a></li>
+</ul>
+<h2 id="introduction">1. Introduction</h2>
+<p>This tutorial shows you how to build a parser for a small calculator language from the ground up. The goal is not to have a complete calculator, but to show you the most common situations one can face while building a parser using Metaparse. This tutorial assumes, that you have some template metaprogramming experience.</p>
+<h3 id="testing-environment">1.1. Testing environment</h3>
+<p>While you are using Metaparse, you will be writing parsers turning an input text into a type. These types can later be processed by further template metaprograms. While you are working on your parsers, you'll probably want to look at the result of parsing a test input. This tutorial assumes that you can use <a href="https://github.com/sabel83/metashell">Metashell</a>. Since the <a href="http://abel.web.elte.hu/shell/metashell.html">online demo</a> makes the Mpllibs headers available, you can use that in the tutorial as well.</p>
+<p>This tutorial is long and therefore you might want to make shorter or longer breaks while reading it. To make it easy for you to stop at a certain point and continue later (or to start in the middle if you are already familiar with the basics) Metaparse has a <code>getting_started</code> directory in the <code>example</code>s. This contains the definitions for each section of this tutorial.</p>
+<p>If you're about to start (or continue) this guide from section 5.2.1, you can include <code>5_2_1.hpp</code>. This will define everything you need to start with that section.</p>
+<blockquote>
+<p>You have access to these headers in the online Metashell demo as well. For example you can include the <code>&lt;boost/metaparase/getting_started/5_2_1.hpp&gt;</code> header to start from section 5.2.1.</p>
+</blockquote>
+<h2 id="the-text-to-parse">2. The text to parse</h2>
+<p>With Metaparse you can create template metaprograms parsing an input text. To pass the input text to the metaprograms, you need to represent them as types. For example let's represent the text <code>&quot;Hello world&quot;</code> as a type. The most straightforward way of doing it would be creating a variadic template class taking the characters of the text as template arguments:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="dt">char</span>... Cs&gt;
+<span class="kw">struct</span> string;</code></pre>
+<p>The text <code>&quot;11 + 2&quot;</code> can be represented the following way:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">string&lt;&#39;<span class="dv">1</span>&#39;, &#39;<span class="dv">1</span>&#39;, &#39; &#39;, &#39;+&#39;, &#39; &#39;, &#39;<span class="dv">2</span>&#39;&gt;</code></pre>
+<p>Metaparse provides this type for you. Run the following command in Metashell:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/string.hpp&gt;</code></pre>
+<blockquote>
+<p>Note that in the <a href="http://abel.web.elte.hu/shell/metashell.html">online-demo</a> of Metashell you can paste code into the shell by right-clicking on the shell somewhere and choosing <em>Paste from browser</em> in the context menu.</p>
+</blockquote>
+<p>This will make this type available for you. Now you can try running the following command:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; boost::metaparse::string&lt;&#39;<span class="dv">1</span>&#39;, &#39;<span class="dv">1</span>&#39;, &#39; &#39;, &#39;+&#39;, &#39; &#39;, &#39;<span class="dv">2</span>&#39;&gt;</code></pre>
+<p>The shell will echo (almost) the same type back to you. The only difference is that it is in a sub-namespace indicating the version of Metaparse being used.</p>
+<p>The nice thing about this representation is that metaprograms can easily access the individual characters of the text. The not so nice thing about this representation is that if you want to write the text <code>&quot;Hello world&quot;</code> in your source code, you have to type a lot.</p>
+<p>Metaparse provides a macro that can turn a string literal into an instance of <a href="string.html"><code>boost::metaparse::string</code></a>. This is the <a href="BOOST_STRING.html"><code>BOOST_STRING</code></a> macro. You get it by including <code>&lt;boost/metaparse/string.hpp&gt;</code>. Let's try it by running the following command in Metashell:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; BOOST_STRING(<span class="st">&quot;11 + 2&quot;</span>)</code></pre>
+<p>You will get the same result as you got by instantiating <a href="string.html"><code>boost::metaparse::string</code></a> yourself.</p>
+<h2 id="creating-a-simple-parser">3. Creating a simple parser</h2>
+<p>Let's try creating a parser. We will start with creating a parser for something simple: we will be parsing integer numbers, such as the text <code>&quot;13&quot;</code>. You can think of this first parsing exercise as a <em>template metaprogramming string-to-int conversion</em> because we expect to get the value <code>13</code> as the result of parsing.</p>
+<blockquote>
+<p>You know the difference between <code>&quot;13&quot;</code> and <code>13</code> in C++. One of them is a character array, the other one is an integral value. But what is the difference between them in template metaprogramming? They are represented by different types. For example <code>&quot;13&quot;</code> is represented by <a href="string.html"><code>string</code></a><code>&lt;'1', '3'&gt;</code> while <code>13</code> is represented by <code>std::integral_constant&lt;int, 13&gt;</code>.</p>
+</blockquote>
+<p>To build a parser, we need to specify the grammar to use. Metaparse provides building blocks (called parsers) we can use to do this and one of them is the <a href="int_.html"><code>int_</code></a> parser which does exactly what we need: it parses integers. To make it available, we need to include it:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/int_.hpp&gt;</code></pre>
+<p>Our grammar is simple: <a href="int_.html"><code>int_</code></a>. (Don't worry, we'll parse more complicated languages later).</p>
+<p>A parser is a <a href="metafunction_class.html">template metafunction class</a>. It can be used directly, but its interface is designed for completeness and not for ease of use. Metaparse provides the <a href="build_parser.html"><code>build_parser</code></a> <a href="metafunction.html">metafunction</a> that adds a wrapper to parsers with a simple interface.</p>
+<blockquote>
+<p>In this tutorial, we will always be wrapping our parsers with this. We will call these wrapped parsers parsers as well. If you are interested in it, you can learn about the complete interface of parsers <a href="parser.html">here</a>.</p>
+</blockquote>
+<p>Let's create a parser using <a href="int_.html"><code>int_</code></a> and <a href="build_parser.html"><code>build_parser</code></a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/build_parser.hpp&gt;
+&gt; <span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
+&gt; <span class="kw">using</span> exp_parser1 = build_parser&lt;int_&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_0.html">copy-paste friendly version</a>
+</p>
+
+<p>First we need to include <code>build_parser.hpp</code> to make <a href="build_parser.html"><code>build_parser</code></a> available. Then we make our lives easier by running <code>using namespace boost::metaparse;</code>. The third command defines the parser: we need to instantiate the <a href="build_parser.html"><code>build_parser</code></a> template class with our parser (<a href="int_.html"><code>int_</code></a> in this case) as argument.</p>
+<p>Now that we have a parser, let's parse some text with it (if you haven't done it yet, include <code>boost/metaparse/string.hpp</code>):</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser1::apply&lt;BOOST_STRING(<span class="st">&quot;13&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;</code></pre>
+<p><code>exp_parser1</code> is a <a href="metafunction_class.html">template metafunction class</a> taking the input text as it's argument and it returns the integral representation of the number in the string. Try it with different numbers and see how it converts them.</p>
+<h3 id="dealing-with-invalid-input">3.1. Dealing with invalid input</h3>
+<p>Have you tried parsing an invalid input? Something that is not a number, such as:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser1::apply&lt;BOOST_STRING(<span class="st">&quot;thirteen&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<p>Well, <code>&quot;thirteen&quot;</code> <em>is</em> a number, but our parser does not speak English, so it is considered as invalid input. As a result of this, compilation fails and you get a compilation error from Metashell.</p>
+<p>In the <a href="#dealing-with-invalid-input-1">Dealing with invalid input</a> section we will go into further details on error handling.</p>
+<h3 id="dealing-with-input-containing-more-than-what-is-needed">3.2. Dealing with input containing more than what is needed</h3>
+<p>Let's try to give the parser two numbers instead of one:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser1::apply&lt;BOOST_STRING(<span class="st">&quot;11 13&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;</code></pre>
+<p>You might be surprised by this: the parser did not return an error. It parsed the first number, <code>11</code> and ignored <code>13</code>. The way <a href="int_.html"><code>int_</code></a> works is that it parses the number at the beginning of the input text and ignores the rest of the input.</p>
+<p>So <code>exp_parser1</code> has a bug: our little language consists of <em>one</em> number, not a <em>list of numbers</em>. Let's fix our parser to treat more than one numbers as an invalid input:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/entire_input.hpp&gt;</code></pre>
+<p>This gives us the <a href="entire_input.html"><code>entire_input</code></a> template class. We can wrap <a href="int_.html"><code>int_</code></a> with <a href="entire_input.html"><code>entire_input</code></a> indicating that the number we parse with <a href="int_.html"><code>int_</code></a> should be the entire input. Anything that comes after that is an error. So our parser is <a href="entire_input.html"><code>entire_input</code></a><code>&lt;</code><a href="int_.html"><code>int_</code></a><code>&gt;</code> now. Let's wrap it with <a href="build_parser.html"><code>build_parser</code></a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser2 = build_parser&lt;entire_input&lt;int_&gt;&gt;;</code></pre>
+<p>Let's try this new parser out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser2::apply&lt;BOOST_STRING(<span class="st">&quot;13&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;</code></pre>
+<p>It can still parse numbers. Let's try to give it two numbers:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser2::apply&lt;BOOST_STRING(<span class="st">&quot;11 13&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<p>This generates a compilation error, since the parser failed.</p>
+<h3 id="accepting-optional-whitespaces-at-the-end-of-the-input">3.3. Accepting optional whitespaces at the end of the input</h3>
+<p>Our parser became a bit too restrictive now. It doesn't allow <em>anything</em> after the number, not even whitespaces:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser2::apply&lt;BOOST_STRING(<span class="st">&quot;11 &quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<p>Let's allow whitespaces after the number:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/token.hpp&gt;</code></pre>
+<p>This makes the <a href="token.html"><code>token</code></a> template class available. It takes a parser as its argument and allows optional whitespaces after that. Let's create a third parser allowing whitespaces after the number:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser3 = build_parser&lt;entire_input&lt;token&lt;int_&gt;&gt;&gt;;</code></pre>
+<p>We expect <a href="token.html"><code>token</code></a><code>&lt;</code><a href="int_.html"><code>int_</code></a><code>&gt;</code> to be the entire input in this case. We allow optional whitespaces after <a href="int_.html"><code>int_</code></a> but nothing else:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser3::apply&lt;BOOST_STRING(<span class="st">&quot;11 &quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;</code></pre>
+<h2 id="parsing-simple-expressions">4. Parsing simple expressions</h2>
+<p>We can parse numbers. Let's try parsing something more complicated, such as <code>&quot;11 + 2&quot;</code>. This is a number followed by a <code>+</code> symbol followed by another number. <a href="int_.html"><code>int_</code></a> (or <a href="token.html"><code>token</code></a><code>&lt;</code><a href="int_.html"><code>int_</code></a><code>&gt;</code>) implements the parser for one number.</p>
+<p>First, let's write a parser for the <code>+</code> symbol. We can use the following:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/lit_c.hpp&gt;</code></pre>
+<p>This gives us <a href="lit_c.html"><code>lit_c</code></a> which we can use to parse specific characters, such as <code>+</code>. The grammar parsing the <code>+</code> character can be represented by <a href="lit_c.html"><code>lit_c</code></a><code>&lt;'+'&gt;</code>. To allow optional whitespaces after it, we should use <a href="token.html"><code>token</code></a><code>&lt;</code><a href="lit_c.html"><code>lit_c</code></a><code>&lt;'+'&gt;&gt;</code>.</p>
+<p>So to parse <code>&quot;11 + 2&quot;</code> we need the following sequence of parsers:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">token&lt;int_&gt;    token&lt;lit_c&lt;&#39;+&#39;&gt;&gt;    token&lt;int_&gt;</code></pre>
+<p>Metaparse provides <a href="sequence.html"><code>sequence</code></a> for parsing the sequence of things:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/sequence.hpp&gt;</code></pre>
+<p>We can implement the parser for our expressions using <a href="sequence.html"><code>sequence</code></a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">sequence&lt;token&lt;int_&gt;, token&lt;lit_c&lt;&#39;+&#39;&gt;&gt;, token&lt;int_&gt;&gt;</code></pre>
+<p>Let's create a parser using it:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser4 = build_parser&lt;sequence&lt;token&lt;int_&gt;, token&lt;lit_c&lt;&#39;+&#39;&gt;&gt;, token&lt;int_&gt;&gt;&gt;;</code></pre>
+<p>Try parsing a simple expression using it:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser4::apply&lt;BOOST_STRING(<span class="st">&quot;11 + 2&quot;</span>)&gt;::type
+boost::mpl::v_item&lt;mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt;, boost::mpl::v_item&lt;mpl_::char_&lt;&#39;+&#39;&gt;
+, boost::mpl::v_item&lt;mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;, boost::mpl::vector0&lt;mpl_::na&gt;, <span class="dv">0</span>
+&gt;, <span class="dv">0</span>&gt;, <span class="dv">0</span>&gt;</code></pre>
+<p>What you get might look strange to you. It is a <code>vector</code> from <a href="http://boost.org/libs/mpl">Boost.MPL</a>. What you can see in the shell is the way this vector is represented. Metashell offers <a href="https://github.com/sabel83/metashell#data-structures-of-boostmpl">pretty printing</a> for <a href="http://boost.org/libs/mpl">Boost.MPL</a> containers:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;metashell/formatter.hpp&gt;</code></pre>
+<p>After including this header, try parsing again:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser4::apply&lt;BOOST_STRING(<span class="st">&quot;11 + 2&quot;</span>)&gt;::type
+boost_::mpl::vector&lt;mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;, mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt; &gt;</code></pre>
+<p>What you get now looks more simple: this is a vector of three elements:</p>
+<ul>
+<li><code>mpl_::integral_c&lt;int, 11&gt;</code> This is the result of parsing with <a href="token.html"><code>token</code></a><code>&lt;</code><a href="int_.html"><code>int_</code></a><code>&gt;</code>.</li>
+<li><code>mpl_::char_&lt;'+'&gt;</code> This is the result of parsing with <a href="token.html"><code>token</code></a><code>&lt;</code><a href="lit_c.html"><code>lit_c</code></a><code>&lt;'+'&gt;&gt;</code>.</li>
+<li><code>mpl_::integral_c&lt;int, 2&gt; &gt;</code> This is the result of parsing with <a href="token.html"><code>token</code></a><code>&lt;</code><a href="int_.html"><code>int_</code></a><code>&gt;</code>.</li>
+</ul>
+<p>The result of parsing with a <a href="sequence.html"><code>sequence</code></a> is the <code>vector</code> of the individual parsing results.</p>
+<h3 id="tokeniser">4.1. Tokeniser</h3>
+<p>You might have noticed that our parsers have no separate tokenisers. Tokenisation is part of the parsing process. However, it makes the code of the parsers cleaner if we separate the two layers. The previous example has two types of tokens:</p>
+<ul>
+<li>a number (eg. <code>13</code>)</li>
+<li>a <code>+</code> symbol</li>
+</ul>
+<p>In our last solution we parsed them by using the <a href="token.html"><code>token</code></a><code>&lt;</code><a href="int_html"><code>int_</code></a><code>&gt;</code> and <a href="token.html"><code>token</code></a><code>&lt;</code><a href="lit_c.html"><code>lit_c</code></a><code>&lt;'+'&gt;&gt;</code> parsers. Have you noticed a pattern? We wrap the parsers of the tokens with <a href="token.html"><code>token</code></a><code>&lt;...&gt;</code>. It is not just syntactic sugar. Our tokens might be followed (separated) by whitespaces, which can be ignored. That is what <a href="token.html"><code>token</code></a><code>&lt;...&gt;</code> implements.</p>
+<p>So let's make the implementation of <code>exp_parser</code> cleaner by separating the tokenisation from the rest of the parser:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> int_token = token&lt;int_&gt;;
+&gt; <span class="kw">using</span> plus_token = token&lt;lit_c&lt;&#39;+&#39;&gt;&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_1.html">copy-paste friendly version</a>
+</p>
+
+<p>These two definitions create type aliases for the parsers of our tokens. For the compiler it doesn't matter if we use <code>plus_token</code> or <a href="token.html"><code>token</code></a><code>&lt;</code><a href="lit_c.html"><code>lit_c</code></a><code>&lt;'+'&gt;&gt;</code>, since they refer to the same type. But it makes the code of the parser easier to understand.</p>
+<p>We can now define our expression parser using these tokens:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser5 = build_parser&lt;sequence&lt;int_token, plus_token, int_token&gt;&gt;;</code></pre>
+<p>We can use it the same way as <code>exp_parser4</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser5::apply&lt;BOOST_STRING(<span class="st">&quot;11 + 2&quot;</span>)&gt;::type
+boost_::mpl::vector&lt;mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;, mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt; &gt;</code></pre>
+<h3 id="evaluating-the-expression">4.2. Evaluating the expression</h3>
+<p>It would be nice if we could evaluate the expression as well. Instead of returning a <code>vector</code> as the result of parsing, we should return the evaluated expression. For example the result of parsing <code>&quot;11 + 2&quot;</code> should be <code>mpl_::integral_c&lt;int, 13&gt;</code>.</p>
+<p>Metaparse provides <a href="transform.html"><code>transform</code></a> which we can use to implement this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/transform.hpp&gt;</code></pre>
+<p>This can be used to transform the result of a parser. For example we have the <a href="sequence.html"><code>sequence</code></a><code>&lt;int_token, plus_token, int_token&gt;</code> parser which returns a <code>vector</code>. We want to transform this <code>vector</code> into a number, which is the result of evaluating the expression. We need to pass <a href="transform.html"><code>transform</code></a> the <a href="sequence.html"><code>sequence</code></a><code>&lt;...&gt;</code> parser and a function which turns the <code>vector</code> into the result we need. First let's create this <a href="metafunction.html">metafunction</a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/mpl/plus.hpp&gt;
+&gt; #include &lt;boost/mpl/at.hpp&gt;
+&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> Vector&gt; \
+...&gt; <span class="kw">struct</span> eval_plus : \
+...&gt;   boost::mpl::plus&lt; \
+...&gt;     <span class="kw">typename</span> boost::mpl::at_c&lt;Vector, <span class="dv">0</span>&gt;::type, \
+...&gt;     <span class="kw">typename</span> boost::mpl::at_c&lt;Vector, <span class="dv">2</span>&gt;::type \
+...&gt;   &gt; {};</code></pre>
+<p align="right">
+<a href="getting_started_2.html">copy-paste friendly version</a>
+</p>
+
+<p>What it does is that using <a href="at_c.html"><code>at_c</code></a> it takes the first (index 0) and the third (index 2) elements of the <code>vector</code> that is the result of parsing with <a href="sequence.html"><code>sequence</code></a><code>&lt;...&gt;</code> and adds them. We can try it out with an example <code>vector</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; eval_plus&lt; \
+...&gt;  boost::mpl::vector&lt; \
+...&gt;    mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;, \
+...&gt;    mpl_::char_&lt;&#39;+&#39;&gt;, \
+...&gt;    mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt; \
+...&gt;  &gt;&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;</code></pre>
+<p align="right">
+<a href="getting_started_3.html">copy-paste friendly version</a>
+</p>
+
+<p>We can use <code>eval_plus</code> to build a parser that evaluates the expression it parses:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/mpl/quote.hpp&gt;
+&gt; <span class="kw">using</span> exp_parser6 = \
+...&gt; build_parser&lt; \
+...&gt;   transform&lt; \
+...&gt;     sequence&lt;int_token, plus_token, int_token&gt;, \
+...&gt;     boost::mpl::quote1&lt;eval_plus&gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_4.html">copy-paste friendly version</a>
+</p>
+
+<blockquote>
+<p>Note that we have to use <code>boost::mpl::quote1</code> to turn our <code>eval_plus</code> <a href="metafunction.html">metafunction</a> into a <a href="metafunction_class.html">metafunction class</a>.</p>
+</blockquote>
+<p><a href="transform.html"><code>transform</code></a> parses the input using <a href="sequence.html"><code>sequence</code></a><code>&lt;int_token, plus_token, int_token&gt;</code> and transforms the result of that using <code>eval_plus</code>. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser6::apply&lt;BOOST_STRING(<span class="st">&quot;11 + 2&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;</code></pre>
+<p>We have created a simple expression parser. The following diagram shows how it works:</p>
+<p align="center">
+  
+<a href="tutorial_diag0.png"><img src="tutorial_diag0.png" style="width:50%" /></a>
+</p>
+
+<p>The rounded boxes in the diagram are the parsers parsing the input, which are functions (<a href="metafunction_class.html">template metafunction class</a>es). The arrows represent how the results are passed around between these parsers (they are the return values of the function calls).</p>
+<p>It uses <a href="sequence.html"><code>sequence</code></a> to parse the different elements (the first number, the <code>+</code> symbol and the second number) and builds a <code>vector</code>. The final result is calculated from that <code>vector</code> by the <a href="transform.html"><code>transform</code></a> parser.</p>
+<h2 id="parsing-longer-expressions">5. Parsing longer expressions</h2>
+<p>We can parse simple expressions adding two numbers together. But we can't parse expressions adding three, four or maybe more numbers together. In this section we will implement a parser for expressions adding lots of numbers together.</p>
+<h3 id="parsing-a-subexpression-repeatedly">5.1. Parsing a subexpression repeatedly</h3>
+<p>We can't solve this problem with <a href="sequence.html"><code>sequence</code></a>, since we don't know how many numbers the input will have. We need a parser that:</p>
+<ul>
+<li>parses the first number</li>
+<li>keeps parsing <code>+ &lt;number&gt;</code> elements until the end of the input</li>
+</ul>
+<p>Parsing the first number is something we can already do: the <code>int_token</code> parser does it for us. Parsing the <code>+ &lt;number&gt;</code> elements is more tricky. Metaparse offers different tools for approaching this. The most simple is <a href="any.html"><code>any</code></a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/any.hpp&gt;</code></pre>
+<p><a href="any.html"><code>any</code></a> needs a parser (which parses one <code>+ &lt;number&gt;</code> element) and it keeps parsing the input with it as long as it can. This will parse the entire input for us. Let's create a parser for our expressions using it:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser7 = \
+...&gt; build_parser&lt; \
+...&gt;   sequence&lt; \
+...&gt;     int_token,                           <span class="co">/* The first &lt;number&gt; */</span> \
+...&gt;     any&lt;sequence&lt;plus_token, int_token&gt;&gt; <span class="co">/* The &quot;+ &lt;number&gt;&quot; elements */</span> \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_5.html">copy-paste friendly version</a>
+</p>
+
+<p>We have a <a href="sequence.html"><code>sequence</code></a> with two elements:</p>
+<ul>
+<li>The first number (<code>int_token</code>)</li>
+<li>The <code>+ &lt;number&gt;</code> parts</li>
+</ul>
+<p>The second part is an <a href="any.html"><code>any</code></a>, which parses the <code>+ &lt;number&gt;</code> elements. One such element is parsed by <a href="sequence.html"><code>sequence</code></a><code>&lt;plus_token, int_token&gt;</code>. This is just a sequence of the <code>+</code> symbol and the number.</p>
+<p>Let's try parsing an expression using this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser7::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 + 3 + 4&quot;</span>)&gt;::type</code></pre>
+<p>Here is a formatted version of the result which is easier to read:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">boost_::mpl::vector&lt;
+  <span class="co">// The result of int_token</span>
+  mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">1</span>&gt;,
+
+  <span class="co">// The result of any&lt; sequence&lt;plus_token, int_token&gt; &gt;</span>
+  boost_::mpl::vector&lt;
+    boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt; &gt;,
+    boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">3</span>&gt; &gt;,
+    boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">4</span>&gt; &gt;
+  &gt;
+&gt; </code></pre>
+<p>The result is a <code>vector</code> of two elements. The first element of this <code>vector</code> is the result of parsing the input with <code>int_token</code>, the second element of this <code>vector</code> is the result of parsing the input with <a href="any.html"><code>any</code></a><code>&lt;</code><a href="sequence.html"><code>sequence</code></a><code>&lt;plus_token, int_token&gt;&gt;</code>. This second element is also a <code>vector</code>. Each element of this <code>vector</code> is the result of parsing the input with <a href="sequence.html"><code>sequence</code></a><code>&lt;plus_token, int_token&gt;</code> once. Here is a diagram showing how <code>exp_parser7</code> parses the input <code>1 + 2 + 3 + 4</code>:</p>
+<p align="center">
+  
+<a href="tutorial_diag1.png"><img src="tutorial_diag1.png" style="width:90%" /></a>
+</p>
+
+<p>The diagram shows that the <code>+ &lt;number&gt;</code> elements are parsed by <a href="sequence.html"><code>sequence</code></a><code>&lt;plus_token, int_token&gt;</code> elements and their results are collected by <a href="any.html"><code>any</code></a>, which constructs a <code>vector</code> of these results. The value of the first <code>&lt;number&gt;</code> and this <code>vector</code> are placed in another <code>vector</code>, which is the result of parsing.</p>
+<h3 id="evaluating-the-parsed-expression">5.2. Evaluating the parsed expression</h3>
+<p>The final result here is a pair of the first number and the <code>vector</code> of the rest of the values. To calculate the result we need to process that data structure. Let's give the example output we have just parsed a name. This will make it easier to test the code calculating the final result from this structure:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> temp_result = exp_parser7::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 + 3 + 4&quot;</span>)&gt;::type;</code></pre>
+<p>Now we can write a <a href="metafunction.html">template metafunction</a> turning this structure into the result of the calculation this structure represents.</p>
+<h4 id="learning-about-boostmplfold">5.2.1. Learning about <code>boost::mpl::fold</code></h4>
+<p>We have a <code>vector</code> containing another <code>vector</code>. Therefore, we will need to be able to summarise the elements of different <code>vector</code>s. We can use the <code>boost::mpl::fold</code> <a href="metafunction.html">metafunction</a> to do this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/mpl/fold.hpp&gt;</code></pre>
+<p>With this <a href="metafunction.html">metafunction</a>, we can iterate over a <code>vector</code> of parsed numbers and summarise them. We can provide it a <a href="metafunction.html">metafunction</a> taking two arguments: the sum we have so far and the next element of the <code>vector</code>. This <a href="metafunction.html">metafunction</a> will be called for every element of the <code>vector</code>.</p>
+<blockquote>
+<p>Note that this is very similar to the <code>std::accumulate</code> algorithm. <a href="http://boost.org/libs/mpl">Boost.MPL</a> provides <code>boost::mpl::accumulate</code> as well, which is a synonym for <code>boost::mpl::fold</code>. This tutorial (and Metaparse) uses the name <code>fold</code>.</p>
+</blockquote>
+<p>Let's start with a simple case: a <code>vector</code> of numbers. For example let's summarise the elements of the following <code>vector</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> vector_of_numbers = \
+...&gt; boost::mpl::vector&lt; \
+...&gt;   boost::mpl::int_&lt;<span class="dv">2</span>&gt;, \
+...&gt;   boost::mpl::int_&lt;<span class="dv">5</span>&gt;, \
+...&gt;   boost::mpl::int_&lt;<span class="dv">6</span>&gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_6.html">copy-paste friendly version</a>
+</p>
+
+<p>We will write a <a href="metafunction.html">template metafunction</a>, <code>sum_vector</code> for summarising the elements of a <code>vector</code> of numbers:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> Vector&gt; \
+...&gt; <span class="kw">struct</span> sum_vector : \
+...&gt;    boost::mpl::fold&lt; \
+...&gt;      Vector, \
+...&gt;      boost::mpl::int_&lt;<span class="dv">0</span>&gt;, \
+...&gt;      boost::mpl::lambda&lt; \
+...&gt;        boost::mpl::plus&lt;boost::mpl::_1, boost::mpl::_2&gt; \
+...&gt;      &gt;::type \
+...&gt;    &gt; \
+...&gt;  {};</code></pre>
+<p align="right">
+<a href="getting_started_7.html">copy-paste friendly version</a>
+</p>
+
+<p>This <a href="metafunction.html">metafunction</a> takes the <code>vector</code> to summarise the elements of as its argument and uses <code>boost::mpl::fold</code> to calculate the sum. <code>boost::mpl::fold</code> takes three arguments:</p>
+<ul>
+<li>The container to summarise. This is <code>Vector</code>.</li>
+<li>The starting value for <em>the sum we have so far</em>. Using <code>0</code> means that we want to start the sum from <code>0</code>.</li>
+<li>The function to call in every iteration while looping over the container. We are using a <a href="http://www.boost.org/libs/mpl/doc/refmanual/lambda-expression.html">lambda expression</a> in our example, which is the expression wrapped by <code>boost::mpl::lambda</code>. This expression adds its two arguments together using <code>boost::mpl::plus</code>. The lambda expression refers to its arguments by <code>boost::mpl::_1</code> and <code>boost::mpl::_2</code>.</li>
+</ul>
+<p>Let's try this <a href="metafunction.html">metafunction</a> out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; sum_vector&lt;vector_of_numbers&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;</code></pre>
+<p>It works as expected. Here is a diagram showing how it works:</p>
+<p align="center">
+  
+<a href="tutorial_diag2.png"><img src="tutorial_diag2.png" style="width:50%" /></a>
+</p>
+
+<p>As the diagram shows, <code>boost::mpl::fold</code> evaluates the lambda expression for each element of the <code>vector</code> and passes the result of the previous evaluation to the next lambda expression invocation.</p>
+<p>We have a <a href="metafunction.html">metafunction</a> that can summarise a <code>vector</code> of numbers. The result of parsing the <code>+ &lt;number&gt;</code> elements is a <code>vector</code> of <code>vector</code>s. As a recap, here is <code>temp_result</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">boost_::mpl::vector&lt;
+  <span class="co">// The result of int_token</span>
+  mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">1</span>&gt;,
+
+  <span class="co">// The result of any&lt; sequence&lt;plus_token, int_token&gt; &gt;</span>
+  boost_::mpl::vector&lt;
+    boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt; &gt;,
+    boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">3</span>&gt; &gt;,
+    boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">4</span>&gt; &gt;
+  &gt;
+&gt; </code></pre>
+<p>First let's summarise the result of <a href="any.html"><code>any</code></a><code>&lt;...&gt;</code> using <code>boost::mpl::fold</code>. This is a <code>vector</code> of <code>vector</code>s, but that's fine. <code>boost::mpl::fold</code> doesn't care about what the elements of the <code>vector</code> are. They can be numbers, <code>vector</code>s or something else as well. The function we use to add two numbers together (which was a lambda expression in our previous example) gets these elements as its argument and has to deal with them. So to summarise the elements of the <code>vector</code>s we get as the result of parsing with <a href="any.html"><code>any</code></a><code>&lt;...&gt;</code>, we need to write a <a href="metafunction.html">metafunction</a> that can deal with these elements. One such element is <code>boost_::mpl::vector&lt;mpl_::char&lt;'+'&gt;, mpl_::integral_c&lt;int, 2&gt;&gt;</code>. Here is a <a href="metafunction.html">metafunction</a> that can be used in a <code>boost::mpl::fold</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> Sum, <span class="kw">class</span> Item&gt; \
+...&gt;   <span class="kw">struct</span> sum_items : \
+...&gt;     boost::mpl::plus&lt; \
+...&gt;       Sum, \
+...&gt;       <span class="kw">typename</span> boost::mpl::at_c&lt;Item, <span class="dv">1</span>&gt;::type \
+...&gt;     &gt; \
+...&gt; {};</code></pre>
+<p align="right">
+<a href="getting_started_8.html">copy-paste friendly version</a>
+</p>
+
+<p>This function takes two arguments:</p>
+<ul>
+<li><code>Sum</code>, which is a number. This is the summary of the already processed elements.</li>
+<li><code>Item</code>, the next item of the <code>vector</code>. These items are <code>vector</code>s of size two: the result of parsing the <code>+</code> symbol and the number.</li>
+</ul>
+<p>The <a href="metafunction.html">metafunction</a> adds the sum we have so far and the next number together using the <code>boost::mpl::plus</code> <a href="metafunction.html">metafunction</a>. To get the next number out of <code>Item</code>, it uses <code>boost::mpl::at_c</code>. Let's try <code>sum_items</code> out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; sum_items&lt; \
+...&gt;   mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">1</span>&gt;, \
+...&gt;   boost::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt;&gt; \
+...&gt; &gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">3</span>&gt;</code></pre>
+<p align="right">
+<a href="getting_started_9.html">copy-paste friendly version</a>
+</p>
+
+<p>We have called <code>sum_items</code> with values from <code>temp_result</code> and saw that it works as expected: it added the partial sum (<code>mpl_::integral_c&lt;int, 1&gt;</code>) to the next number (<code>mpl_::integral_c&lt;int, 2&gt;</code>).</p>
+<p><code>boost::mpl::fold</code> can summarise the list we get as the result of parsing the <code>+ &lt;number&gt;</code> elements of the input, so we need to extract this list from <code>temp_result</code> first:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; boost::mpl::at_c&lt;temp_result, <span class="dv">1</span>&gt;::type</code></pre>
+<p>Here is the formatted version of the result:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">boost_::mpl::vector&lt;
+  boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt;&gt;,
+  boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">3</span>&gt;&gt;,
+  boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">4</span>&gt;&gt;
+&gt;</code></pre>
+<p>This is the second element of the <code>temp_result</code> vector (the first one is the value of the first <code>&lt;number&gt;</code> element). Let's try fold out for this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; \
+...&gt; boost::mpl::fold&lt; \
+...&gt;   boost::mpl::at_c&lt;temp_result, <span class="dv">1</span>&gt;::type, <span class="co">/* The vector to summarise */</span> \
+...&gt;   boost::mpl::int_&lt;<span class="dv">0</span>&gt;, <span class="co">/* The value to start the sum from */</span> \
+...&gt;   boost::mpl::quote2&lt;sum_items&gt; <span class="co">/* The function to call in each iteration */</span> \
+...&gt; &gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">9</span>&gt;</code></pre>
+<p align="right">
+<a href="getting_started_10.html">copy-paste friendly version</a>
+</p>
+
+<blockquote>
+<p>We are using <code>sum_items</code> as the function to call in each iteration. We are passing a <a href="metafunction.html">metafunction</a> (<code>sum_items</code>) to another <a href="metafunction.html">metafunction</a> (<code>boost::mpl::fold</code>) as an argument. To be able to do this, we need to turn it into a <a href="metafunction_class.html">template metafunction class</a> using <code>boost::mpl::quote2</code> (<code>2</code> means that it takes two arguments).</p>
+</blockquote>
+<p>As we have seen, the result of this is the sum of the elements, which was <code>9</code> in our case. Here is a diagram showing how <code>boost::mpl::fold</code> works:</p>
+<p align="center">
+  
+<a href="tutorial_diag3.png"><img src="tutorial_diag3.png" style="width:50%" /></a>
+</p>
+
+<p>It starts with the value <code>boost::mpl::int_&lt;0&gt;</code> and adds the elements of the <code>boost_::mpl::vector</code> containing the parsing results one by one. The diagram shows how the subresults are calculated and then used for further calculations.</p>
+<h4 id="evaluating-the-expression-using-boostmplfold">5.2.2. Evaluating the expression using <code>boost::mpl::fold</code></h4>
+<p>Let's use <code>sum_items</code> with <code>boost::mpl::fold</code> to build the parser that summarises the values coming from the <code>+ &lt;number&gt;</code> elements. We can extend the parser we were using in <code>exp_parser7</code> by wrapping the <a href="any.html"><code>any</code></a><code>&lt;...&gt;</code> part with <a href="transform.html"><code>transform</code></a>, which transforms the result of <a href="any.html"><code>any</code></a><code>&lt;...&gt;</code> with the folding expression we have just created:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser8 = \
+...&gt; build_parser&lt; \
+...&gt;   sequence&lt; \
+...&gt;     int_token, <span class="co">/* parse the first &lt;number&gt; */</span> \
+...&gt;     transform&lt; \
+...&gt;       any&lt;sequence&lt;plus_token, int_token&gt;&gt;, <span class="co">/* parse the &quot;+ &lt;number&gt;&quot; elements */</span> \
+...&gt; \
+...&gt;       <span class="co">/* lambda expression summarising the &quot;+ &lt;number&gt;&quot; elements using fold */</span> \
+...&gt;       boost::mpl::lambda&lt; \
+...&gt;         <span class="co">/* The folding expression we have just created */</span> \
+...&gt;         boost::mpl::fold&lt; \
+...&gt;           boost::mpl::_1, <span class="co">/* the argument of the lambda expression, the result */</span> \
+...&gt;                           <span class="co">/* of the any&lt;...&gt; parser */</span> \
+...&gt;           boost::mpl::int_&lt;<span class="dv">0</span>&gt;, \
+...&gt;           boost::mpl::quote2&lt;sum_items&gt; \
+...&gt;         &gt; \
+...&gt;       &gt;::type \
+...&gt;     &gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_11.html">copy-paste friendly version</a>
+</p>
+
+<p>It uses <a href="transform.html"><code>transform</code></a> to turn the result of the previous version of our parser into one that summarises the <code>+ &lt;number&gt;</code> elements. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser8::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 + 3 + 4&quot;</span>)&gt;::type
+boost_::mpl::vector&lt;mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">1</span>&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">9</span>&gt; &gt;</code></pre>
+<p>This returns a pair of numbers as the result of parsing: the first number and the sum of the rest. To get the value of the entire expression we need to add these two numbers together. We can extend our parser to do this final addition as well:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser9 = \
+...&gt; build_parser&lt; \
+...&gt;   transform&lt; \
+...&gt;     <span class="co">/* What we had so far */</span> \
+...&gt;     sequence&lt; \
+...&gt;       int_token, \
+...&gt;       transform&lt; \
+...&gt;         any&lt;sequence&lt;plus_token, int_token&gt;&gt;, \
+...&gt;         boost::mpl::lambda&lt; \
+...&gt;           boost::mpl::fold&lt; \
+...&gt;             boost::mpl::_1, \
+...&gt;             boost::mpl::int_&lt;<span class="dv">0</span>&gt;, \
+...&gt;             boost::mpl::quote2&lt;sum_items&gt; \
+...&gt;           &gt; \
+...&gt;         &gt;::type \
+...&gt;       &gt; \
+...&gt;     &gt;, \
+...&gt;     boost::mpl::quote1&lt;sum_vector&gt; <span class="co">/* summarise the vector of numbers */</span> \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_12.html">copy-paste friendly version</a>
+</p>
+
+<p><code>exp_parser9</code> wraps the parser we had so far (which gives us the two element <code>vector</code> as the result) with <a href="transform.html"><code>transform</code></a> to add the elements of that two element <code>vector</code> together. Since that two element <code>vector</code> is a <code>vector</code> of numbers, we can (re)use the <code>sum_vector</code> <a href="metafunction.html">metafunction</a> for this. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser9::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 + 3 + 4&quot;</span>)&gt;::type
+│mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">10</span>&gt;</code></pre>
+<p>It gives us the correct result, but it is very inefficient. Let's see why:</p>
+<p align="center">
+  
+<a href="tutorial_diag4.png"><img src="tutorial_diag4.png" style="width:90%" /></a>
+</p>
+
+<p>There are two loops in this process:</p>
+<ul>
+<li>first <a href="any.html"><code>any</code></a> loops over the input to parse all of the <code>+ &lt;number&gt;</code> elements. It builds a <code>vector</code> during this. (<code>Loop 1</code> on the diagram)</li>
+<li>then <code>boost::mpl::fold</code> loops over this <code>vector</code> to summarise the elements. (<code>Loop 2</code> on the diagram)</li>
+</ul>
+<blockquote>
+<p>Note that we have been talking about <em>loop</em>s while there is no such thing as a loop in template metaprogramming. Loops can be implemented using <em>recursion</em>: every recursive call is one iteration of the loop. The loop is stopped at the bottom of the recursive chain.</p>
+</blockquote>
+<h4 id="using-a-folding-parser-combinator">5.2.3. Using a folding parser combinator</h4>
+<p>It would be nice, if the two loops could be merged together and the temporary <code>vector</code> wouldn't have to be built in the middle (don't forget: there is no such thing as a <em>garbage collector</em> for template metaprogramming. Once you instantiate a template, it will be available until the end of ... the compilation).</p>
+<p>Metaparse provides the <a href="foldl.html"><code>foldl</code></a> parser combinator:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/foldl.hpp&gt;</code></pre>
+<p>It is almost the same as <code>boost::mpl::fold</code>, but instead of taking the <code>vector</code> as its first argument, which was coming from the repeated application of a parser (<a href="sequence.html"><code>sequence</code></a><code>&lt;plus_token, int_token&gt;</code>) on the input, it takes the parser itself. <a href="foldl.html"><code>foldl</code></a> parses the input and calculates the summary on the fly. Here is how we can write our parser using it:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser10 = \
+...&gt; build_parser&lt; \
+...&gt;   transform&lt; \
+...&gt;     sequence&lt; \
+...&gt;       int_token, \
+...&gt;       foldl&lt; \
+...&gt;         sequence&lt;plus_token, int_token&gt;, \
+...&gt;         boost::mpl::int_&lt;<span class="dv">0</span>&gt;, \
+...&gt;         boost::mpl::quote2&lt;sum_items&gt; \
+...&gt;       &gt; \
+...&gt;     &gt;, \
+...&gt;     boost::mpl::quote1&lt;sum_vector&gt;&gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_13.html">copy-paste friendly version</a>
+</p>
+
+<p>Here are the formatted versions of <code>exp_parser9</code> and <code>exp_parser10</code> side-by-side:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="co">//            exp_parser9                                       exp_parser10</span>
+
+build_parser&lt;                                       build_parser&lt;
+  transform&lt;                                          transform&lt;
+    sequence&lt;                                           sequence&lt;
+      int_token,                                          int_token,
+
+
+      transform&lt;                                          foldl&lt;
+        any&lt;sequence&lt;plus_token, int_token&gt;&gt;,               sequence&lt;plus_token, int_token&gt;,
+        boost::mpl::lambda&lt;
+          boost::mpl::fold&lt;
+            boost::mpl::_1,
+            boost::mpl::int_&lt;<span class="dv">0</span>&gt;,                            boost::mpl::int_&lt;<span class="dv">0</span>&gt;,
+            boost::mpl::quote2&lt;sum_items&gt;                   boost::mpl::quote2&lt;sum_items&gt;
+          &gt;
+        &gt;::type
+      &gt;                                                   &gt;
+
+
+    &gt;,                                                  &gt;,
+    boost::mpl::quote1&lt;sum_vector&gt;                      boost::mpl::quote1&lt;sum_vector&gt;
+  &gt;                                                   &gt;
+&gt;                                                   &gt;</code></pre>
+<p>In <code>exp_parser10</code> the &quot;<em><a href="any.html"><code>any</code></a> and then <a href="transform.html"><code>transform</code></a> with <code>boost::mpl::fold</code></em>&quot; part (the middle block of <code>exp_parser9</code>) has been replaced by one <a href="foldl.html"><code>foldl</code></a> parser that does the same thing but without building a <code>vector</code> in the middle. The same starting value (<code>boost::mpl::int_&lt;0&gt;</code>) and callback function (<code>sum_items</code>) could be used.</p>
+<p>Here is a diagram showing how <code>exp_parser10</code> works:</p>
+<p align="center">
+  
+<a href="tutorial_diag5.png"><img src="tutorial_diag5.png" style="width:90%" /></a>
+</p>
+
+<p>In this case, the results of the <a href="sequence.html"><code>sequence</code></a><code>&lt;plus_token, int_token&gt;</code> parsers are passed directly to a folding algorithm without an intermediate <code>vector</code>. Here is a diagram showing <code>exp_parser9</code> and <code>exp_parser10</code> side-by-side to make it easier to see the difference:</p>
+<p align="center">
+  
+<a href="tutorial_diag6.png"><img src="tutorial_diag6.png" style="width:100%" /></a>
+</p>
+
+<h4 id="processing-the-initial-element-with-the-folding-parser-combinator">5.2.4. Processing the initial element with the folding parser combinator</h4>
+<p>This solution can still be improved. The <a href="foldl.html"><code>foldl</code></a> summarising the <code>+ &lt;number&gt;</code> elements starts from <code>0</code> and once this is done, we add the value of the first <code>&lt;number&gt;</code> of the input to it in the first iteration. It would be more straightforward if <a href="foldl.html"><code>foldl</code></a> could use the value of the first <code>&lt;number&gt;</code> as the initial value of the &quot;<em>sum we have so far</em>&quot;. Metaparse provides <a href="foldlp.html"><code>foldlp</code></a> for this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/foldlp.hpp&gt;</code></pre>
+<p><a href="foldlp.html"><code>foldlp</code></a> is almost the same as <a href="foldl.html"><code>foldl</code></a>. The difference is that instead of taking a starting <em>value</em> for the sum it takes a <em>parser</em>. First it parses the input with this parser and uses the value it returns as the starting value. Here is how we can implement our parser using it:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser11 = \
+...&gt; build_parser&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;plus_token, int_token&gt;, <span class="co">/* apply this parser repeatedly */</span> \
+...&gt;     int_token, <span class="co">/* use this parser to get the initial value */</span> \
+...&gt;     boost::mpl::quote2&lt;sum_items&gt; <span class="co">/* use this function to add a new value to the summary */</span> \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_14.html">copy-paste friendly version</a>
+</p>
+
+<p>This version of <code>exp_parser</code> uses <a href="foldlp.html"><code>foldlp</code></a>. This implementation is more compact than the earlier versions. There is no <a href="sequence.html"><code>sequence</code></a> element in this: the first <code>&lt;number&gt;</code> is parsed by <code>int_token</code> and its value is used as the initial value for the summary. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser11::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 + 3 + 4&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">10</span>&gt;</code></pre>
+<p>It returns the same result as the earlier version but works differently. Here is a diagram showing how this implementation works:</p>
+<p align="center">
+  
+<a href="tutorial_diag7.png"><img src="tutorial_diag7.png" style="width:90%" /></a>
+</p>
+
+<h2 id="adding-support-for-other-operators">6. Adding support for other operators</h2>
+<p>Our parsers now support expressions adding numbers together. In this section we will add support for the <code>-</code> operator, so expressions like <code>1 + 2 - 3</code> can be evaluated.</p>
+<h3 id="parsing-expressions-containing---operators">6.1. Parsing expressions containing <code>-</code> operators</h3>
+<p>Currently we use the <code>plus_token</code> for parsing &quot;the&quot; operator, which has to be <code>+</code>. We can define a new token for parsing the <code>-</code> symbol:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> minus_token = token&lt;lit_c&lt;&#39;-&#39;&gt;&gt;;</code></pre>
+<p>We need to build a parser that accepts either a <code>+</code> or a <code>-</code> symbol. This can be implemented using <a href="one_of.html"><code>one_of</code></a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/one_of.hpp&gt;</code></pre>
+<p><a href="one_of.html"><code>one_of</code></a><code>&lt;plus_token, minus_token&gt;</code> is a parser which accepts either a <code>+</code> (using <code>plus_token</code>) or a <code>-</code> (using <code>minus_token</code>) symbol. The result of parsing is the result of the parser that succeeded.</p>
+<blockquote>
+<p>You can give any parser to <a href="one_of.html"><code>one_of</code></a>, therefore it is possible that more than one of them can parse the input. In those cases the order matters: <a href="one_of.html"><code>one_of</code></a> tries parsing the input with the parsers from left to right and the first one that succeeds, wins.</p>
+</blockquote>
+<p>Using this, we can make our parser accept subtractions as well:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser12 = \
+...&gt; build_parser&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token&gt;, int_token&gt;, \
+...&gt;     int_token, \
+...&gt;     boost::mpl::quote2&lt;sum_items&gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_15.html">copy-paste friendly version</a>
+</p>
+
+<p>It uses <a href="one_of.html"><code>one_of</code></a><code>&lt;plus_token, minus_token&gt;</code> as the separator for the numbers. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser12::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 - 3&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">6</span>&gt;</code></pre>
+<p>The result is not correct. The reason for this is that <code>sum_items</code>, the function we summarise with ignores which operator was used and assumes that it is always <code>+</code>.</p>
+<h3 id="evaluating-expressions-containing---operators">6.2. Evaluating expressions containing <code>-</code> operators</h3>
+<p>To fix the evaluation of expressions containing subtractions, we need to fix the function we use for summarising. We need to write a version that takes the operator being used into account.</p>
+<p>First of all we will need the <code>boost::mpl::minus</code> <a href="metafunction.html">metafunction</a> for implementing subtraction:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/mpl/minus.hpp&gt;</code></pre>
+<p>Let's write a helper metafunction that takes three arguments: the left operand, the operator and the right operand:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> L, <span class="dt">char</span> Op, <span class="kw">class</span> R&gt; <span class="kw">struct</span> eval_binary_op;
+&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> L, <span class="kw">class</span> R&gt; <span class="kw">struct</span> eval_binary_op&lt;L, &#39;+&#39;, R&gt; : boost::mpl::plus&lt;L, R&gt;::type {};
+&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> L, <span class="kw">class</span> R&gt; <span class="kw">struct</span> eval_binary_op&lt;L, &#39;-&#39;, R&gt; : boost::mpl::minus&lt;L, R&gt;::type {};</code></pre>
+<p align="right">
+<a href="getting_started_16.html">copy-paste friendly version</a>
+</p>
+
+<p>The first command declares the <code>eval_binary_op</code> metafunction. The first and third arguments are the left and right operands and the second argument is the operator.</p>
+<blockquote>
+<p>Note that it does not satisfy the expectations of a <a href="metafunction.html">template metafunction</a> since it takes the operator as a <code>char</code> and not as a <code>class</code> (or <code>typename</code>) argument. For simplicity, we will still call it a metafunction.</p>
+</blockquote>
+<p>The second and third commands define the operation for the cases when the operator is <code>+</code> and <code>-</code>. When the <code>eval_binary_op</code> metafunction is called, the C++ compiler chooses one of the definitions based on the operator. If you have functional programming experience this approach (pattern matching) might be familiar to you. Let's try <code>eval_binary_op</code> out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; eval_binary_op&lt;boost::mpl::int_&lt;<span class="dv">11</span>&gt;, &#39;+&#39;, boost::mpl::int_&lt;<span class="dv">2</span>&gt;&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;
+&gt; eval_binary_op&lt;boost::mpl::int_&lt;<span class="dv">13</span>&gt;, &#39;-&#39;, boost::mpl::int_&lt;<span class="dv">2</span>&gt;&gt;::type                                
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;</code></pre>
+<p align="right">
+<a href="getting_started_17.html">copy-paste friendly version</a>
+</p>
+
+<p>You might also try to use it with an operator it does not expect (yet). For example <code>'*'</code>. You will see the C++ compiler complaining about that the requested version of the <code>eval_binary_op</code> template has not been defined. This solution can be extended and support for the <code>'*'</code> operator can always be added later.</p>
+<p>Let's write the <a href="metafunction.html">metafunction</a> we can use from the folding parser to evaluate the expressions using <code>+</code> and <code>-</code> operators. This takes two arguments:</p>
+<ul>
+<li>The partial result we have evaluated so far. (This used to be the summary we have evaluated so far, but we are making it a more general evaluation now). This is the left operand, a number.</li>
+<li>The result of parsing <code>(+|-) &lt;number&gt;</code>. This a <code>vector</code> containing two elements: a character representing the operator (<code>+</code> or <code>-</code>) and the value of the <code>&lt;number&gt;</code>. The number is the right operand.</li>
+</ul>
+<p>Let's write the <a href="metafunction.html">metafunction</a> <code>binary_op</code> that takes these arguments and calls <code>eval_binary_op</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> S, <span class="kw">class</span> Item&gt; \
+...&gt; <span class="kw">struct</span> binary_op : \
+...&gt;   eval_binary_op&lt; \
+...&gt;     S, \
+...&gt;     boost::mpl::at_c&lt;Item, <span class="dv">0</span>&gt;::type::value, \
+...&gt;     <span class="kw">typename</span> boost::mpl::at_c&lt;Item, <span class="dv">1</span>&gt;::type \
+...&gt;   &gt; \
+...&gt;   {};</code></pre>
+<p align="right">
+<a href="getting_started_18.html">copy-paste friendly version</a>
+</p>
+
+<p>This <a href="metafunction.html">metafunction</a> takes the operator (the first element) and the right operand (the second element) from <code>Item</code>. The operator is a class representing a character, such as <code>mpl_::char_&lt;'+'&gt;</code>. To get the character value out of it, one has to access its <code>::value</code>. For example <code>mpl_::char&lt;'+'&gt;::value</code> is <code>'+'</code>. Since <code>eval_binary_op</code> takes this character value as its second argument, we had to pass <code>boost::mpl::at_c&lt;Item, 0&gt;::type::value</code> to it. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; binary_op&lt;boost::mpl::int_&lt;<span class="dv">11</span>&gt;, boost::mpl::vector&lt;boost::mpl::char_&lt;&#39;+&#39;&gt;, boost::mpl::int_&lt;<span class="dv">2</span>&gt;&gt;&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;</code></pre>
+<p>We passed it a number (<code>11</code>) and a <code>vector</code> of a character (<code>+</code>) and another number (<code>2</code>). It added the two numbers as expected. Let's use this function as the third argument of <a href="foldlp.html"><code>foldlp</code></a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser13 = \
+...&gt; build_parser&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token&gt;, int_token&gt;, \
+...&gt;     int_token, \
+...&gt;     boost::mpl::quote2&lt;binary_op&gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_19.html">copy-paste friendly version</a>
+</p>
+
+<p>It uses <code>binary_op</code> instead of <code>sum_items</code>. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser13::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 - 3&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">0</span>&gt;</code></pre>
+<p>It returns the correct result.</p>
+<h2 id="dealing-with-precedence">7. Dealing with precedence</h2>
+<p>We support addition and subtraction. Let's support multiplication as well.</p>
+<h3 id="adding-support-for-the-operator">7.1. Adding support for the <code>*</code> operator</h3>
+<p>We can extend the solution we have built for addition and subtraction. To do that, we need to add support for multiplication to <code>eval_binary_op</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/mpl/times.hpp&gt;
+&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> L, <span class="kw">class</span> R&gt; <span class="kw">struct</span> eval_binary_op&lt;L, &#39;*&#39;, R&gt; : boost::mpl::times&lt;L, R&gt;::type {};</code></pre>
+<p align="right">
+<a href="getting_started_20.html">copy-paste friendly version</a>
+</p>
+
+<p>We had to include <code>&lt;boost/mpl/times.hpp&gt;</code> to get the <code>boost::mpl::times</code> <a href="metafunction.html">metafunction</a> and then we could extend <code>eval_binary_op</code> to support the <code>*</code> operator as well. We can try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; eval_binary_op&lt;boost::mpl::int_&lt;<span class="dv">3</span>&gt;, &#39;*&#39;, boost::mpl::int_&lt;<span class="dv">4</span>&gt;&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">12</span>&gt;</code></pre>
+<p>This works as expected. Let's create a token for parsing the <code>*</code> symbol:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> times_token = token&lt;lit_c&lt;&#39;*&#39;&gt;&gt;;</code></pre>
+<p>Now we can extend our parser to accept the <code>*</code> symbol as an operator:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser14 = \
+...&gt; build_parser&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token, times_token&gt;, int_token&gt;, \
+...&gt;     int_token, \
+...&gt;     boost::mpl::quote2&lt;binary_op&gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_21.html">copy-paste friendly version</a>
+</p>
+
+<p>This version accepts either a <code>+</code>, a <code>-</code> or a <code>*</code> symbol as the operator. Let's try this out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser14::apply&lt;BOOST_STRING(<span class="st">&quot;2 * 3&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">6</span>&gt;</code></pre>
+<p>This works as expected. Let's try another, slightly more complicated expression:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser14::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 * 3&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">9</span>&gt;</code></pre>
+<p>This returns a wrong result. The value of this expression should be <code>7</code>, not <code>9</code>. The problem with this is that our current implementation does not take operator precedence into account. It treats this expression as <code>(1 + 2) * 3</code> while we expect it to be <code>1 + (2 * 3)</code> since addition has higher precedence than multiplication.</p>
+<h3 id="adding-support-for-precedence-of-operators">7.2. Adding support for precedence of operators</h3>
+<p>Let's make it possible for different operators to have different precedence. To do this, we define a new parser for parsing expressions containing only <code>*</code> operators (that is the operator with the lowest precedence):</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> mult_exp1 = foldlp&lt;sequence&lt;times_token, int_token&gt;, int_token, boost::mpl::quote2&lt;binary_op&gt;&gt;;</code></pre>
+<p><code>mult_exp1</code> can parse expressions containing only <code>*</code> operator. For example <code>3 * 2</code> or <code>6 * 7 * 8</code>. Now we can create a parser supporting only the <code>+</code> and <code>-</code> operators but instead of separating <em>numbers</em> with these operators we will separate <em>expressions containing only <code>*</code> operators</em>. This means that the expression <code>1 * 2 + 3 * 4</code> is interpreted as the expressions <code>1 * 2</code> and <code>3 * 4</code> separated by a <code>+</code> operator. A number (eg. <code>13</code>) is the special case of an <em>expression containing only <code>*</code> operators</em>.</p>
+<p>Here is the parser implementing this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser15 = \
+...&gt; build_parser&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp1&gt;, \
+...&gt;     mult_exp1, \
+...&gt;     boost::mpl::quote2&lt;binary_op&gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_22.html">copy-paste friendly version</a>
+</p>
+
+<p>Note that this is almost the same as <code>exp_parser13</code>. The only difference is that it uses <code>mult_exp1</code> everywhere, where <code>exp_parser13</code> was using <code>int_token</code>. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser15::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 * 3&quot;</span>)&gt;::type                                              
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">7</span>&gt;</code></pre>
+<p>This takes the precedence rules into account. The following diagram shows how it works:</p>
+<p align="center">
+  
+<a href="tutorial_diag8.png"><img src="tutorial_diag8.png" style="width:80%" /></a>
+</p>
+
+<p>Subexpressions using <code>*</code> operators only are evaluated (by <code>mult_exp1</code>) and treated as single units while interpreting expressions using <code>+</code> and <code>-</code> operators. Numbers not surrounded by <code>*</code> operators are treated also as operators using <code>*</code> only (containing no operations but a number).</p>
+<p>If you need more layers (eg. introducing the <code>^</code> operator) you can extend this solution with further layers. The order of the layers determine the precedence of the operators.</p>
+<h2 id="dealing-with-associativity">8. Dealing with associativity</h2>
+<p>Let's add division to our calculator language. Since it has the same precedence as multiplication, it should be added to that layer:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/mpl/divides.hpp&gt;
+&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> L, <span class="kw">class</span> R&gt; <span class="kw">struct</span> eval_binary_op&lt;L, &#39;/&#39;, R&gt; : boost::mpl::divides&lt;L, R&gt;::type {};
+&gt; <span class="kw">using</span> divides_token = token&lt;lit_c&lt;&#39;/&#39;&gt;&gt;;
+&gt; <span class="kw">using</span> mult_exp2 = \
+...&gt; foldlp&lt; \
+...&gt;   sequence&lt;one_of&lt;times_token, divides_token&gt;, int_token&gt;, \
+...&gt;   int_token, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt;;
+&gt; <span class="kw">using</span> exp_parser16 = \
+...&gt; build_parser&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp2&gt;, \
+...&gt;     mult_exp2, \
+...&gt;     boost::mpl::quote2&lt;binary_op&gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_23.html">copy-paste friendly version</a>
+</p>
+
+<p>We have to include <code>&lt;boost/mpl/divides.hpp&gt;</code> to get a <a href="metafunction.html">metafunction</a> for doing a division. We need to extend the <code>eval_binary_op</code> <a href="metafunction.html">metafunction</a> to support division as well. We had to introduce a new token, <code>divides_token</code> that can parse the <code>/</code> symbol.</p>
+<p>We have extended <code>mult_exp1</code> to accept either a <code>times_token</code> or a <code>divides_token</code> as the operator. This extended parser is called <code>mult_exp2</code>.</p>
+<p>We have written a new parser, <code>exp_parser16</code> which is the same as <code>exp_parser15</code> but uses <code>mult_exp2</code> instead of <code>mult_exp1</code>. This can parse expressions using division as well (and this new operator has the right precedence). Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser16::apply&lt;BOOST_STRING(<span class="st">&quot;8 / 4&quot;</span>)&gt;::type                                                  
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt;</code></pre>
+<p>This works as expected. But what should be the value of <code>8 / 4 / 2</code>? The answer can be either <code>1</code> or <code>4</code> depending on the associativity of the division operator. If it is left associative, then this expressions is interpreted as <code>(8 / 4) / 2</code> and the result is <code>1</code>. If it is right associative, this expression is interpreted as <code>8 / (4 / 2)</code> and the result is <code>4</code>.</p>
+<p>Try to guess which result our current implementation gives before trying it out. Once you have verified the current behaviour, continue reading.</p>
+<h3 id="understanding-the-current-implementation">8.1. Understanding the current implementation</h3>
+<p>Here is a diagram showing how our current parser processes the expression <code>8 / 4 / 2</code>:</p>
+<p align="center">
+  
+<a href="tutorial_diag9.png"><img src="tutorial_diag9.png" style="width:70%" /></a>
+</p>
+
+<p>It takes the first number, <code>8</code>, divides it by the second one, <code>4</code> and then it divides the result with the third one, <code>2</code>. This means, that in our current implementation, division is left associative: <code>8 / 4 / 2</code> means <code>(8 / 4) / 2</code>.</p>
+<p>Another thing to note is that the initial value is <code>8</code> and the list of values <a href="foldl.html"><code>foldl</code></a> iterates over is &quot;<code>/ 4</code>&quot;, &quot;<code>/ 2</code>&quot;.</p>
+<h3 id="folding-in-reverse-order">8.2. Folding in reverse order</h3>
+<p><a href="foldl.html"><code>foldl</code></a> applies a parser repeatedly and iterates over the parsing results from <em>left</em> to right. (This is where the <code>l</code> in the name comes from). Metaparse provides another folding parser combinator, <a href="foldr.html"><code>foldr</code></a>. It applies a parser on the input as well but it iterates from <em>right</em> to left over the results.</p>
+<p>Similarly to <a href="foldlp.html"><code>foldlp</code></a>, Metaparse provides <a href="foldrp.html"><code>foldrp</code></a> as well. A major difference between the two (<a href="foldlp.html"><code>foldlp</code></a> and <a href="foldrp.html"><code>foldrp</code></a>) solutions is that while <a href="foldlp.html"><code>foldlp</code></a> treats the <em>first</em> number as a special one, <a href="foldrp.html"><code>foldrp</code></a> treats the <em>last</em> number as a special one. This might sound strange, but think about it: if you want to summarise the elements from right to left, your starting value should be the last element, not the first one, as the first one is the one you visit last.</p>
+<p>Due to the above difference <a href="foldrp.html"><code>foldrp</code></a> is not a drop-in replacement of <a href="foldlp.html"><code>foldlp</code></a>. While the list of values <a href="foldl.html"><code>foldl</code></a> was iterating over is &quot;<code>8</code>&quot;, &quot;<code>/ 4</code>&quot;, &quot;<code>/ 2</code>&quot;, the list of values <a href="foldr.html"><code>foldlr</code></a> has to iterate over is &quot;<code>2</code>&quot;, &quot;<code>4 /</code>&quot;, &quot;<code>8 /</code>&quot;.</p>
+<p>This means that the function we use to <em>&quot;add&quot;</em> a new value to the already evaluated part of the expression (this has been <code>binary_op</code> so far) has to be prepared for taking the next operator and operand in a reverse order (eg. by taking &quot;<code>4 /</code>&quot; instead of &quot;<code>/ 4</code>&quot;). We write another <a href="metafunction.html">metafunction</a> for this purpose:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> S, <span class="kw">class</span> Item&gt; \
+...&gt; <span class="kw">struct</span> reverse_binary_op : \
+...&gt;   eval_binary_op&lt; \
+...&gt;     <span class="kw">typename</span> boost::mpl::at_c&lt;Item, <span class="dv">0</span>&gt;::type, \
+...&gt;     boost::mpl::at_c&lt;Item, <span class="dv">1</span>&gt;::type::value, \
+...&gt;     S \
+...&gt;   &gt; \
+...&gt;   {};</code></pre>
+<p align="right">
+<a href="getting_started_24.html">copy-paste friendly version</a>
+</p>
+
+<p>There are multiple differences between <code>binary_op</code> and <code>reverse_binary_op</code>:</p>
+<ul>
+<li>The <code>Item</code> argument, which is a <code>vector</code> is expected to be <code>[operator, operand]</code> in <code>binary_op</code> and <code>[operand, operator]</code> in <code>reverse_binary_op</code>.</li>
+<li>Both versions use <code>eval_binary_op</code> to evaluate the subexpression, but <code>binary_op</code> treats <code>S</code>, the value representing the already evaluated part of the expression as the left operand, while <code>reverse_binary_op</code> treats it as the right operand. This is because in the first case we are going from left to right while in the second case we are going from right to left.</li>
+</ul>
+<p>We need to include <a href="foldrp.html"><code>foldrp</code></a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/foldrp.hpp&gt;</code></pre>
+<p>We can rewrite <code>mult_exp</code> using <a href="foldrp.html"><code>foldrp</code></a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> mult_exp3 = \
+...&gt; foldrp&lt; \
+...&gt;   sequence&lt;int_token, one_of&lt;times_token, divides_token&gt;&gt;, <span class="co">/* The parser applied repeatedly */</span> \
+...&gt;   int_token, <span class="co">/* The parser parsing the last number */</span> \
+...&gt;   boost::mpl::quote2&lt;reverse_binary_op&gt; <span class="co">/* The function called for every result */</span> \
+...&gt;                                         <span class="co">/* of applying the above parser */</span> \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_25.html">copy-paste friendly version</a>
+</p>
+
+<p>It is almost the same as <code>mult_exp2</code>, but ...</p>
+<ul>
+<li>... the parser applied repeatedly parses <code>&lt;number&gt; &lt;operator&gt;</code> elements instead of <code>&lt;operator&gt; &lt;number&gt;</code> elements (what <code>mult_exp2</code> did).</li>
+<li>... this version uses <code>reverse_binary_op</code> instead of <code>binary_op</code> as the function that is called for every result of applying the above parser.</li>
+</ul>
+<p>We can create a new version of <code>exp_parser</code> that uses <code>mult_exp3</code> instead of <code>mult_exp2</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser17 = \
+...&gt; build_parser&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp3&gt;, \
+...&gt;     mult_exp3, \
+...&gt;     boost::mpl::quote2&lt;binary_op&gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_26.html">copy-paste friendly version</a>
+</p>
+
+<p>The only difference between <code>exp_parser17</code> and the previous version, <code>exp_parser16</code> is that it uses the updated version of <code>mult_exp</code>. Let's try this parser out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser17::apply&lt;BOOST_STRING(<span class="st">&quot;8 / 4 / 2&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">4</span>&gt;</code></pre>
+<p>This version of the parser gives <em>the other</em> possible result. The one you get when division is right associative, which means that the above expression is evaluated as <code>8 / (4 / 2)</code>. Here is a diagram showing how the <a href="foldrp.html"><code>foldrp</code></a>-based solution works:</p>
+<p align="center">
+  
+<a href="tutorial_diag10.png"><img src="tutorial_diag10.png" style="width:70%" /></a>
+</p>
+
+<p>To make it easier to compare the two solutions, here is a diagram showing the two approaches side-by-side:</p>
+<p align="center">
+  
+<a href="tutorial_diag11.png"><img src="tutorial_diag11.png" style="width:100%" /></a>
+</p>
+
+<p>As we have seen, the associativity of the operators can be controlled by choosing between folding solutions. The folding solutions going from left to right implement left associativity, while the solutions going from right to left implement right associativity.</p>
+<blockquote>
+<p>Note that folding solutions going from left to right is implemented in a more efficient way than folding from right to left. Therefore when both solutions can be used you should prefer folding from left to right.</p>
+</blockquote>
+<h2 id="dealing-with-unary-operators">9. Dealing with unary operators</h2>
+<p>Our calculator language provides no direct support for negative numbers. To get a negative number, we need to do a subtraction. For example to get the number <code>-13</code> we need to evaluate the expression <code>0 - 13</code>.</p>
+<p>We will implement <code>-</code> as an unary operator. Therefore the expression <code>-13</code> won't be a <em>negative number</em>. It will be the unary <code>-</code> operator applied on the number <code>13</code>.</p>
+<p>Since <code>-</code> is an operator, it might be used multiple times. So the expression <code>---13</code> is also valid and gives the same result as <code>-13</code>. This means that any number of <code>-</code> symbols are valid before a number.</p>
+<p>Our parser can be extended to support the unary <code>-</code> operator by adding a new layer to the list of precedence layers. This should have the lowest precedence, which means that we should use this new layer where we have been using <code>int_token</code>. Let's write a new parser:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/mpl/negate.hpp&gt;
+&gt; <span class="kw">using</span> unary_exp1 = \
+...&gt; foldrp&lt; \
+...&gt;   minus_token, \
+...&gt;   int_token, \
+...&gt;   boost::mpl::lambda&lt;boost::mpl::negate&lt;boost::mpl::_1&gt;&gt;::type \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_27.html">copy-paste friendly version</a>
+</p>
+
+<p>We had to include <code>&lt;boost/mpl/negate.hpp&gt;</code> to get a <a href="metafunction.html">metafunction</a> we can negate a value with.</p>
+<p><code>unary_exp1</code> is implemented with right to left folding: it starts from the number (parsed by <code>int_token</code>) and processes the <code>-</code> symbols one by one. The function to be called for each <code>-</code> symbol is a lambda expression that negates the number. So the number is negated for every <code>-</code> symbol.</p>
+<p>We can implement a new version of <code>mult_exp</code> and <code>exp_parser</code>. They are the same as <code>mult_exp2</code> and <code>exp_parser16</code>. The only difference is that they (directly only <code>exp_parser18</code>) use <code>unary_exp1</code> instead of <code>int_token</code>.</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> mult_exp4 = \
+...&gt; foldlp&lt; \
+...&gt;   sequence&lt;one_of&lt;times_token, divides_token&gt;, unary_exp1&gt;, \
+...&gt;   unary_exp1, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt;;
+&gt; <span class="kw">using</span> exp_parser18 = \
+...&gt; build_parser&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp4&gt;, \
+...&gt;     mult_exp4, \
+...&gt;     boost::mpl::quote2&lt;binary_op&gt; \
+...&gt;   &gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_28.html">copy-paste friendly version</a>
+</p>
+
+<p>Let's try these new parsers out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser18::apply&lt;BOOST_STRING(<span class="st">&quot;---13&quot;</span>)&gt;::type                                                  
+mpl_::integral_c&lt;<span class="dt">int</span>, -<span class="dv">13</span>&gt;
+&gt; exp_parser18::apply&lt;BOOST_STRING(<span class="st">&quot;13&quot;</span>)&gt;::type                                                     
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;</code></pre>
+<p align="right">
+<a href="getting_started_29.html">copy-paste friendly version</a>
+</p>
+
+<p>It can deal with negative numbers correctly.</p>
+<h2 id="dealing-with-parens">10. Dealing with parens</h2>
+<p>Our parsers already support the precedence of the different operators. Let's add support for parens as well, so users can override the precedence rules when they need to.</p>
+<p>We can add a new parser for parsing (and evaluating) expressions in parens. First we introduce tokens for parsing the <code>(</code> and <code>)</code> symbols:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> lparen_token = token&lt;lit_c&lt;&#39;(&#39;&gt;&gt;;
+&gt; <span class="kw">using</span> rparen_token = token&lt;lit_c&lt;&#39;)&#39;&gt;&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_30.html">copy-paste friendly version</a>
+</p>
+
+<p>A paren can contain an expression with any operators in it, so we add a parser for parsing (and evaluating) an expression containing operators of the highest precedence:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> plus_exp1 = \
+...&gt; foldlp&lt; \
+...&gt;   sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp4&gt;, \
+...&gt;   mult_exp4, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_31.html">copy-paste friendly version</a>
+</p>
+
+<p>This was just a refactoring of our last parser for the calculator language. We can build the parser for our calculator language by using <a href="build_parser.html"><code>build_parser</code></a><code>&lt;plus_exp1&gt;</code> now. Let's write a parser for a paren expression:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> paren_exp1 = sequence&lt;lparen_token, plus_exp1, rparen_token&gt;;</code></pre>
+<p>This definition parses a left paren, then a complete expression followed by a right paren. The result of parsing a paren expression is a <code>vector</code> of three elements: the <code>(</code> character, the value of the expression and the <code>)</code> character. We only need the value of the expression, which is the middle element. We could wrap the whole thing with a <a href="transform.html"><code>transform</code></a> that gets the middle element and throws the rest away, but we don't need to. This is such a common pattern, that Metaparse provides <a href="middle_of.html"><code>middle_of</code></a> for this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/middle_of.hpp&gt;
+&gt; <span class="kw">using</span> paren_exp2 = middle_of&lt;lparen_token, plus_exp1, rparen_token&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_32.html">copy-paste friendly version</a>
+</p>
+
+<p>This implementation is almost the same as <code>paren_exp1</code>. The difference is that the result of parsing will be the value of the wrapped expression (the result of the <code>plus_exp1</code> parser).</p>
+<p>Let's define a parser for a primary expression which is either a number or an expression in parens:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> primary_exp1 = one_of&lt;int_token, paren_exp2&gt;;</code></pre>
+<p>This parser accepts either a number using <code>int_token</code> or an expression in parens using <code>paren_exp1</code>.</p>
+<p>Everywhere, where one can write a number (parsed by <code>int_token</code>), one can write a complete expression in parens as well. Our current parser implementation parses <code>int_token</code>s in <code>unary_exp</code>, therefore we need to change that to use <code>primary_exp</code> instead of <code>int_token</code>.</p>
+<p>There is a problem here: this makes the definitions of our parsers <em>recursive</em>. Think about it:</p>
+<ul>
+<li><code>plus_exp</code> uses <code>mult_exp</code></li>
+<li><code>mult_exp</code> uses <code>unary_exp</code></li>
+<li><code>unary_exp</code> uses <code>primary_exp</code></li>
+<li><code>primary_exp</code> uses <code>paren_exp</code></li>
+<li><code>paren_exp</code> uses <code>plus_exp</code></li>
+</ul>
+<blockquote>
+<p>Since we are versioning the different parser implementations in Metashell (<code>paren_exp1</code>, <code>paren_exp2</code>, etc) you might try to define these recursive parsers and it might seem to work for the first time. In that case, when you later try creating a parser as part of a library (save your Metashell environment to a file or re-implement the important/successful elements) you face this issue.</p>
+</blockquote>
+<p>We have been using type aliases (<code>typedef</code> and <code>using</code>) for defining the parsers. We can do it as long as their definition is not recursive. We can not refer to a type alias until we have defined it and type aliases can not be forward declared, so we can't find a point in the recursive cycle where we could start defining things.</p>
+<p>A solution for this is making one of the parsers a new class instead of a type alias. Classes can be forward declared, therefore we can declare the class, implement the rest of the parsers as they can refer to that class and then define the class at the end.</p>
+<p>Let's make <code>plus_exp</code> a class. So as a first step, let's forward declare it:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">struct</span> plus_exp2;</code></pre>
+<p>Now we can write the rest of the parsers and they can refer to <code>plus_exp2</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> paren_exp3 = middle_of&lt;lparen_token, plus_exp2, rparen_token&gt;;
+&gt; <span class="kw">using</span> primary_exp2 = one_of&lt;int_token, paren_exp2&gt;;
+&gt; <span class="kw">using</span> unary_exp2 = \
+...&gt; foldrp&lt; \
+...&gt;   minus_token, \
+...&gt;   primary_exp2, \
+...&gt;   boost::mpl::lambda&lt;boost::mpl::negate&lt;boost::mpl::_1&gt;&gt;::type \
+...&gt; &gt;;
+&gt; <span class="kw">using</span> mult_exp5 = \
+...&gt; foldlp&lt; \
+...&gt;   sequence&lt;one_of&lt;times_token, divides_token&gt;, unary_exp2&gt;, \
+...&gt;   unary_exp2, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt;;</code></pre>
+<p align="right">
+<a href="getting_started_33.html">copy-paste friendly version</a>
+</p>
+
+<p>There is nothing new in the definition of these parsers. They build up the hierarchy we have worked out in the earlier sections of this tutorial. The only element missing is <code>plus_exp2</code>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">struct</span> plus_exp2 : \
+...&gt; foldlp&lt; \
+...&gt;   sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp5&gt;, \
+...&gt;   mult_exp5, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt; {};</code></pre>
+<p align="right">
+<a href="getting_started_34.html">copy-paste friendly version</a>
+</p>
+
+<p>This definition makes use of inheritance instead of type aliasing. Now we can write the parser for the calculator that supports parens as well:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> exp_parser19 = build_parser&lt;plus_exp2&gt;;</code></pre>
+<p>Let's try this parser out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser19::apply&lt;BOOST_STRING(<span class="st">&quot;(1 + 2) * 3&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">9</span>&gt;</code></pre>
+<p>Our parser accepts and can deal with parens in the expressions.</p>
+<h2 id="dealing-with-invalid-input-1">11. Dealing with invalid input</h2>
+<p>So far we have been focusing on parsing valid user input. However, users of our parsers will make mistakes and we should help them finding the source of the problem. And we should make this process not too painful.</p>
+<p>The major difficulty in error reporting is that we have no direct way of showing error messages to the user. The parsers are template metaprograms. When they detect that the input is invalid, they can make the compilation fail and the compiler (running the metaprogram) display an error message. What we can do is making those error messages short and contain all information about the parsing error. We should make it easy to find this information in whatever the compiler displays.</p>
+<p>So let's try to parse some invalid expression and let's see what happens:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser19::apply&lt;BOOST_STRING(<span class="st">&quot;hello&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<p>You will get a lot (if you have seen error messages coming from template metaprograms you know: this is <em>not</em> a lot.) of error messages. Take a closer look. It contains this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">x__________________PARSING_FAILED__________________x&lt;
+  <span class="dv">1</span>, <span class="dv">1</span>,
+  boost::metaparse::v1::error::literal_expected&lt;&#39;(&#39;&gt;
+&gt;</code></pre>
+<p>You can see a formatted version above. There are no line breaks in the real output. This is relatively easy to spot (thanks to the <code>____________</code> part) and contains answers to the main questions one has when parsing fails:</p>
+<ul>
+<li><em>where</em> is the error? It is column <code>1</code> in line <code>1</code> (inside <a href="BOOST_STRING.html"><code>BOOST_STRING</code></a>). This is the <code>1, 1</code> part.</li>
+<li><em>what</em> is the problem? <code>literal_expected&lt;'('&gt;</code>. This is a bit misleading, as it contains only a part of the problem. An open paren is not the only acceptable token here, a number would also be fine. This misleading error message is <em>our</em> fault: <em>we</em> (the parser authors) need to make the parsing errors more descriptive.</li>
+</ul>
+<h3 id="improving-the-error-messages">11.1. Improving the error messages</h3>
+<p>So how can we improve the error messages? Let's look at what went wrong in the previous case:</p>
+<ul>
+<li>The input was <code>hello</code>.</li>
+<li><code>plus_exp2</code> tried to parse it.</li>
+<li><code>plus_exp2</code> tried to parse it using <code>mult_exp5</code> (assuming that this is the initial <code>mult_exp</code> in the list of <code>+</code>/<code>-</code> separated <code>mult_exp</code>s).</li>
+<li>so <code>mult_exp5</code> tried to parse it.</li>
+<li><code>mult_exp5</code> tried to parse it using <code>unary_exp2</code> (assuming that this is the initial <code>unary_exp</code> in the list of <code>*</code>/<code>/</code> separated <code>unary_exp</code>s).</li>
+<li>so <code>unary_exp2</code> tried to parse it.</li>
+<li><code>unary_exp2</code> parsed all of the <code>-</code> symbols using <code>minus_token</code>. There were none of them (the input started with an <code>h</code> character).</li>
+<li>so <code>unary_exp2</code> tried to parse it using <code>primary_exp2</code>.</li>
+<li><code>primary_exp2</code> is: <a href="one_of.html"><code>one_of</code></a><code>&lt;int_token, paren_exp2&gt;</code>. It tried parsing the input with <code>int_token</code> (which failed) and then with <code>paren_exp2</code> (which failed as well). So <a href="one_of.html"><code>one_of</code></a> could not parse the input with any of the choices and therefore it failed as well. In such situations <code>one_of</code> checks which parser made the most progress (consumed the most characters of the input) before failing and assumes, that that is the parser the user intended to use, thus it returns the error message coming from that parser. In this example none of the parsers could make any progress, in which case <code>one_of</code> returns the error coming from the last parser in the list. This was <code>paren_exp2</code>, and it expects the expression to start with an open paren. This is where the error message came from. The rest of the layers did not change or improve this error message so this was the error message displayed to the user.</li>
+</ul>
+<p>We, the parser authors know: we expect a primary expression there. When <a href="one_of.html"><code>one_of</code></a> fails, it means that none was found.</p>
+<h3 id="defining-custom-errors">11.2. Defining custom errors</h3>
+<p>To be able to return custom error messages (like <code>missing_primary_expression</code>) to the user, we need to define those error messages first. The error messages are represented by classes with some requriements:</p>
+<ul>
+<li>It should have a static method called <code>get_value()</code> returning a <code>std::string</code> containing the description of the error.</li>
+<li>It should be a <a href="metaprogramming_value.html">template metaprogramming value</a>.</li>
+</ul>
+<p>These classes are called <a href="parsing_error_message.html">parsing error message</a>s. To make it easy to implement such classes and to make it difficult (if not impossible) to forget to fulfill a requirement, Metaparse provides a macro for defining these classes. To get this macro, include the following header:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/define_error.hpp&gt;</code></pre>
+<p>Let's define the <a href="parsing_error_message.html">parsing error message</a>:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; BOOST_DEFINE_ERROR(missing_primary_expression, <span class="st">&quot;Missing primary expression&quot;</span>);</code></pre>
+<p>This defines a class called <code>missing_primary_expression</code> representing this error message. What we need to do is making our parser return this error message when <a href="one_of.html"><code>one_of</code></a> fails.</p>
+<p>Let's define <code>plus_exp</code> and <code>paren_exp</code> first. Their definition does not change:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">struct</span> plus_exp3;
+&gt; <span class="kw">using</span> paren_exp4 = middle_of&lt;lparen_token, plus_exp3, rparen_token&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_35.html">copy-paste friendly version</a>
+</p>
+
+<p>When the input contains no number (parsed by <code>int_token</code>) and no paren expression (parsed by <code>paren_exp4</code>), we should return the <code>missing_primary_expression</code> error message. We can do it by adding a third parser to <code>one_of&lt;int_token, paren_exp4, ...&gt;</code> which always fails with this error message. Metaparse provides <a href="fail.html"><code>fail</code></a> for this:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/fail.hpp&gt;</code></pre>
+<p>Now we can define the <code>primary_exp</code> parser using it:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> primary_exp3 = one_of&lt;int_token, paren_exp4, fail&lt;missing_primary_expression&gt;&gt;;</code></pre>
+<p>It adds <a href="fail.html"><code>fail</code></a><code>&lt;missing_primary_expression&gt;</code> to <code>one_of</code> as the last element. Therefore if none of the &quot;real&quot; cases parse the input <em>and</em> none of them makes any progress before failing, the error message will be <code>missing_primary_expression</code>.</p>
+<p>We need to define the rest of the parsers. Their definition is the same as before:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> unary_exp3 = \
+...&gt; foldrp&lt; \
+...&gt;   minus_token, \
+...&gt;   primary_exp3, \
+...&gt;   boost::mpl::lambda&lt;boost::mpl::negate&lt;boost::mpl::_1&gt;&gt;::type \
+...&gt; &gt;;
+&gt; <span class="kw">using</span> mult_exp6 = \
+...&gt; foldlp&lt; \
+...&gt;   sequence&lt;one_of&lt;times_token, divides_token&gt;, unary_exp3&gt;, \
+...&gt;   unary_exp3, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt;;
+&gt; <span class="kw">struct</span> plus_exp3 : \
+...&gt; foldlp&lt; \
+...&gt;   sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp6&gt;, \
+...&gt;   mult_exp6, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt; {};
+&gt; <span class="kw">using</span> exp_parser20 = build_parser&lt;plus_exp3&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_36.html">copy-paste friendly version</a>
+</p>
+
+<p>We can can try to give our new parser an invalid input:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser20::apply&lt;BOOST_STRING(<span class="st">&quot;hello&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;
+..... x__________________PARSING_FAILED__________________x&lt;<span class="dv">1</span>, <span class="dv">1</span>, missing_primary_expression&gt; ....
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<p>The error message is now more specific to the calculator language. This covers only one case, where the error messages can be improved. Other cases (eg. missing closing parens, missing operators, etc) can be covered in a similar way.</p>
+<h3 id="missing-closing-parens">11.3. Missing closing parens</h3>
+<p>Missing closing parens are common errors. Let's see how our parsers report them:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser20::apply&lt;BOOST_STRING(<span class="st">&quot;(1+2&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;
+..... x__________________PARSING_FAILED__________________x&lt;<span class="dv">1</span>, <span class="dv">5</span>, unpaired&lt;<span class="dv">1</span>, <span class="dv">1</span>, literal_expected&lt;&#39;)&#39;&gt;&gt;&gt; ....
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<p>The parser could detect that there is a missing paren and the error report points to the open paren which is not closed. This looks great, but we are not done yet. Let's try a slightly more complex input:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser20::apply&lt;BOOST_STRING(<span class="st">&quot;0+(1+2&quot;</span>)&gt;::type
+mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">0</span>&gt;</code></pre>
+<p>This is getting strange now. We parse the <code>+ &lt;mult_exp&gt;</code> elements using <a href="foldlp.html"><code>foldlp</code></a> (see the definition of <code>plus_exp3</code>). <a href="foldlp.html"><code>foldlp</code></a> parses the input as long as it can and stops when it fails to parse it. In the above input, it parses <code>0</code> as the initial element and then it tries to parse the first <code>+ &lt;mult_exp&gt;</code> element. But parsing the <code>&lt;mult_exp&gt;</code> part fails because of the missing closing paren. So <a href="foldlp.html"><code>foldlp</code></a> stops and ignores this failing part of the input.</p>
+<p>The result of the above is that we parse only the <code>0</code> part of the input, ignore the &quot;garbage&quot; at the end and assume that the value of the expression is <code>0</code>. This could be fixed by using <a href="entire_input.html"><code>entire_input</code></a>. Our parser would reject the input (because of the &quot;garbage&quot; at the end), but the error message would not be useful. So we take a different approach.</p>
+<p>When <a href="foldlp.html"><code>foldlp</code></a> stops, we should check if there is an extra broken <code>+ &lt;mult_exp&gt;</code> there or not. When there is, we should report what is wrong with that broken <code>+ &lt;mult_exp&gt;</code> (eg. a missing closing paren). Metaparse provides <a href="fail_at_first_char_expected.html"><code>fail_at_first_char_expected</code></a> to implement such validations. <a href="fail_at_first_char_expected.html"><code>fail_at_first_char_expected</code></a><code>&lt;parser&gt;</code> checks how <code>parser</code> fails to parse the input: when it fails right at the first character, <a href="fail_at_first_char_expected.html"><code>fail_at_first_char_expected</code></a> assumes that there is no garbage and accepts the input. When <code>parser</code> consumes characters from the input before failing, <a href="fail_at_first_char_expected.html"><code>fail_at_first_char_expected</code></a> assumes that there is a broken expression and propagates the error. It can be used the following way:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/fail_at_first_char_expected.hpp&gt;
+&gt; #include &lt;boost/metaparse/first_of.hpp&gt;
+&gt; <span class="kw">struct</span> plus_exp4 : \
+...&gt; first_of&lt; \
+...&gt;   foldlp&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp6&gt;, \
+...&gt;     mult_exp6, \
+...&gt;     boost::mpl::quote2&lt;binary_op&gt; \
+...&gt;   &gt;, \
+...&gt;   fail_at_first_char_expected&lt; \
+...&gt;     sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp6&gt; \
+...&gt;   &gt; \
+...&gt; &gt; {};
+&gt; <span class="kw">using</span> exp_parser21 = build_parser&lt;plus_exp4&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_37.html">copy-paste friendly version</a>
+</p>
+
+<p><a href="first_of.html"><code>first_of</code></a> is similar to <a href="middle_of.html"><code>middle_of</code></a>, but keeps the result of the first element, not the middle one. We use it to keep the &quot;real&quot; result (the result of <a href="foldlp.html"><code>foldlp</code></a>) and to throw the dummy result coming from <a href="fail_at_first_char_expected.html"><code>fail_at_first_char_expected</code></a> away when there is no broken expression at the end. <a href="first_of.html"><code>first_of</code></a> propagates any error coming from <a href="fail_at_first_char_expected.html"><code>fail_at_first_char_expected</code></a>.</p>
+<p>Let's try this new expression parser out with a missing closing paren:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser21::apply&lt;BOOST_STRING(<span class="st">&quot;0+(1+2&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;
+..... x__________________PARSING_FAILED__________________x&lt;<span class="dv">1</span>, <span class="dv">7</span>, unpaired&lt;<span class="dv">1</span>, <span class="dv">3</span>, literal_expected&lt;&#39;)&#39;&gt;&gt;&gt; ....
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<p>This works as expected now: it tells us that there is a missing paren and it points us the open paren which is not closed.</p>
+<h3 id="simplifying-the-parser">11.3.1 Simplifying the parser</h3>
+<p>Our parser provides useful error messages for missing closing parens, however, the implementation of the parser (<code>plus_exp4</code>) is long and repetitive: it contains the parser for the repeated element (<a href="sequence.html"><code>sequence</code></a><code>&lt;</code><a href="one_of.html"><code>one_of</code></a><code>&lt;plus_token, minus_token&gt;, mult_exp6&gt;</code>) twice, and that is not ideal.</p>
+<p><code>plus_exp4</code> uses <a href="foldlp.html"><code>foldlp</code></a> to implement repetition. Metaparse provides <a href="foldlfp.html"><code>foldlfp</code></a> which does the same we did with <a href="first_of.html"><code>first_of</code></a>, <a href="foldlp.html"><code>foldlp</code></a> and <a href="fail_at_first_char_expected.html"><code>fail_at_first_char_expected</code></a> together:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/foldlfp.hpp&gt;
+&gt; <span class="kw">struct</span> plus_exp5 : \
+...&gt; foldlfp&lt; \
+...&gt;   sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp6&gt;, \
+...&gt;   mult_exp6, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt; {};
+&gt; <span class="kw">using</span> exp_parser22 = build_parser&lt;plus_exp5&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_38.html">copy-paste friendly version</a>
+</p>
+
+<p>It parses the input using <a href="sequence.html"><code>sequence</code></a><code>&lt;</code><a href="one_of.html"><code>one_of</code></a><code>&lt;plus_token, minus_token&gt;, mult_exp6&gt;</code>) repeatedly. When it fails, <a href="foldlfp.html"><code>foldlfp</code></a> checks if it consumed any character before failing (the same as what <a href="fail_at_first_char_expected.html"><code>fail_at_first_char_expected</code></a> does), and if yes, then <a href="foldlfp.html"><code>foldlfp</code></a> fails.</p>
+<p>This makes the implementation of the repetition with advanced error reporting simpler. Let's try it out:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser22::apply&lt;BOOST_STRING(<span class="st">&quot;0+(1+2&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;
+..... x__________________PARSING_FAILED__________________x&lt;<span class="dv">1</span>, <span class="dv">7</span>, unpaired&lt;<span class="dv">1</span>, <span class="dv">3</span>, literal_expected&lt;&#39;)&#39;&gt;&gt;&gt; ....
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<p>Note that other folding parsers have their <code>f</code> versions as well (eg. <a href="foldrf.html"><code>foldrf</code></a>, <a href="foldlf1.html"><code>foldlf1</code></a>, etc).</p>
+<h3 id="using-foldlfp-at-other-places-as-well">11.3.2 Using <code>foldlfp</code> at other places as well</h3>
+<p>We have replaced one <a href="foldlp.html"><code>foldlp</code></a> with <a href="foldlfp.html"><code>foldlfp</code></a>. Other layers (<code>mult_exp</code>, <code>unary_exp</code>, etc) use folding as well. Let's use it at all layers:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">struct</span> plus_exp6;
+&gt; <span class="kw">using</span> paren_exp5 = middle_of&lt;lparen_token, plus_exp6, rparen_token&gt;;
+&gt; <span class="kw">using</span> primary_exp4 = one_of&lt;int_token, paren_exp5, fail&lt;missing_primary_expression&gt;&gt;;
+&gt; <span class="kw">using</span> unary_exp4 = \
+...&gt; foldrp&lt; \
+...&gt;   minus_token, \
+...&gt;   primary_exp4, \
+...&gt;   boost::mpl::lambda&lt;boost::mpl::negate&lt;boost::mpl::_1&gt;&gt;::type \
+...&gt; &gt;;
+&gt; <span class="kw">using</span> mult_exp7 = \
+...&gt; foldlfp&lt; \
+...&gt;   sequence&lt;one_of&lt;times_token, divides_token&gt;, unary_exp4&gt;, \
+...&gt;   unary_exp4, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt;;
+&gt; <span class="kw">struct</span> plus_exp6 : \
+...&gt; foldlfp&lt; \
+...&gt;   sequence&lt;one_of&lt;plus_token, minus_token&gt;, mult_exp7&gt;, \
+...&gt;   mult_exp7, \
+...&gt;   boost::mpl::quote2&lt;binary_op&gt; \
+...&gt; &gt; {};
+&gt; <span class="kw">using</span> exp_parser23 = build_parser&lt;plus_exp6&gt;;</code></pre>
+<p align="right">
+<a href="getting_started_39.html">copy-paste friendly version</a>
+</p>
+
+<blockquote>
+<p>Note that <code>unary_exp4</code> uses <a href="foldrp.html"><code>foldrp</code></a> instead of <code>foldrfp</code>. The reason behind it is that there is no <code>foldrfp</code>. <a href="foldrp.html"><code>foldrp</code></a> applies the <code>primary_exp4</code> parser when <code>minus_token</code> does not accept the input any more. Therefore, it is supposed to catch the errors of incomplete expressions after the repetition.</p>
+</blockquote>
+<p>Let's try different invalid expressions:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser23::apply&lt;BOOST_STRING(<span class="st">&quot;1+(2*&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;
+..... x__________________PARSING_FAILED__________________x&lt;<span class="dv">1</span>, <span class="dv">6</span>, missing_primary_expression&gt; ....
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser23::apply&lt;BOOST_STRING(<span class="st">&quot;1+(2*3&quot;</span>)&gt;::type
+&lt;&lt; compilation error &gt;&gt;
+..... x__________________PARSING_FAILED__________________x&lt;<span class="dv">1</span>, <span class="dv">7</span>, unpaired&lt;<span class="dv">1</span>, <span class="dv">3</span>, literal_expected&lt;&#39;)&#39;&gt;&gt;&gt; ....
+&lt;&lt; compilation error &gt;&gt;</code></pre>
+<h2 id="summary">12. Summary</h2>
+<p>This tutorial showed you how to build a parser for a calculator language. Now that you understand how to do this, you should be able to use the same techniques and building blocks presented here to build a parser for your own language. You should start building the parser and once you face a problem (eg. you need to add parens or you need better error messages) you can always return to this tutorial and read the section showing you how to deal with those situations.</p>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2015. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="index.html">[up]</a></p>
+</body>
+</html>

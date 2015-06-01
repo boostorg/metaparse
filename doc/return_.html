@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="return_">return_</h1>
+<h2 id="synopsis">Synopsis</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="kw">class</span> C&gt;
+<span class="kw">struct</span> return_;</code></pre>
+<p>This is a <a href="parser.html">parser</a>.</p>
+<h2 id="arguments">Arguments</h2>
+<table cellpadding='0' cellspacing='0'>
+  <tr>
+    <td>
+<code>C</code>
+</td>
+    <td>
+<a href="metaprogramming_value.html">template metaprogramming value</a>
+</td>
+  </tr>
+</table>
+
+<h2 id="description">Description</h2>
+<p><code>return_</code> accepts every input. The result of parsing is <code>C</code>, the remaining string is the input string.</p>
+<h2 id="header">Header</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/return_.hpp&gt;</span></code></pre>
+<h2 id="expression-semantics">Expression semantics</h2>
+<p>For any <code>c</code> class, <code>s</code> compile-time string and <code>pos</code> source position the following are equivalent</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">get_result&lt;return_&lt;c&gt;::apply&lt;s, pos&gt;&gt;::type
+
+c</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">get_remaining&lt;return_&lt;c&gt;::apply&lt;s, pos&gt;&gt;::type
+
+s</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">get_position&lt;return_&lt;c&gt;::apply&lt;s, pos&gt;&gt;::type
+
+pos</code></pre>
+<h2 id="example">Example</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/return_.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/int_.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/one_of.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/start.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/string.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/get_result.hpp&gt;</span>
+
+<span class="ot">#include &lt;type_traits&gt;</span>
+
+<span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
+
+<span class="kw">using</span> default_value = std::integral_constant&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;;
+
+<span class="kw">using</span> optional_number = one_of&lt;int_, return_&lt;default_value&gt;&gt;;
+
+<span class="kw">static_assert</span>(
+  get_result&lt;
+    optional_number::apply&lt;BOOST_STRING(<span class="st">&quot;11&quot;</span>), start&gt;
+  &gt;::type::value == <span class="dv">11</span>,
+  <span class="st">&quot;when a number is provided, it is the result of parsing&quot;</span>
+);
+
+<span class="kw">static_assert</span>(
+  get_result&lt;
+    optional_number::apply&lt;BOOST_STRING(<span class="st">&quot;&quot;</span>), start&gt;
+  &gt;::type::value == <span class="dv">13</span>,
+  <span class="st">&quot;when no number is provided, the default value is the result of parsing&quot;</span>
+);</code></pre>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2011. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="reference.html">[up]</a></p>
+</body>
+</html>

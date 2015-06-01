@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="fail_at_first_char_expected">fail_at_first_char_expected</h1>
+<h2 id="synopsis">Synopsis</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="kw">class</span> P&gt;
+<span class="kw">struct</span> fail_at_first_char_expected;</code></pre>
+<p>This is a <a href="parser_combinator.html">parser combinator</a>.</p>
+<h2 id="arguments">Arguments</h2>
+<table cellpadding='0' cellspacing='0'>
+  <tr>
+    <td>
+<code>P</code>
+</td>
+    <td>
+<a href="parser.html">parser</a>
+</td>
+  </tr>
+</table>
+
+<h2 id="description">Description</h2>
+<p>It tries to parse the input using <code>P</code>. When <code>P</code> rejects the input without consuming any character, <code>fail_at_first_char_expected</code> accepts the input. Otherwise (when <code>P</code> accepts the input or when it consumes characters before rejecting the input) <code>fail_at_first_char_expected</code> rejects the input.</p>
+<h2 id="header">Header</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/fail_at_first_char_expected.hpp&gt;</span></code></pre>
+<h2 id="expression-semantics">Expression semantics</h2>
+<p>For any <code>p</code> parser, <code>s</code> compile-time string and <code>pos</code> source position:</p>
+<p>When <code>is_error&lt;p::apply&lt;s, pos&gt;&gt;::type</code> is false, the following are equivalent:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">fail_at_first_char_expected&lt;p&gt;::apply&lt;s, pos&gt;::type
+reject&lt;error::expected_to_fail, pos&gt;</code></pre>
+<p>When <code>is_error&lt;p::apply&lt;s, pos&gt;&gt;::type</code> is true and <code>boost::mpl::equal_to&lt;pos, get_position&lt;p::apply&lt;s, pos&gt;&gt;::type&gt;::type</code> is also true, the following are equivalent:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">get_remaining&lt;except&lt;p, c, msg&gt;, s, pos&gt;::type
+accept&lt;<span class="co">/* unspecified */</span>, s, pos&gt;</code></pre>
+<p>Otherwise the following are equivalent:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">get_remaining&lt;except&lt;p, c, msg&gt;, s, pos&gt;::type
+p::apply&lt;s, pos&gt;::type</code></pre>
+<h2 id="example">Example</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/fail_at_first_char_expected.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/int_.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/lit_c.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/foldlp.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/first_of.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/last_of.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/string.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/start.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/is_error.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/get_result.hpp&gt;</span>
+
+<span class="ot">#include &lt;boost/mpl/lambda.hpp&gt;</span>
+<span class="ot">#include &lt;boost/mpl/plus.hpp&gt;</span>
+
+<span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
+
+<span class="kw">using</span> plus_int = last_of&lt;lit_c&lt;&#39;+&#39;&gt;, int_&gt;;
+
+<span class="kw">using</span> plus_exp =
+  first_of&lt;
+    foldlp&lt;
+      plus_int,
+      int_,
+      boost::mpl::lambda&lt;boost::mpl::plus&lt;boost::mpl::_1, boost::mpl::_2&gt;&gt;::type
+    &gt;,
+    fail_at_first_char_expected&lt;plus_int&gt;
+  &gt;;
+
+<span class="kw">static_assert</span>(
+  get_result&lt;plus_exp::apply&lt;BOOST_STRING(<span class="st">&quot;1+2+3&quot;</span>), start&gt;&gt;::type::value == <span class="dv">6</span>,
+  <span class="st">&quot;it should accept the input when it is a list of &#39;+&#39; separated ints&quot;</span>
+);
+
+<span class="kw">static_assert</span>(
+  is_error&lt;plus_exp::apply&lt;BOOST_STRING(<span class="st">&quot;1+2+3+&quot;</span>), start&gt;&gt;::type::value,
+  <span class="st">&quot;it should reject the input when it has an extra +&quot;</span>
+);</code></pre>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2015. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="reference.html">[up]</a></p>
+</body>
+</html>

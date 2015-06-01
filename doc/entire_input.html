@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="entire_input">entire_input</h1>
+<h2 id="synopsis">Synopsis</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="kw">class</span> P, <span class="kw">class</span> Msg = error::end_of_input_expected&gt;
+<span class="kw">struct</span> entire_input;</code></pre>
+<p>This is a <a href="parser_combinator.html">parser combinator</a>.</p>
+<h2 id="arguments">Arguments</h2>
+<table cellpadding='0' cellspacing='0'>
+  <tr>
+    <td>
+<code>P</code>
+</td>
+    <td>
+<a href="parser.html">parser</a>
+</td>
+  </tr>
+  <tr>
+    <td>
+<code>Msg</code>
+</td>
+    <td>
+<a href="parsing_error_message.html">parsing error message</a>
+</td>
+  </tr>
+</table>
+
+<h2 id="description">Description</h2>
+<p>It parses the input using <code>P</code> and checks if it consumes the entire input. If <code>P</code> fails or doesn't consume the entire input, <code>entire_input</code> fails. Otherwise <code>entire_input</code> returns the result of <code>P</code>. When <code>P</code> does not consume the entire input, the error message returned by <code>entire_input</code> is <code>Msg</code>.</p>
+<h2 id="header">Header</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/entire_input.hpp&gt;</span></code></pre>
+<h2 id="expression-semantics">Expression semantics</h2>
+<p>For any <code>p</code> parser and <code>e</code> parsing error message the following are equivalent</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">entire_input&lt;p, e&gt;
+
+first_of&lt;
+  p,
+  change_error_message&lt;empty&lt;<span class="co">/* some metaprogramming value */</span>&gt;, e&gt;
+&gt;</code></pre>
+<h2 id="example">Example</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/entire_input.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/int_.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/string.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/start.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/get_result.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/get_message.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/define_error.hpp&gt;</span>
+
+<span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
+
+BOOST_DEFINE_ERROR(extra_chars_at_end, <span class="st">&quot;Extra chars at end&quot;</span>);
+
+<span class="kw">using</span> int_parser = entire_input&lt;int_, extra_chars_at_end&gt;;
+
+<span class="kw">static_assert</span>(
+  get_result&lt;
+    int_parser::apply&lt;BOOST_STRING(<span class="st">&quot;1113&quot;</span>), start&gt;
+  &gt;::type::value == <span class="dv">1113</span>,
+  <span class="st">&quot;it should parse the input if it contains only an integer&quot;</span>
+);
+
+<span class="kw">static_assert</span>(
+  std::is_same&lt;
+    get_message&lt;int_parser::apply&lt;BOOST_STRING(<span class="st">&quot;1113mm&quot;</span>), start&gt;&gt;::type,
+    extra_chars_at_end
+  &gt;::type::value,
+  <span class="st">&quot;it should return the specified error message when there are extra characters&quot;</span>
+);</code></pre>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2011. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="reference.html">[up]</a></p>
+</body>
+</html>

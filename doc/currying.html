@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="currying">Currying</h1>
+<p>A <a href="metafunction.html">template metafunction</a> supports <em>currying</em> when it accepts less arguments than it normally expects. When less arguments are provided, then it returns a <a href="metafunction_class.html">template metafunction class</a> expecting the remaining arguments. That template metafunction class is also expected to support currying.</p>
+<p>For example assuming the following metafunction is given:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="kw">class</span> A, <span class="kw">class</span> B&gt;
+<span class="kw">struct</span> plus;</code></pre>
+<p>It takes two values, adds them and returns their result. For example:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">static_assert</span>(
+  plus&lt;
+    std::integral_constant&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;,
+    std::integral_constant&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt;
+  &gt;::type::value == <span class="dv">13</span>,
+  <span class="st">&quot;This should work&quot;</span>
+);</code></pre>
+<p>If it supports currying, then the following should also work:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">using</span> inc = plus&lt;std::integral_constant&lt;<span class="dt">int</span>, <span class="dv">1</span>&gt;&gt;;
+
+<span class="kw">static_assert</span>(
+  inc::apply&lt;std::integral_constant&lt;<span class="dt">int</span>, <span class="dv">12</span>&gt;&gt;::type::value == <span class="dv">13</span>,
+  <span class="st">&quot;This should work&quot;</span>
+);</code></pre>
+<p>The above example defines the <code>inc</code> template metafunction class by calling <code>plus</code> with just one argument: the <a href="boxed_value.html">boxed</a> <code>1</code> value.</p>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2014. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="reference.html">[up]</a></p>
+</body>
+</html>

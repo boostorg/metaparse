@@ -1,0 +1,11 @@
+# Building the documentation:
+
+## Prerequisites
+
+* rsvg-convert
+* pandoc
+
+## Building
+
+Run `build.sh` from this directory.
+

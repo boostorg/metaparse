@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="one_char">one_char</h1>
+<h2 id="synopsis">Synopsis</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">struct</span> one_char;</code></pre>
+<p>This is a <a href="parser.html">parser</a>.</p>
+<h2 id="description">Description</h2>
+<p><code>one_char</code> accepts one character. The result of parsing is the accepted character. It fails for empty input.</p>
+<h2 id="header">Header</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/one_char.hpp&gt;</span></code></pre>
+<h2 id="expression-semantics">Expression semantics</h2>
+<p>For any <code>s</code> non-empty compile-time string and <code>pos</code> source position the following are equivalent</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">get_result&lt;one_char::apply&lt;s, pos&gt;&gt;
+
+boost::mpl::front&lt;s&gt;</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">get_remaining&lt;one_char::apply&lt;s, pos&gt;&gt;
+
+boost::mpl::pop_front&lt;s&gt;</code></pre>
+<p>The value of <code>get_position&lt;one_char::apply&lt;s, pos&gt;&gt;</code> depends on the first character of the sequence and the value of the one parsed before that (which is stored in the source position). <code>one_char</code> updates the source position's <code>col</code> and <code>line</code> values based on the new line characters. It detects Linux (<code>\n</code>), Windows (<code>\r\n</code>) and Mac (<code>\r</code>) line endings.</p>
+<p><code>one_char::apply&lt;BOOST_STRING(&quot;&quot;), pos&gt;</code> returns an error for every <code>pos</code> source position.</p>
+<h2 id="example">Example</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/one_char.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/start.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/string.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/get_result.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/get_remaining.hpp&gt;</span>
+<span class="ot">#include &lt;boost/metaparse/is_error.hpp&gt;</span>
+
+<span class="ot">#include &lt;type_traits&gt;</span>
+
+<span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
+
+<span class="kw">static_assert</span>(
+  get_result&lt;one_char::apply&lt;BOOST_STRING(<span class="st">&quot;foo&quot;</span>), start&gt;&gt;::type::value == &#39;f&#39;,
+  <span class="st">&quot;the result of parsing should be the first character of the input&quot;</span>
+);
+
+<span class="kw">static_assert</span>(
+  std::is_same&lt;
+    BOOST_STRING(<span class="st">&quot;oo&quot;</span>),
+    get_remaining&lt;one_char::apply&lt;BOOST_STRING(<span class="st">&quot;foo&quot;</span>), start&gt;&gt;::type
+  &gt;::type::value,
+  <span class="st">&quot;one_char should consume the first character of the input&quot;</span>
+);
+
+<span class="kw">static_assert</span>(
+  is_error&lt;one_char::apply&lt;BOOST_STRING(<span class="st">&quot;&quot;</span>), start&gt;&gt;::type::value,
+  <span class="st">&quot;it should return an error for empty input&quot;</span>
+);</code></pre>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2011. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="reference.html">[up]</a></p>
+</body>
+</html>

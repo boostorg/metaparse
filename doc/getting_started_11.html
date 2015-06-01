@@ -1,0 +1,33 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">using</span> exp_parser8 = build_parser&lt; sequence&lt; int_token, <span class="co">/* parse the first &lt;number&gt; */</span> transform&lt; any&lt;sequence&lt;plus_token, int_token&gt;&gt;, <span class="co">/* parse the &quot;+ &lt;number&gt;&quot; elements */</span> <span class="co">/* lambda expression summarising the &quot;+ &lt;number&gt;&quot; elements using fold */</span> boost::mpl::lambda&lt; <span class="co">/* The folding expression we have just created */</span> boost::mpl::fold&lt; boost::mpl::_1, <span class="co">/* the argument of the lambda expression, the result */</span> <span class="co">/* of the any&lt;...&gt; parser */</span> boost::mpl::int_&lt;<span class="dv">0</span>&gt;, boost::mpl::quote2&lt;sum_items&gt; &gt; &gt;::type &gt; &gt; &gt;;</code></pre>
+</body>
+</html>

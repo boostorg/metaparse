@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <style type="text/css">
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; }
+code > span.dt { color: #902000; }
+code > span.dv { color: #40a070; }
+code > span.bn { color: #40a070; }
+code > span.fl { color: #40a070; }
+code > span.ch { color: #4070a0; }
+code > span.st { color: #4070a0; }
+code > span.co { color: #60a0b0; font-style: italic; }
+code > span.ot { color: #007020; }
+code > span.al { color: #ff0000; font-weight: bold; }
+code > span.fu { color: #06287e; }
+code > span.er { color: #ff0000; font-weight: bold; }
+  </style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="reject">reject</h1>
+<h2 id="synopsis">Synopsis</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="kw">class</span> Msg, <span class="kw">class</span> Pos&gt;
+<span class="kw">struct</span> reject;</code></pre>
+<p>This is a <a href="metaprogramming_value.html">template metaprogramming value</a>.</p>
+<h2 id="arguments">Arguments</h2>
+<table cellpadding='0' cellspacing='0'>
+  <tr>
+    <td>
+<code>Msg</code>
+</td>
+    <td>
+<a href="metaprogramming_value.html">template metaprogramming value</a>
+</td>
+  </tr>
+  <tr>
+    <td>
+<code>Pos</code>
+</td>
+    <td>
+<a href="source_position.html">source position</a>
+</td>
+  </tr>
+</table>
+
+<h2 id="description">Description</h2>
+<p>Values representing a failed parser application. It behaves as a <a href="lazy_metafunction.html">lazy template metafunction</a>: when it is evaluated as a metafunction, it returns itself with its arguments evaluated. See expression semantics for further details.</p>
+<blockquote>
+<p>Note that for backward compatibility when <code>Msg::type</code> is not defined, <code>reject&lt;....&gt;::type</code> does not evaluate <code>Msg</code>. For example <code>reject&lt;int, start&gt;::type</code> is <code>reject&lt;int, start::type&gt;</code>. Using types that are not template metaprogramming values as <code>Msg</code> is deprecated and will not work in future versions of the library.</p>
+</blockquote>
+<h2 id="expressions-semantics">Expressions semantics</h2>
+<p>For any <code>m</code> template metaprogramming value and <code>p</code> source position the following are equivalent:</p>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">reject&lt;m, p&gt;::type
+
+reject&lt;m::type, p::type&gt;</code></pre>
+<h2 id="header">Header</h2>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/reject.hpp&gt;</span></code></pre>
+<h2 id="operations">Operations</h2>
+<ul>
+<li><a href="get_position.html"><code>get_position</code></a></li>
+<li><a href="get_message.html"><code>get_message</code></a></li>
+</ul>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2014. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="reference.html">[up]</a></p>
+</body>
+</html>

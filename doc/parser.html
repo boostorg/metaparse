@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="parser">Parser</h1>
+<p>A <em>parser</em> is a <a href="metafunction_class.html">template metafunction class</a> that takes the following arguments:</p>
+<ul>
+<li>a suffix of the input text, a <a href="string.html"><code>string</code></a></li>
+<li>a <a href="source_position.html">source position</a> describing at which position of the entire input text the suffix begins at</li>
+</ul>
+<p>The function parses a prefix of the input string. When the parsing is successful, it returns an <a href="accept.html"><code>accept</code></a> value. When there is a parsing error, the parser returns a <a href="reject.html"><code>reject</code></a> value. The <a href="is_error.html"><code>is_error</code></a> metafunction can be used to determine about the result of a parser if it succeeded or failed.</p>
+<p>The documentation refers often to the <em>result of a parser</em>. This means that the parser accepts the input and refers to what <code>get_result</code> returns for the value returned by the parser.</p>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2014. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="reference.html">[up]</a></p>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Content-Style-Type" content="text/css" />
+  <meta name="generator" content="pandoc" />
+  <title></title>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+<body>
+<h1 id="parser-monad">parser monad</h1>
+<p>This monad can be used for building parsers. Monadic values are parsers.</p>
+<h2 id="general-information">General information</h2>
+<ul>
+<li>header: <code>&lt;boost/metaparse/parser_monad.hpp&gt;</code></li>
+<li>tag of monad: <a href="parser_tag.html"><code>parser_tag</code></a>.</li>
+<li><code>return</code>'s logic: construct a <a href="return_.html"><code>return_</code></a> parser</li>
+<li><code>bind</code>'s logic: Construct a parser parsing the input with the first argument of <code>bind</code>. When parsing fails, the error is propagated. When it succeeds, the result is passed to the second argument of <code>bind</code>, which returns a new parser. The remaining input is parsed using this parser.</li>
+<li><code>fail</code>'s logic: wrap the argument of <code>fail</code> with the <a href="fail.html"><code>fail</code></a> parser</li>
+</ul>
+<p class="copyright">
+Copyright Abel Sinkovics (abel at elte dot hu) 2011. Distributed under the Boost Software License, Version 1.0. (See accompanying file LICENSE_1_0.txt or copy at <a href="http://www.boost.org/LICENSE_1_0.txt">http://www.boost.org/LICENSE_1_0.txt</a>
+</p>
+
+<p><a href="reference.html">[up]</a></p>
+</body>
+</html>

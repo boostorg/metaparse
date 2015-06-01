@@ -1,0 +1,9 @@
+
+project meta_hs :
+  requirements
+    <include>.
+  ;
+
+exe handcrafted : main_handcrafted.cpp ;
+exe in_haskell : main_in_haskell.cpp ;
+
