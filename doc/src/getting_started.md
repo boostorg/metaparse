@@ -339,10 +339,10 @@ What you get now looks more simple: this is a vector of three elements:
 The result of parsing with a [`sequence`](sequence.html) is the `vector` of the
 individual parsing results.
 
-### 4.1. Tokeniser
+### 4.1. Tokenizer
 
-You might have noticed that our parsers have no separate tokenisers.
-Tokenisation is part of the parsing process. However, it makes the code of the
+You might have noticed that our parsers have no separate tokenizers.
+Tokenization is part of the parsing process. However, it makes the code of the
 parsers cleaner if we separate the two layers. The previous example has two
 types of tokens:
 
@@ -358,7 +358,7 @@ whitespaces, which can be ignored. That is what [`token`](token.html)`<...>`
 implements.
 
 So let's make the implementation of `exp_parser` cleaner by separating the
-tokenisation from the rest of the parser:
+tokenization from the rest of the parser:
 
 ```cpp
 > using int_token = token<int_>;
@@ -546,7 +546,7 @@ boost_::mpl::vector<
     boost_::mpl::vector<mpl_::char_<'+'>, mpl_::integral_c<int, 3> >,
     boost_::mpl::vector<mpl_::char_<'+'>, mpl_::integral_c<int, 4> >
   >
-> 
+>
 ```
 
 The result is a `vector` of two elements. The first element of this `vector` is
@@ -681,7 +681,7 @@ boost_::mpl::vector<
     boost_::mpl::vector<mpl_::char_<'+'>, mpl_::integral_c<int, 3> >,
     boost_::mpl::vector<mpl_::char_<'+'>, mpl_::integral_c<int, 4> >
   >
-> 
+>
 ```
 
 First let's summarise the result of [`any`](any.html)`<...>` using
@@ -1114,7 +1114,7 @@ familiar to you. Let's try `eval_binary_op` out:
 ```cpp
 > eval_binary_op<boost::mpl::int_<11>, '+', boost::mpl::int_<2>>::type
 mpl_::integral_c<int, 13>
-> eval_binary_op<boost::mpl::int_<13>, '-', boost::mpl::int_<2>>::type                                
+> eval_binary_op<boost::mpl::int_<13>, '-', boost::mpl::int_<2>>::type
 mpl_::integral_c<int, 11>
 ```
 <p align="right">[copy-paste friendly version](getting_started_17.html)</p>
@@ -1239,14 +1239,14 @@ try this out:
 ```cpp
 > exp_parser14::apply<BOOST_STRING("2 * 3")>::type
 mpl_::integral_c<int, 6>
-``` 
+```
 
 This works as expected. Let's try another, slightly more complicated expression:
 
 ```cpp
 > exp_parser14::apply<BOOST_STRING("1 + 2 * 3")>::type
 mpl_::integral_c<int, 9>
-``` 
+```
 
 This returns a wrong result. The value of this expression should be `7`, not
 `9`. The problem with this is that our current implementation does not take
@@ -1291,7 +1291,7 @@ it uses `mult_exp1` everywhere, where `exp_parser13` was using `int_token`.
 Let's try it out:
 
 ```cpp
-> exp_parser15::apply<BOOST_STRING("1 + 2 * 3")>::type                                              
+> exp_parser15::apply<BOOST_STRING("1 + 2 * 3")>::type
 mpl_::integral_c<int, 7>
 ```
 
@@ -1351,7 +1351,7 @@ division as well (and this new operator has the right precedence). Let's try it
 out:
 
 ```cpp
-> exp_parser16::apply<BOOST_STRING("8 / 4")>::type                                                  
+> exp_parser16::apply<BOOST_STRING("8 / 4")>::type
 mpl_::integral_c<int, 2>
 ```
 
@@ -1568,9 +1568,9 @@ only `exp_parser18`) use `unary_exp1` instead of `int_token`.
 Let's try these new parsers out:
 
 ```cpp
-> exp_parser18::apply<BOOST_STRING("---13")>::type                                                  
+> exp_parser18::apply<BOOST_STRING("---13")>::type
 mpl_::integral_c<int, -13>
-> exp_parser18::apply<BOOST_STRING("13")>::type                                                     
+> exp_parser18::apply<BOOST_STRING("13")>::type
 mpl_::integral_c<int, 13>
 ```
 <p align="right">[copy-paste friendly version](getting_started_29.html)</p>
@@ -1812,7 +1812,7 @@ We, the parser authors know: we expect a primary expression there. When
 
 To be able to return custom error messages (like `missing_primary_expression`)
 to the user, we need to define those error messages first. The error messages
-are represented by classes with some requriements:
+are represented by classes with some requirements:
 
 * It should have a static method called `get_value()` returning a `std::string`
   containing the description of the error.
