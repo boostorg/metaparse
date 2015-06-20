@@ -213,9 +213,9 @@ namespace boost
     {
       typedef c_str type;
       #if defined BOOST_USE_CONSTEXPR && !defined BOOST_NO_CONSTEXPR_C_STR
-        static constexpr char value[sizeof...(Cs)] = {Cs...};
+        static constexpr char value[sizeof...(Cs) + 1] = {Cs..., 0};
       #else
-        static const char value[sizeof...(Cs)];
+        static const char value[sizeof...(Cs) + 1];
       #endif
     };
 
@@ -230,7 +230,7 @@ namespace boost
     #else
       template <char... Cs>
       const char c_str<boost::metaparse::v1::string<Cs...>>::value[]
-        = {Cs...};
+        = {Cs..., 0};
     #endif
 
 #else
