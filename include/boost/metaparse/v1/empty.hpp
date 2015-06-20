@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_EMPTY_HPP
-#define BOOST_METAPARSE_V2_EMPTY_HPP
+#ifndef BOOST_METAPARSE_V1_EMPTY_HPP
+#define BOOST_METAPARSE_V1_EMPTY_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2010 - 2011.
 // Distributed under the Boost Software License, Version 1.0.

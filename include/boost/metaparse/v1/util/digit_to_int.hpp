@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_UTIL_DIGIT_TO_INT_HPP
-#define BOOST_METAPARSE_V2_UTIL_DIGIT_TO_INT_HPP
+#ifndef BOOST_METAPARSE_V1_UTIL_DIGIT_TO_INT_HPP
+#define BOOST_METAPARSE_V1_UTIL_DIGIT_TO_INT_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2009 - 2010.
 // Distributed under the Boost Software License, Version 1.0.

@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_ERROR_LETTER_EXPECTED_HPP
-#define BOOST_METAPARSE_V2_ERROR_LETTER_EXPECTED_HPP
+#ifndef BOOST_METAPARSE_V1_ERROR_LETTER_EXPECTED_HPP
+#define BOOST_METAPARSE_V1_ERROR_LETTER_EXPECTED_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.
@@ -16,7 +16,7 @@ namespace boost
     {
       namespace error
       {
-        BOOST_V2_DEFINE_ERROR(letter_expected, "Letter expected");
+        BOOST_V1_DEFINE_ERROR(letter_expected, "Letter expected");
       }
     }
   }

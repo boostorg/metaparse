@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_FOLDRF_HPP
-#define BOOST_METAPARSE_V2_FOLDRF_HPP
+#ifndef BOOST_METAPARSE_V1_FOLDRF_HPP
+#define BOOST_METAPARSE_V1_FOLDRF_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu) 2015.
 // Distributed under the Boost Software License, Version 1.0.

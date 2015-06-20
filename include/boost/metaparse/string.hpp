@@ -12,7 +12,7 @@
 #ifdef BOOST_STRING
 #  error BOOST_STRING already defined
 #endif
-#define BOOST_STRING BOOST_V2_STRING
+#define BOOST_STRING BOOST_V1_STRING
 
 namespace boost
 {

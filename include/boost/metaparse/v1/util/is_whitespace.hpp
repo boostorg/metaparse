@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_UTIL_IS_WHITESPACE_HPP
-#define BOOST_METAPARSE_V2_UTIL_IS_WHITESPACE_HPP
+#ifndef BOOST_METAPARSE_V1_UTIL_IS_WHITESPACE_HPP
+#define BOOST_METAPARSE_V1_UTIL_IS_WHITESPACE_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2009 - 2010.
 // Distributed under the Boost Software License, Version 1.0.

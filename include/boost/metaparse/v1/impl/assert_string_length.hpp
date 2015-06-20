@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_IMPL_ASSERT_STRING_LENGTH_HPP
-#define BOOST_METAPARSE_V2_IMPL_ASSERT_STRING_LENGTH_HPP
+#ifndef BOOST_METAPARSE_V1_IMPL_ASSERT_STRING_LENGTH_HPP
+#define BOOST_METAPARSE_V1_IMPL_ASSERT_STRING_LENGTH_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2014.
 // Distributed under the Boost Software License, Version 1.0.

@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_FWD_ACCEPT_HPP
-#define BOOST_METAPARSE_V2_FWD_ACCEPT_HPP
+#ifndef BOOST_METAPARSE_V1_FWD_ACCEPT_HPP
+#define BOOST_METAPARSE_V1_FWD_ACCEPT_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2014.
 // Distributed under the Boost Software License, Version 1.0.

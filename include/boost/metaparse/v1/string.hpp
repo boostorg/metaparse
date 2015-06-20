@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_STRING_HPP
-#define BOOST_METAPARSE_V2_STRING_HPP
+#ifndef BOOST_METAPARSE_V1_STRING_HPP
+#define BOOST_METAPARSE_V1_STRING_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2012.
 // Distributed under the Boost Software License, Version 1.0.
@@ -362,21 +362,21 @@ namespace boost
   }
 }
 
-  #ifdef BOOST_V2_STRING_N
-  #  error BOOST_V2_STRING_N already defined
+  #ifdef BOOST_V1_STRING_N
+  #  error BOOST_V1_STRING_N already defined
   #endif
-  #define BOOST_V2_STRING_N(z, n, s) \
+  #define BOOST_V1_STRING_N(z, n, s) \
     boost::metaparse::v1::impl::string_at((s), n)
 
-  #ifdef BOOST_V2_STRING
-  #  error BOOST_V2_STRING already defined
+  #ifdef BOOST_V1_STRING
+  #  error BOOST_V1_STRING already defined
   #endif
-  #define BOOST_V2_STRING(s) \
+  #define BOOST_V1_STRING(s) \
     boost::metaparse::v1::impl::assert_string_length< \
       sizeof(s) - 1, \
       boost::metaparse::v1::impl::remove_trailing_no_chars< \
         boost::metaparse::v1::string< \
-          BOOST_PP_ENUM(BOOST_LIMIT_STRING_SIZE, BOOST_V2_STRING_N, s) \
+          BOOST_PP_ENUM(BOOST_LIMIT_STRING_SIZE, BOOST_V1_STRING_N, s) \
         > \
       > \
     >::type
@@ -386,13 +386,13 @@ namespace boost
   // Include it only when it is needed
   #include <boost/static_assert.hpp>
 
-  #ifdef BOOST_V2_STRING
-  #  error BOOST_V2_STRING already defined
+  #ifdef BOOST_V1_STRING
+  #  error BOOST_V1_STRING already defined
   #endif
-  #define BOOST_V2_STRING(s) \
+  #define BOOST_V1_STRING(s) \
     BOOST_STATIC_ASSERT_MSG(false, "BOOST_STRING is not supported")
 
-  #define BOOST_V2_CONFIG_NO_BOOST_STRING
+  #define BOOST_V1_CONFIG_NO_BOOST_STRING
 
 #endif
 

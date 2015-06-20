@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_DEFINE_ERROR_HPP
-#define BOOST_METAPARSE_V2_DEFINE_ERROR_HPP
+#ifndef BOOST_METAPARSE_V1_DEFINE_ERROR_HPP
+#define BOOST_METAPARSE_V1_DEFINE_ERROR_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.
@@ -8,10 +8,10 @@
 
 #include <string>
 
-#ifdef BOOST_V2_DEFINE_ERROR
-#  error BOOST_V2_DEFINE_ERROR already defined
+#ifdef BOOST_V1_DEFINE_ERROR
+#  error BOOST_V1_DEFINE_ERROR already defined
 #endif
-#define BOOST_V2_DEFINE_ERROR(name, msg) \
+#define BOOST_V1_DEFINE_ERROR(name, msg) \
   struct name \
   { \
     typedef name type; \

@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_ERROR_UNPAIRED_HPP
-#define BOOST_METAPARSE_V2_ERROR_UNPAIRED_HPP
+#ifndef BOOST_METAPARSE_V1_ERROR_UNPAIRED_HPP
+#define BOOST_METAPARSE_V1_ERROR_UNPAIRED_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2015.
 // Distributed under the Boost Software License, Version 1.0.

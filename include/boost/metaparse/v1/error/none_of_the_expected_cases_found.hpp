@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_ERROR_NONE_OF_THE_EXPECTED_CASES_FOUND_HPP
-#define BOOST_METAPARSE_V2_ERROR_NONE_OF_THE_EXPECTED_CASES_FOUND_HPP
+#ifndef BOOST_METAPARSE_V1_ERROR_NONE_OF_THE_EXPECTED_CASES_FOUND_HPP
+#define BOOST_METAPARSE_V1_ERROR_NONE_OF_THE_EXPECTED_CASES_FOUND_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.
@@ -16,7 +16,7 @@ namespace boost
     {
       namespace error
       {
-        BOOST_V2_DEFINE_ERROR(
+        BOOST_V1_DEFINE_ERROR(
           none_of_the_expected_cases_found,
           "None of the expected cases found"
         );

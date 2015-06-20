@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_IMPL_IS_ANY_HPP
-#define BOOST_METAPARSE_V2_IMPL_IS_ANY_HPP
+#ifndef BOOST_METAPARSE_V1_IMPL_IS_ANY_HPP
+#define BOOST_METAPARSE_V1_IMPL_IS_ANY_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.

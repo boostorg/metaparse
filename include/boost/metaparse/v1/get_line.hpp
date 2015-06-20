@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_GET_LINE_HPP
-#define BOOST_METAPARSE_V2_GET_LINE_HPP
+#ifndef BOOST_METAPARSE_V1_GET_LINE_HPP
+#define BOOST_METAPARSE_V1_GET_LINE_HPP
 
 //    Copyright Abel Sinkovics (abel@sinkovics.hu) 2011.
 // Distributed under the Boost Software License, Version 1.0.

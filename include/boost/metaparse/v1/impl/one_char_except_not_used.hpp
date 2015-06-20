@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V2_IMPL_ONE_CHAR_EXCEPT_NOT_USED_HPP
-#define BOOST_METAPARSE_V2_IMPL_ONE_CHAR_EXCEPT_NOT_USED_HPP
+#ifndef BOOST_METAPARSE_V1_IMPL_ONE_CHAR_EXCEPT_NOT_USED_HPP
+#define BOOST_METAPARSE_V1_IMPL_ONE_CHAR_EXCEPT_NOT_USED_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.
