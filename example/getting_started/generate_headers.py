@@ -92,7 +92,7 @@ def gen_headers(md_filename, path):
   for s in sections:
     prev_name = prev_section.replace('_', '.')
     with open(os.path.join(path, s + '.hpp'), 'w') as f:
-      include_guard = 'MPLLIBS_METAPARSE_GETTING_STARTED_%s_HPP' % (s)
+      include_guard = 'BOOST_METAPARSE_GETTING_STARTED_%s_HPP' % (s)
       f.write('#ifndef %s\n' % (include_guard))
       f.write('#define %s\n' % (include_guard))
       f.write('\n')
@@ -121,7 +121,7 @@ def main():
   parser.add_argument(
     '--src',
     dest='src',
-    default='../../doc/getting_started.md',
+    default='../../doc/src/getting_started.md',
     help='The .md source of the Getting Started guide'
   )
   parser.add_argument(
