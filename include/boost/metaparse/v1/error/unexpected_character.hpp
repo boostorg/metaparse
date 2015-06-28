@@ -16,7 +16,10 @@ namespace boost
     {
       namespace error
       {
-        BOOST_V1_DEFINE_ERROR(unexpected_character, "Unexpected character");
+        BOOST_METAPARSE_V1_DEFINE_ERROR(
+          unexpected_character,
+          "Unexpected character"
+        );
       }
     }
   }

@@ -84,7 +84,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 <span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
 
-BOOST_DEFINE_ERROR(digit_expected, <span class="st">&quot;Digit expected&quot;</span>);
+BOOST_METAPARSE_DEFINE_ERROR(digit_expected, <span class="st">&quot;Digit expected&quot;</span>);
 
 <span class="kw">using</span> accept_digit = accept_when&lt;one_char, util::is_digit&lt;&gt;, digit_expected&gt;;
 

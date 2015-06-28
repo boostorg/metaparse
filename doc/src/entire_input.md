@@ -61,7 +61,7 @@ first_of<
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(extra_chars_at_end, "Extra chars at end");
+BOOST_METAPARSE_DEFINE_ERROR(extra_chars_at_end, "Extra chars at end");
 
 using int_parser = entire_input<int_, extra_chars_at_end>;
 

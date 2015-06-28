@@ -169,7 +169,7 @@ choosing among the `fold*` parsers.
 ## Utilities
 
 * [debug_parsing_error](debug_parsing_error.html)
-* [BOOST_DEFINE_ERROR](BOOST_DEFINE_ERROR.html)
+* [BOOST_METAPARSE_DEFINE_ERROR](BOOST_METAPARSE_DEFINE_ERROR.html)
 * [v1::swap](swap.html)
 
 Metaparse uses a number of general purpose metafunctions and metafunction

@@ -72,7 +72,7 @@ It is equivalent to `boost::mpl::apply<f, p::apply<s, pos>::type>` otherwise.
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(name_expected, "Name expected");
+BOOST_METAPARSE_DEFINE_ERROR(name_expected, "Name expected");
 
 using keyword_name = token<keyword<BOOST_STRING("name")>>;
 using name_token = token<any1<letter>>;

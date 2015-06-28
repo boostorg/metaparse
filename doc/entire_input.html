@@ -76,7 +76,7 @@ first_of&lt;
 
 <span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
 
-BOOST_DEFINE_ERROR(extra_chars_at_end, <span class="st">&quot;Extra chars at end&quot;</span>);
+BOOST_METAPARSE_DEFINE_ERROR(extra_chars_at_end, <span class="st">&quot;Extra chars at end&quot;</span>);
 
 <span class="kw">using</span> int_parser = entire_input&lt;int_, extra_chars_at_end&gt;;
 

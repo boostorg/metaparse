@@ -1,9 +1,9 @@
-# BOOST_DEFINE_ERROR
+# BOOST_METAPARSE_DEFINE_ERROR
 
 ## Synopsis
 
 ```cpp
-#define BOOST_DEFINE_ERROR(name, msg) \
+#define BOOST_METAPARSE_DEFINE_ERROR(name, msg) \
   // unspecified
 ```
 
@@ -39,7 +39,7 @@ string literal containing the description of the error.
 For any `n` name and `m` string literal, given the following is defined:
 
 ```cpp
-BOOST_DEFINE_ERROR(n, m);
+BOOST_METAPARSE_DEFINE_ERROR(n, m);
 ```
 
 the following pairs of expressions are equivalent:
@@ -72,7 +72,7 @@ n
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(age_expected, "Age expected");
+BOOST_METAPARSE_DEFINE_ERROR(age_expected, "Age expected");
 
 using name_token = token<any1<letter>>;
 using age_token = token<change_error_message<int_, age_expected>>;

@@ -12,7 +12,7 @@
 
 namespace
 {
-  BOOST_DEFINE_ERROR(test_error, "test error");
+  BOOST_METAPARSE_DEFINE_ERROR(test_error, "test error");
 }
 
 BOOST_AUTO_TEST_CASE(test_define_error)

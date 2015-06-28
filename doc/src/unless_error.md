@@ -57,7 +57,7 @@ boost::mpl::if_<is_error<t::type>::type, t, c>
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(sample_error, "Sample error message");
+BOOST_METAPARSE_DEFINE_ERROR(sample_error, "Sample error message");
 
 using accept1 =
   accept<std::integral_constant<int, 11>, BOOST_STRING("foo"), start>;

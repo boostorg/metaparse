@@ -1830,7 +1830,7 @@ defining these classes. To get this macro, include the following header:
 Let's define the [parsing error message](parsing_error_message.html):
 
 ```cpp
-> BOOST_DEFINE_ERROR(missing_primary_expression, "Missing primary expression");
+> BOOST_METAPARSE_DEFINE_ERROR(missing_primary_expression, "Missing primary expression");
 ```
 
 This defines a class called `missing_primary_expression` representing this error

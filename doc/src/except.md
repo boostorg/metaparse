@@ -76,7 +76,10 @@ message `msg` otherwise.
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(number_is_not_allowed, "numbers are not allowed here");
+BOOST_METAPARSE_DEFINE_ERROR(
+  number_is_not_allowed,
+  "numbers are not allowed here"
+);
 
 using except_int =
   except<int_, std::integral_constant<int, 1>, number_is_not_allowed>;

@@ -40,7 +40,7 @@ Returns the error message of a parsing failure.
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(sample_error, "Sample error message");
+BOOST_METAPARSE_DEFINE_ERROR(sample_error, "Sample error message");
 
 struct returns_reject
 {

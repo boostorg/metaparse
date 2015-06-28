@@ -16,7 +16,7 @@ namespace boost
     {
       namespace error
       {
-        BOOST_V1_DEFINE_ERROR(
+        BOOST_METAPARSE_V1_DEFINE_ERROR(
           unexpected_end_of_input,
           "Unexpected end of input"
         );

@@ -9,7 +9,7 @@
 // Definitions of section 11.2
 #include <boost/metaparse/define_error.hpp>
 
-BOOST_DEFINE_ERROR(missing_primary_expression, "Missing primary expression");
+BOOST_METAPARSE_DEFINE_ERROR(missing_primary_expression, "Missing primary expression");
 
 struct plus_exp3;
 

@@ -70,7 +70,7 @@ otherwise.
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(name_expected, "Name expected");
+BOOST_METAPARSE_DEFINE_ERROR(name_expected, "Name expected");
 
 struct return_name_expected
 {

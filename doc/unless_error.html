@@ -74,7 +74,7 @@ boost::mpl::if_&lt;is_error&lt;t::type&gt;::type, t, c&gt;</code></pre>
 
 <span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
 
-BOOST_DEFINE_ERROR(sample_error, <span class="st">&quot;Sample error message&quot;</span>);
+BOOST_METAPARSE_DEFINE_ERROR(sample_error, <span class="st">&quot;Sample error message&quot;</span>);
 
 <span class="kw">using</span> accept1 =
   accept&lt;std::integral_constant&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;, BOOST_STRING(<span class="st">&quot;foo&quot;</span>), start&gt;;

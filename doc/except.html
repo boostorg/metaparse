@@ -87,7 +87,10 @@ pos</code></pre>
 
 <span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
 
-BOOST_DEFINE_ERROR(number_is_not_allowed, <span class="st">&quot;numbers are not allowed here&quot;</span>);
+BOOST_METAPARSE_DEFINE_ERROR(
+  number_is_not_allowed,
+  <span class="st">&quot;numbers are not allowed here&quot;</span>
+);
 
 <span class="kw">using</span> except_int =
   except&lt;int_, std::integral_constant&lt;<span class="dt">int</span>, <span class="dv">1</span>&gt;, number_is_not_allowed&gt;;

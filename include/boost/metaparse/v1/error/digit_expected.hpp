@@ -16,7 +16,7 @@ namespace boost
     {
       namespace error
       {
-        BOOST_V1_DEFINE_ERROR(digit_expected, "Digit expected");
+        BOOST_METAPARSE_V1_DEFINE_ERROR(digit_expected, "Digit expected");
       }
     }
   }

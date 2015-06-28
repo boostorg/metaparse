@@ -8,10 +8,10 @@
 
 #include <boost/metaparse/v1/define_error.hpp>
 
-#ifdef BOOST_DEFINE_ERROR
-#  error BOOST_DEFINE_ERROR already defined
+#ifdef BOOST_METAPARSE_DEFINE_ERROR
+#  error BOOST_METAPARSE_DEFINE_ERROR already defined
 #endif
-#define BOOST_DEFINE_ERROR BOOST_V1_DEFINE_ERROR
+#define BOOST_METAPARSE_DEFINE_ERROR BOOST_METAPARSE_V1_DEFINE_ERROR
 
 #endif
 

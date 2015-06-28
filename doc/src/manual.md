@@ -50,9 +50,9 @@ An error is described using a compile-time data structure. It contains
 information about the source position where the error was detected and some
 [description](parsing_error_message.html) about the error.
 [`debug_parsing_error`](debug_parsing_error.html) can be used to display the
-error message. Metaparse provides the [`BOOST_DEFINE_ERROR`](
-BOOST_DEFINE_ERROR.html) macro for defining simple [parsing error message](
-parsing_error_message.html)s.
+error message. Metaparse provides the [`BOOST_METAPARSE_DEFINE_ERROR`](
+BOOST_METAPARSE_DEFINE_ERROR.html) macro for defining simple [parsing error
+message](parsing_error_message.html)s.
 
 ### Some examples of simple parsers
 

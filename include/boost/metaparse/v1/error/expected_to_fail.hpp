@@ -16,7 +16,10 @@ namespace boost
     {
       namespace error
       {
-        BOOST_V1_DEFINE_ERROR(expected_to_fail, "Parser expected to fail");
+        BOOST_METAPARSE_V1_DEFINE_ERROR(
+          expected_to_fail,
+          "Parser expected to fail"
+        );
       }
     }
   }

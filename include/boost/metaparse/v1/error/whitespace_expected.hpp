@@ -16,7 +16,10 @@ namespace boost
     {
       namespace error
       {
-        BOOST_V1_DEFINE_ERROR(whitespace_expected, "Whitespace expected");
+        BOOST_METAPARSE_V1_DEFINE_ERROR(
+          whitespace_expected,
+          "Whitespace expected"
+        );
       }
     }
   }

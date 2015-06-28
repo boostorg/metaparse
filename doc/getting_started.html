@@ -44,7 +44,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 </ul></li>
 <li><a href="#parsing-simple-expressions">4. Parsing simple expressions</a>
 <ul>
-<li><a href="#tokeniser">4.1. Tokeniser</a></li>
+<li><a href="#tokenizer">4.1. Tokenizer</a></li>
 <li><a href="#evaluating-the-expression">4.2. Evaluating the expression</a></li>
 </ul></li>
 <li><a href="#parsing-longer-expressions">5. Parsing longer expressions</a>
@@ -200,14 +200,14 @@ boost_::mpl::vector&lt;mpl_::integral_c&lt;<span class="dt">int</span>, <span cl
 <li><code>mpl_::integral_c&lt;int, 2&gt; &gt;</code> This is the result of parsing with <a href="token.html"><code>token</code></a><code>&lt;</code><a href="int_.html"><code>int_</code></a><code>&gt;</code>.</li>
 </ul>
 <p>The result of parsing with a <a href="sequence.html"><code>sequence</code></a> is the <code>vector</code> of the individual parsing results.</p>
-<h3 id="tokeniser">4.1. Tokeniser</h3>
-<p>You might have noticed that our parsers have no separate tokenisers. Tokenisation is part of the parsing process. However, it makes the code of the parsers cleaner if we separate the two layers. The previous example has two types of tokens:</p>
+<h3 id="tokenizer">4.1. Tokenizer</h3>
+<p>You might have noticed that our parsers have no separate tokenizers. Tokenization is part of the parsing process. However, it makes the code of the parsers cleaner if we separate the two layers. The previous example has two types of tokens:</p>
 <ul>
 <li>a number (eg. <code>13</code>)</li>
 <li>a <code>+</code> symbol</li>
 </ul>
 <p>In our last solution we parsed them by using the <a href="token.html"><code>token</code></a><code>&lt;</code><a href="int_html"><code>int_</code></a><code>&gt;</code> and <a href="token.html"><code>token</code></a><code>&lt;</code><a href="lit_c.html"><code>lit_c</code></a><code>&lt;'+'&gt;&gt;</code> parsers. Have you noticed a pattern? We wrap the parsers of the tokens with <a href="token.html"><code>token</code></a><code>&lt;...&gt;</code>. It is not just syntactic sugar. Our tokens might be followed (separated) by whitespaces, which can be ignored. That is what <a href="token.html"><code>token</code></a><code>&lt;...&gt;</code> implements.</p>
-<p>So let's make the implementation of <code>exp_parser</code> cleaner by separating the tokenisation from the rest of the parser:</p>
+<p>So let's make the implementation of <code>exp_parser</code> cleaner by separating the tokenization from the rest of the parser:</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">using</span> int_token = token&lt;int_&gt;;
 &gt; <span class="kw">using</span> plus_token = token&lt;lit_c&lt;&#39;+&#39;&gt;&gt;;</code></pre>
 <p align="right">
@@ -317,7 +317,7 @@ mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;<
     boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">3</span>&gt; &gt;,
     boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">4</span>&gt; &gt;
   &gt;
-&gt; </code></pre>
+&gt;</code></pre>
 <p>The result is a <code>vector</code> of two elements. The first element of this <code>vector</code> is the result of parsing the input with <code>int_token</code>, the second element of this <code>vector</code> is the result of parsing the input with <a href="any.html"><code>any</code></a><code>&lt;</code><a href="sequence.html"><code>sequence</code></a><code>&lt;plus_token, int_token&gt;&gt;</code>. This second element is also a <code>vector</code>. Each element of this <code>vector</code> is the result of parsing the input with <a href="sequence.html"><code>sequence</code></a><code>&lt;plus_token, int_token&gt;</code> once. Here is a diagram showing how <code>exp_parser7</code> parses the input <code>1 + 2 + 3 + 4</code>:</p>
 <p align="center">
   
@@ -389,7 +389,7 @@ mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;<
     boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">3</span>&gt; &gt;,
     boost_::mpl::vector&lt;mpl_::char_&lt;&#39;+&#39;&gt;, mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">4</span>&gt; &gt;
   &gt;
-&gt; </code></pre>
+&gt;</code></pre>
 <p>First let's summarise the result of <a href="any.html"><code>any</code></a><code>&lt;...&gt;</code> using <code>boost::mpl::fold</code>. This is a <code>vector</code> of <code>vector</code>s, but that's fine. <code>boost::mpl::fold</code> doesn't care about what the elements of the <code>vector</code> are. They can be numbers, <code>vector</code>s or something else as well. The function we use to add two numbers together (which was a lambda expression in our previous example) gets these elements as its argument and has to deal with them. So to summarise the elements of the <code>vector</code>s we get as the result of parsing with <a href="any.html"><code>any</code></a><code>&lt;...&gt;</code>, we need to write a <a href="metafunction.html">metafunction</a> that can deal with these elements. One such element is <code>boost_::mpl::vector&lt;mpl_::char&lt;'+'&gt;, mpl_::integral_c&lt;int, 2&gt;&gt;</code>. Here is a <a href="metafunction.html">metafunction</a> that can be used in a <code>boost::mpl::fold</code>:</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">template</span> &lt;<span class="kw">class</span> Sum, <span class="kw">class</span> Item&gt; \
 ...&gt;   <span class="kw">struct</span> sum_items : \
@@ -651,7 +651,7 @@ mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">6</span>&gt;</
 <p>The second and third commands define the operation for the cases when the operator is <code>+</code> and <code>-</code>. When the <code>eval_binary_op</code> metafunction is called, the C++ compiler chooses one of the definitions based on the operator. If you have functional programming experience this approach (pattern matching) might be familiar to you. Let's try <code>eval_binary_op</code> out:</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; eval_binary_op&lt;boost::mpl::int_&lt;<span class="dv">11</span>&gt;, &#39;+&#39;, boost::mpl::int_&lt;<span class="dv">2</span>&gt;&gt;::type
 mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;
-&gt; eval_binary_op&lt;boost::mpl::int_&lt;<span class="dv">13</span>&gt;, &#39;-&#39;, boost::mpl::int_&lt;<span class="dv">2</span>&gt;&gt;::type                                
+&gt; eval_binary_op&lt;boost::mpl::int_&lt;<span class="dv">13</span>&gt;, &#39;-&#39;, boost::mpl::int_&lt;<span class="dv">2</span>&gt;&gt;::type
 mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">11</span>&gt;</code></pre>
 <p align="right">
 <a href="getting_started_17.html">copy-paste friendly version</a>
@@ -749,7 +749,7 @@ mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">9</span>&gt;</
 </p>
 
 <p>Note that this is almost the same as <code>exp_parser13</code>. The only difference is that it uses <code>mult_exp1</code> everywhere, where <code>exp_parser13</code> was using <code>int_token</code>. Let's try it out:</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser15::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 * 3&quot;</span>)&gt;::type                                              
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser15::apply&lt;BOOST_STRING(<span class="st">&quot;1 + 2 * 3&quot;</span>)&gt;::type
 mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">7</span>&gt;</code></pre>
 <p>This takes the precedence rules into account. The following diagram shows how it works:</p>
 <p align="center">
@@ -785,7 +785,7 @@ mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">7</span>&gt;</
 <p>We have to include <code>&lt;boost/mpl/divides.hpp&gt;</code> to get a <a href="metafunction.html">metafunction</a> for doing a division. We need to extend the <code>eval_binary_op</code> <a href="metafunction.html">metafunction</a> to support division as well. We had to introduce a new token, <code>divides_token</code> that can parse the <code>/</code> symbol.</p>
 <p>We have extended <code>mult_exp1</code> to accept either a <code>times_token</code> or a <code>divides_token</code> as the operator. This extended parser is called <code>mult_exp2</code>.</p>
 <p>We have written a new parser, <code>exp_parser16</code> which is the same as <code>exp_parser15</code> but uses <code>mult_exp2</code> instead of <code>mult_exp1</code>. This can parse expressions using division as well (and this new operator has the right precedence). Let's try it out:</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser16::apply&lt;BOOST_STRING(<span class="st">&quot;8 / 4&quot;</span>)&gt;::type                                                  
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser16::apply&lt;BOOST_STRING(<span class="st">&quot;8 / 4&quot;</span>)&gt;::type
 mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">2</span>&gt;</code></pre>
 <p>This works as expected. But what should be the value of <code>8 / 4 / 2</code>? The answer can be either <code>1</code> or <code>4</code> depending on the associativity of the division operator. If it is left associative, then this expressions is interpreted as <code>(8 / 4) / 2</code> and the result is <code>1</code>. If it is right associative, this expression is interpreted as <code>8 / (4 / 2)</code> and the result is <code>4</code>.</p>
 <p>Try to guess which result our current implementation gives before trying it out. Once you have verified the current behaviour, continue reading.</p>
@@ -909,9 +909,9 @@ mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">4</span>&gt;</
 </p>
 
 <p>Let's try these new parsers out:</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser18::apply&lt;BOOST_STRING(<span class="st">&quot;---13&quot;</span>)&gt;::type                                                  
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; exp_parser18::apply&lt;BOOST_STRING(<span class="st">&quot;---13&quot;</span>)&gt;::type
 mpl_::integral_c&lt;<span class="dt">int</span>, -<span class="dv">13</span>&gt;
-&gt; exp_parser18::apply&lt;BOOST_STRING(<span class="st">&quot;13&quot;</span>)&gt;::type                                                     
+&gt; exp_parser18::apply&lt;BOOST_STRING(<span class="st">&quot;13&quot;</span>)&gt;::type
 mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">13</span>&gt;</code></pre>
 <p align="right">
 <a href="getting_started_29.html">copy-paste friendly version</a>
@@ -1034,7 +1034,7 @@ mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">9</span>&gt;</
 </ul>
 <p>We, the parser authors know: we expect a primary expression there. When <a href="one_of.html"><code>one_of</code></a> fails, it means that none was found.</p>
 <h3 id="defining-custom-errors">11.2. Defining custom errors</h3>
-<p>To be able to return custom error messages (like <code>missing_primary_expression</code>) to the user, we need to define those error messages first. The error messages are represented by classes with some requriements:</p>
+<p>To be able to return custom error messages (like <code>missing_primary_expression</code>) to the user, we need to define those error messages first. The error messages are represented by classes with some requirements:</p>
 <ul>
 <li>It should have a static method called <code>get_value()</code> returning a <code>std::string</code> containing the description of the error.</li>
 <li>It should be a <a href="metaprogramming_value.html">template metaprogramming value</a>.</li>
@@ -1042,7 +1042,7 @@ mpl_::integral_c&lt;<span class="dt">int</span>, <span class="dv">9</span>&gt;</
 <p>These classes are called <a href="parsing_error_message.html">parsing error message</a>s. To make it easy to implement such classes and to make it difficult (if not impossible) to forget to fulfill a requirement, Metaparse provides a macro for defining these classes. To get this macro, include the following header:</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; #include &lt;boost/metaparse/define_error.hpp&gt;</code></pre>
 <p>Let's define the <a href="parsing_error_message.html">parsing error message</a>:</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; BOOST_DEFINE_ERROR(missing_primary_expression, <span class="st">&quot;Missing primary expression&quot;</span>);</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; BOOST_METAPARSE_DEFINE_ERROR(missing_primary_expression, <span class="st">&quot;Missing primary expression&quot;</span>);</code></pre>
 <p>This defines a class called <code>missing_primary_expression</code> representing this error message. What we need to do is making our parser return this error message when <a href="one_of.html"><code>one_of</code></a> fails.</p>
 <p>Let's define <code>plus_exp</code> and <code>paren_exp</code> first. Their definition does not change:</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">&gt; <span class="kw">struct</span> plus_exp3;

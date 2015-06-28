@@ -16,7 +16,10 @@ namespace boost
     {
       namespace error
       {
-        BOOST_V1_DEFINE_ERROR(end_of_input_expected, "End of input expected");
+        BOOST_METAPARSE_V1_DEFINE_ERROR(
+          end_of_input_expected,
+          "End of input expected"
+        );
       }
     }
   }

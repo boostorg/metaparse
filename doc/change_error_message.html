@@ -78,7 +78,7 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 <span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
 
-BOOST_DEFINE_ERROR(name_expected, <span class="st">&quot;Name expected&quot;</span>);
+BOOST_METAPARSE_DEFINE_ERROR(name_expected, <span class="st">&quot;Name expected&quot;</span>);
 
 <span class="kw">using</span> keyword_name = token&lt;keyword&lt;BOOST_STRING(<span class="st">&quot;name&quot;</span>)&gt;&gt;;
 <span class="kw">using</span> name_token = token&lt;any1&lt;letter&gt;&gt;;

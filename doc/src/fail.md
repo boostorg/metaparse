@@ -51,7 +51,7 @@ returns an error with `msg` as the error message.
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(sample_error, "This is an example parsing error");
+BOOST_METAPARSE_DEFINE_ERROR(sample_error, "This is an example parsing error");
 
 using fail_p = fail<sample_error>;
 

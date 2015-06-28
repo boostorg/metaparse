@@ -8,10 +8,10 @@
 
 #include <string>
 
-#ifdef BOOST_V1_DEFINE_ERROR
-#  error BOOST_V1_DEFINE_ERROR already defined
+#ifdef BOOST_METAPARSE_V1_DEFINE_ERROR
+#  error BOOST_METAPARSE_V1_DEFINE_ERROR already defined
 #endif
-#define BOOST_V1_DEFINE_ERROR(name, msg) \
+#define BOOST_METAPARSE_V1_DEFINE_ERROR(name, msg) \
   struct name \
   { \
     typedef name type; \

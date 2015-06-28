@@ -28,9 +28,9 @@ code > span.er { color: #ff0000; font-weight: bold; }
   <link rel="stylesheet" href="style.css" type="text/css" />
 </head>
 <body>
-<h1 id="boost_define_error">BOOST_DEFINE_ERROR</h1>
+<h1 id="boost_metaparse_define_error">BOOST_METAPARSE_DEFINE_ERROR</h1>
 <h2 id="synopsis">Synopsis</h2>
-<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#define BOOST_DEFINE_ERROR(name, msg) \</span>
+<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#define BOOST_METAPARSE_DEFINE_ERROR(name, msg) \</span>
   <span class="co">// unspecified</span></code></pre>
 <p>This is a macro.</p>
 <h2 id="arguments">Arguments</h2>
@@ -59,7 +59,7 @@ string literal
 <pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;boost/metaparse/define_error.hpp&gt;</span></code></pre>
 <h2 id="expression-semantics">Expression semantics</h2>
 <p>For any <code>n</code> name and <code>m</code> string literal, given the following is defined:</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">BOOST_DEFINE_ERROR(n, m);</code></pre>
+<pre class="sourceCode cpp"><code class="sourceCode cpp">BOOST_METAPARSE_DEFINE_ERROR(n, m);</code></pre>
 <p>the following pairs of expressions are equivalent:</p>
 <pre class="sourceCode cpp"><code class="sourceCode cpp">n::get_value()
 std::string(m)</code></pre>
@@ -81,7 +81,7 @@ n</code></pre>
 
 <span class="kw">using</span> <span class="kw">namespace</span> boost::metaparse;
 
-BOOST_DEFINE_ERROR(age_expected, <span class="st">&quot;Age expected&quot;</span>);
+BOOST_METAPARSE_DEFINE_ERROR(age_expected, <span class="st">&quot;Age expected&quot;</span>);
 
 <span class="kw">using</span> name_token = token&lt;any1&lt;letter&gt;&gt;;
 <span class="kw">using</span> age_token = token&lt;change_error_message&lt;int_, age_expected&gt;&gt;;

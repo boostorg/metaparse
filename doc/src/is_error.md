@@ -51,7 +51,7 @@ value, for any other `c` class `is_error<c>::type` is a wrapped compile-time
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(sample_error, "Sample error message");
+BOOST_METAPARSE_DEFINE_ERROR(sample_error, "Sample error message");
 
 struct returns_reject
 {

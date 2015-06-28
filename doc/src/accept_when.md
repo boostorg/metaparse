@@ -77,7 +77,7 @@ fail<msg>
 
 using namespace boost::metaparse;
 
-BOOST_DEFINE_ERROR(digit_expected, "Digit expected");
+BOOST_METAPARSE_DEFINE_ERROR(digit_expected, "Digit expected");
 
 using accept_digit = accept_when<one_char, util::is_digit<>, digit_expected>;
 
