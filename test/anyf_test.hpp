@@ -10,6 +10,8 @@
 #include <boost/metaparse/start.hpp>
 #include <boost/metaparse/get_result.hpp>
 #include <boost/metaparse/is_error.hpp>
+#include <boost/metaparse/always.hpp>
+#include <boost/metaparse/one_char.hpp>
 
 #include "common.hpp"
  
@@ -29,6 +31,8 @@ DEFINE_TEST_CASE
   using boost::metaparse::start;
   using boost::metaparse::is_error;
   using boost::metaparse::sequence;
+  using boost::metaparse::always;
+  using boost::metaparse::one_char;
   
   using boost::mpl::equal;
   using boost::mpl::equal_to;
@@ -39,6 +43,7 @@ DEFINE_TEST_CASE
   
   typedef sequence<letter, letter> letter_pair;
   typedef anyf<letter_pair> anyf_letter_pair;
+  typedef always<one_char, int> always_int;
 
   typedef boost::mpl::vector_c<char, 'h','e','l','l','o','w','0'> chars6;
 
@@ -133,6 +138,14 @@ DEFINE_TEST_CASE
         get_result<apply_wrap2<anyf_letter_pair, chars6, start> >::type
       >::type,
       int3
+    >
+  ));
+
+  // test_no_extra_evaluation
+  BOOST_MPL_ASSERT((
+    equal<
+      get_result<apply_wrap2<anyf<always_int>, str_ca, start> >::type,
+      vector<int, int>
     >
   ));
 }

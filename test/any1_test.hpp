@@ -9,6 +9,8 @@
 #include <boost/metaparse/is_error.hpp>
 #include <boost/metaparse/start.hpp>
 #include <boost/metaparse/get_result.hpp>
+#include <boost/metaparse/always.hpp>
+#include <boost/metaparse/one_char.hpp>
 
 #include "common.hpp"
  
@@ -16,6 +18,7 @@
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/equal.hpp>
 #include <boost/mpl/vector_c.hpp>
+#include <boost/mpl/vector.hpp>
 #include <boost/mpl/assert.hpp>
 
 #include <boost/test/unit_test.hpp>
@@ -26,13 +29,17 @@ DEFINE_TEST_CASE
   using boost::metaparse::letter;
   using boost::metaparse::start;
   using boost::metaparse::is_error;
+  using boost::metaparse::always;
+  using boost::metaparse::one_char;
   
   using boost::mpl::equal;
   using boost::mpl::apply_wrap2;
   using boost::mpl::list;
   using boost::mpl::vector_c;
+  using boost::mpl::vector;
 
   typedef any1<letter> any1_letter;
+  typedef always<one_char, int> always_int;
 
   // test_empty_input
   BOOST_MPL_ASSERT((is_error<apply_wrap2<any1_letter, str_, start> >));
@@ -77,6 +84,14 @@ DEFINE_TEST_CASE
     equal<
       get_result<apply_wrap2<any1_letter, chars5, start> >::type,
       vector_c<char, 'h', 'e', 'l', 'l', 'o'>
+    >
+  ));
+
+  // test_no_extra_evaluation
+  BOOST_MPL_ASSERT((
+    equal<
+      get_result<apply_wrap2<any1<always_int>, str_ca, start> >::type,
+      vector<int, int>
     >
   ));
 }
