@@ -62,12 +62,14 @@ using namespace boost::metaparse;
 using comma_int = last_of<lit_c<','>, int_>;
 
 static_assert(
-  is_error<comma_int::apply<BOOST_STRING("13"), start>>::type::value,
+  is_error<comma_int::apply<BOOST_METAPARSE_STRING("13"), start>>::type::value,
   "int without comma is rejected"
 );
 
 static_assert(
-  get_result<comma_int::apply<BOOST_STRING(",13"), start>>::type::value,
+  get_result<
+    comma_int::apply<BOOST_METAPARSE_STRING(",13"), start>
+  >::type::value,
   "the result is the result of the last parser"
 );
 ```

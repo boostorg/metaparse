@@ -72,14 +72,14 @@ using optional_number = one_of<int_, return_<default_value>>;
 
 static_assert(
   get_result<
-    optional_number::apply<BOOST_STRING("11"), start>
+    optional_number::apply<BOOST_METAPARSE_STRING("11"), start>
   >::type::value == 11,
   "when a number is provided, it is the result of parsing"
 );
 
 static_assert(
   get_result<
-    optional_number::apply<BOOST_STRING(""), start>
+    optional_number::apply<BOOST_METAPARSE_STRING(""), start>
   >::type::value == 13,
   "when no number is provided, the default value is the result of parsing"
 );

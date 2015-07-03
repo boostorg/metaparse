@@ -65,7 +65,7 @@ using a_plus_b = sequence<int_token, plus_token, int_token>;
 
 static_assert(
   boost::mpl::at_c<
-    get_result<a_plus_b::apply<BOOST_STRING("1 + 2"), start>>::type,
+    get_result<a_plus_b::apply<BOOST_METAPARSE_STRING("1 + 2"), start>>::type,
     0
   >::type::value == 1,
   "the first element of the sequence should be the first number"
@@ -73,7 +73,7 @@ static_assert(
 
 static_assert(
   boost::mpl::at_c<
-    get_result<a_plus_b::apply<BOOST_STRING("1 + 2"), start>>::type,
+    get_result<a_plus_b::apply<BOOST_METAPARSE_STRING("1 + 2"), start>>::type,
     1
   >::type::value == '+',
   "the second element of the sequence should be the plus"
@@ -81,14 +81,14 @@ static_assert(
 
 static_assert(
   boost::mpl::at_c<
-    get_result<a_plus_b::apply<BOOST_STRING("1 + 2"), start>>::type,
+    get_result<a_plus_b::apply<BOOST_METAPARSE_STRING("1 + 2"), start>>::type,
     2
   >::type::value == 2,
   "the third element of the sequence should be the second number"
 );
 
 static_assert(
-  is_error<a_plus_b::apply<BOOST_STRING("1 +"), start>>::type::value,
+  is_error<a_plus_b::apply<BOOST_METAPARSE_STRING("1 +"), start>>::type::value,
   "when not all of the parsers accept the input, sequence should fail"
 );
 ```

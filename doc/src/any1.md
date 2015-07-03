@@ -64,7 +64,7 @@ using digits = any1<digit_val>;
 
 static_assert(
   boost::mpl::equal<
-    get_result<digits::apply<BOOST_STRING("1234"), start>>::type,
+    get_result<digits::apply<BOOST_METAPARSE_STRING("1234"), start>>::type,
     boost::mpl::vector<
       boost::mpl::int_<1>,
       boost::mpl::int_<2>,
@@ -76,7 +76,7 @@ static_assert(
 );
 
 static_assert(
-  is_error<digits::apply<BOOST_STRING("x"), start>>::type::value,
+  is_error<digits::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "any1 should reject the input when it can't parse anything with digit_val"
 );
 ```
@@ -89,5 +89,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

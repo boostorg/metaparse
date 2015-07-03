@@ -59,20 +59,16 @@ using namespace boost::metaparse;
 
 static_assert(
   get_result<
-    keyword<BOOST_STRING("for"), std::integral_constant<int, 13>>::apply<
-      BOOST_STRING("for"),
-      start
-    >
+    keyword<BOOST_METAPARSE_STRING("for"), std::integral_constant<int, 13>>
+      ::apply<BOOST_METAPARSE_STRING("for"), start>
   >::type::value == 13,
   "the result of parsing the keyword is keyword's second argument"
 );
 
 static_assert(
   is_error<
-    keyword<BOOST_STRING("for"), std::integral_constant<int, 13>>::apply<
-      BOOST_STRING("if"),
-      start
-    >
+    keyword<BOOST_METAPARSE_STRING("for"), std::integral_constant<int, 13>>
+      ::apply<BOOST_METAPARSE_STRING("if"), start>
   >::type::value,
   "a word other than the keyword is an error"
 );

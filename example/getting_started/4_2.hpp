@@ -14,7 +14,7 @@ using plus_token = token<lit_c<'+'>>;
 using exp_parser5 = build_parser<sequence<int_token, plus_token, int_token>>;
 
 // query:
-//    exp_parser5::apply<BOOST_STRING("11 + 2")>::type
+//    exp_parser5::apply<BOOST_METAPARSE_STRING("11 + 2")>::type
 
 #endif
 

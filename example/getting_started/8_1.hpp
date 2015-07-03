@@ -30,7 +30,7 @@ using exp_parser16 =
  >;
 
 // query:
-//    exp_parser16::apply<BOOST_STRING("8 / 4")>::type
+//    exp_parser16::apply<BOOST_METAPARSE_STRING("8 / 4")>::type
 
 #endif
 

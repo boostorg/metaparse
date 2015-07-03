@@ -8,17 +8,17 @@
 
 // Definitions of section 3.2
 // query:
-//    exp_parser1::apply<BOOST_STRING("11 13")>::type
+//    exp_parser1::apply<BOOST_METAPARSE_STRING("11 13")>::type
 
 #include <boost/metaparse/entire_input.hpp>
 
 using exp_parser2 = build_parser<entire_input<int_>>;
 
 // query:
-//    exp_parser2::apply<BOOST_STRING("13")>::type
+//    exp_parser2::apply<BOOST_METAPARSE_STRING("13")>::type
 
 // query:
-//    exp_parser2::apply<BOOST_STRING("11 13")>::type
+//    exp_parser2::apply<BOOST_METAPARSE_STRING("11 13")>::type
 
 #endif
 

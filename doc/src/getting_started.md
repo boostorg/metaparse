@@ -79,13 +79,13 @@ representation is that if you want to write the text `"Hello world"` in your
 source code, you have to type a lot.
 
 Metaparse provides a macro that can turn a string literal into an instance of
-[`boost::metaparse::string`](string.html). This is the [`BOOST_STRING`](
-BOOST_STRING.html) macro. You get it by including
-`<boost/metaparse/string.hpp>`. Let's try it by running the following command
-in Metashell:
+[`boost::metaparse::string`](string.html). This is the
+[`BOOST_METAPARSE_STRING`](BOOST_METAPARSE_STRING.html) macro. You get it by
+including `<boost/metaparse/string.hpp>`. Let's try it by running the following
+command in Metashell:
 
 ```cpp
-> BOOST_STRING("11 + 2")
+> BOOST_METAPARSE_STRING("11 + 2")
 ```
 
 You will get the same result as you got by instantiating
@@ -148,7 +148,7 @@ Now that we have a parser, let's parse some text with it (if you haven't done it
 yet, include `boost/metaparse/string.hpp`):
 
 ```cpp
-> exp_parser1::apply<BOOST_STRING("13")>::type
+> exp_parser1::apply<BOOST_METAPARSE_STRING("13")>::type
 mpl_::integral_c<int, 13>
 ```
 
@@ -163,7 +163,7 @@ Have you tried parsing an invalid input? Something that is not a number, such
 as:
 
 ```cpp
-> exp_parser1::apply<BOOST_STRING("thirteen")>::type
+> exp_parser1::apply<BOOST_METAPARSE_STRING("thirteen")>::type
 << compilation error >>
 ```
 
@@ -179,7 +179,7 @@ will go into further details on error handling.
 Let's try to give the parser two numbers instead of one:
 
 ```cpp
-> exp_parser1::apply<BOOST_STRING("11 13")>::type
+> exp_parser1::apply<BOOST_METAPARSE_STRING("11 13")>::type
 mpl_::integral_c<int, 11>
 ```
 
@@ -210,14 +210,14 @@ with [`build_parser`](build_parser.html):
 Let's try this new parser out:
 
 ```cpp
-> exp_parser2::apply<BOOST_STRING("13")>::type
+> exp_parser2::apply<BOOST_METAPARSE_STRING("13")>::type
 mpl_::integral_c<int, 13>
 ```
 
 It can still parse numbers. Let's try to give it two numbers:
 
 ```cpp
-> exp_parser2::apply<BOOST_STRING("11 13")>::type
+> exp_parser2::apply<BOOST_METAPARSE_STRING("11 13")>::type
 << compilation error >>
 ```
 
@@ -230,7 +230,7 @@ restrictive now. It doesn't allow _anything_ after the number, not even
 whitespaces:
 
 ```cpp
-> exp_parser2::apply<BOOST_STRING("11 ")>::type
+> exp_parser2::apply<BOOST_METAPARSE_STRING("11 ")>::type
 << compilation error >>
 ```
 
@@ -253,7 +253,7 @@ in this case. We allow optional whitespaces after [`int_`](int_.html) but
 nothing else:
 
 ```cpp
-> exp_parser3::apply<BOOST_STRING("11 ")>::type
+> exp_parser3::apply<BOOST_METAPARSE_STRING("11 ")>::type
 mpl_::integral_c<int, 11>
 ```
 
@@ -304,7 +304,7 @@ Let's create a parser using it:
 Try parsing a simple expression using it:
 
 ```cpp
-> exp_parser4::apply<BOOST_STRING("11 + 2")>::type
+> exp_parser4::apply<BOOST_METAPARSE_STRING("11 + 2")>::type
 boost::mpl::v_item<mpl_::integral_c<int, 2>, boost::mpl::v_item<mpl_::char_<'+'>
 , boost::mpl::v_item<mpl_::integral_c<int, 11>, boost::mpl::vector0<mpl_::na>, 0
 >, 0>, 0>
@@ -323,7 +323,7 @@ https://github.com/sabel83/metashell#data-structures-of-boostmpl) for
 After including this header, try parsing again:
 
 ```cpp
-> exp_parser4::apply<BOOST_STRING("11 + 2")>::type
+> exp_parser4::apply<BOOST_METAPARSE_STRING("11 + 2")>::type
 boost_::mpl::vector<mpl_::integral_c<int, 11>, mpl_::char_<'+'>, mpl_::integral_c<int, 2> >
 ```
 
@@ -380,7 +380,7 @@ We can now define our expression parser using these tokens:
 We can use it the same way as `exp_parser4`:
 
 ```cpp
-> exp_parser5::apply<BOOST_STRING("11 + 2")>::type
+> exp_parser5::apply<BOOST_METAPARSE_STRING("11 + 2")>::type
 boost_::mpl::vector<mpl_::integral_c<int, 11>, mpl_::char_<'+'>, mpl_::integral_c<int, 2> >
 ```
 
@@ -458,7 +458,7 @@ parses:
 the result of that using `eval_plus`. Let's try it out:
 
 ```cpp
-> exp_parser6::apply<BOOST_STRING("11 + 2")>::type
+> exp_parser6::apply<BOOST_METAPARSE_STRING("11 + 2")>::type
 mpl_::integral_c<int, 13>
 ```
 
@@ -530,7 +530,7 @@ the `+` symbol and the number.
 Let's try parsing an expression using this:
 
 ```cpp
-> exp_parser7::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type
+> exp_parser7::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type
 ```
 
 Here is a formatted version of the result which is easier to read:
@@ -576,7 +576,7 @@ Let's give the example output we have just parsed a name. This will make it
 easier to test the code calculating the final result from this structure:
 
 ```cpp
-> using temp_result = exp_parser7::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type;
+> using temp_result = exp_parser7::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type;
 ```
 
 Now we can write a [template metafunction](metafunction.html) turning this
@@ -819,7 +819,7 @@ of our parser into one that summarises the `+ <number>` elements. Let's try it
 out:
 
 ```cpp
-> exp_parser8::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type
+> exp_parser8::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type
 boost_::mpl::vector<mpl_::integral_c<int, 1>, mpl_::integral_c<int, 9> >
 ```
 
@@ -859,7 +859,7 @@ of that two element `vector` together. Since that two element `vector` is a
 metafunction.html) for this. Let's try it out:
 
 ```cpp
-> exp_parser9::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type
+> exp_parser9::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type
 │mpl_::integral_c<int, 10>
 ```
 
@@ -918,7 +918,8 @@ the summary on the fly. Here is how we can write our parser using it:
 ```
 <p align="right">[copy-paste friendly version](getting_started_13.html)</p>
 
-Here are the formatted versions of `exp_parser9` and `exp_parser10` side-by-side:
+Here are the formatted versions of `exp_parser9` and `exp_parser10`
+side-by-side:
 
 ```cpp
 //            exp_parser9                                       exp_parser10
@@ -975,8 +976,8 @@ This solution can still be improved. The [`foldl`](foldl.html) summarising the
 `+ <number>` elements starts from `0` and once this is done, we add the value of
 the first `<number>` of the input to it in the first iteration. It would be more
 straightforward if [`foldl`](foldl.html) could use the value of the first
-`<number>` as the initial value of the "_sum we have so far_". Metaparse provides
-[`foldlp`](foldlp.html) for this:
+`<number>` as the initial value of the "_sum we have so far_". Metaparse
+provides [`foldlp`](foldlp.html) for this:
 
 ```cpp
 > #include <boost/metaparse/foldlp.hpp>
@@ -1005,7 +1006,7 @@ sequence.html) element in this: the first `<number>` is parsed by `int_token`
 and its value is used as the initial value for the summary. Let's try it out:
 
 ```cpp
-> exp_parser11::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type
+> exp_parser11::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type
 mpl_::integral_c<int, 10>
 ```
 
@@ -1065,7 +1066,7 @@ It uses [`one_of`](one_of.html)`<plus_token, minus_token>` as the separator for
 the numbers. Let's try it out:
 
 ```cpp
-> exp_parser12::apply<BOOST_STRING("1 + 2 - 3")>::type
+> exp_parser12::apply<BOOST_METAPARSE_STRING("1 + 2 - 3")>::type
 mpl_::integral_c<int, 6>
 ```
 
@@ -1183,7 +1184,7 @@ the third argument of [`foldlp`](foldlp.html):
 It uses `binary_op` instead of `sum_items`. Let's try it out:
 
 ```cpp
-> exp_parser13::apply<BOOST_STRING("1 + 2 - 3")>::type
+> exp_parser13::apply<BOOST_METAPARSE_STRING("1 + 2 - 3")>::type
 mpl_::integral_c<int, 0>
 ```
 
@@ -1237,14 +1238,14 @@ This version accepts either a `+`, a `-` or a `*` symbol as the operator. Let's
 try this out:
 
 ```cpp
-> exp_parser14::apply<BOOST_STRING("2 * 3")>::type
+> exp_parser14::apply<BOOST_METAPARSE_STRING("2 * 3")>::type
 mpl_::integral_c<int, 6>
 ```
 
 This works as expected. Let's try another, slightly more complicated expression:
 
 ```cpp
-> exp_parser14::apply<BOOST_STRING("1 + 2 * 3")>::type
+> exp_parser14::apply<BOOST_METAPARSE_STRING("1 + 2 * 3")>::type
 mpl_::integral_c<int, 9>
 ```
 
@@ -1291,7 +1292,7 @@ it uses `mult_exp1` everywhere, where `exp_parser13` was using `int_token`.
 Let's try it out:
 
 ```cpp
-> exp_parser15::apply<BOOST_STRING("1 + 2 * 3")>::type
+> exp_parser15::apply<BOOST_METAPARSE_STRING("1 + 2 * 3")>::type
 mpl_::integral_c<int, 7>
 ```
 
@@ -1351,7 +1352,7 @@ division as well (and this new operator has the right precedence). Let's try it
 out:
 
 ```cpp
-> exp_parser16::apply<BOOST_STRING("8 / 4")>::type
+> exp_parser16::apply<BOOST_METAPARSE_STRING("8 / 4")>::type
 mpl_::integral_c<int, 2>
 ```
 
@@ -1476,7 +1477,7 @@ The only difference between `exp_parser17` and the previous version,
 parser out:
 
 ```cpp
-> exp_parser17::apply<BOOST_STRING("8 / 4 / 2")>::type
+> exp_parser17::apply<BOOST_METAPARSE_STRING("8 / 4 / 2")>::type
 mpl_::integral_c<int, 4>
 ```
 
@@ -1568,9 +1569,9 @@ only `exp_parser18`) use `unary_exp1` instead of `int_token`.
 Let's try these new parsers out:
 
 ```cpp
-> exp_parser18::apply<BOOST_STRING("---13")>::type
+> exp_parser18::apply<BOOST_METAPARSE_STRING("---13")>::type
 mpl_::integral_c<int, -13>
-> exp_parser18::apply<BOOST_STRING("13")>::type
+> exp_parser18::apply<BOOST_METAPARSE_STRING("13")>::type
 mpl_::integral_c<int, 13>
 ```
 <p align="right">[copy-paste friendly version](getting_started_29.html)</p>
@@ -1725,7 +1726,7 @@ write the parser for the calculator that supports parens as well:
 Let's try this parser out:
 
 ```cpp
-> exp_parser19::apply<BOOST_STRING("(1 + 2) * 3")>::type
+> exp_parser19::apply<BOOST_METAPARSE_STRING("(1 + 2) * 3")>::type
 mpl_::integral_c<int, 9>
 ```
 
@@ -1748,7 +1749,7 @@ displays.
 So let's try to parse some invalid expression and let's see what happens:
 
 ```cpp
-> exp_parser19::apply<BOOST_STRING("hello")>::type
+> exp_parser19::apply<BOOST_METAPARSE_STRING("hello")>::type
 << compilation error >>
 ```
 
@@ -1767,8 +1768,9 @@ You can see a formatted version above. There are no line breaks in the real
 output. This is relatively easy to spot (thanks to the `____________` part) and
 contains answers to the main questions one has when parsing fails:
 
-* _where_ is the error? It is column `1` in line `1` (inside [`BOOST_STRING`](
-  BOOST_STRING.html)). This is the `1, 1` part.
+* _where_ is the error? It is column `1` in line `1` (inside
+  [`BOOST_METAPARSE_STRING`](BOOST_METAPARSE_STRING.html)). This is the `1, 1`
+  part.
 * _what_ is the problem? `literal_expected<'('>`. This is a bit misleading, as
   it contains only a part of the problem. An open paren is not the only
   acceptable token here, a number would also be fine. This misleading error
@@ -1895,7 +1897,7 @@ before:
 We can can try to give our new parser an invalid input:
 
 ```cpp
-> exp_parser20::apply<BOOST_STRING("hello")>::type
+> exp_parser20::apply<BOOST_METAPARSE_STRING("hello")>::type
 << compilation error >>
 ..... x__________________PARSING_FAILED__________________x<1, 1, missing_primary_expression> ....
 << compilation error >>
@@ -1910,7 +1912,7 @@ missing closing parens, missing operators, etc) can be covered in a similar way.
 Missing closing parens are common errors. Let's see how our parsers report them:
 
 ```cpp
-> exp_parser20::apply<BOOST_STRING("(1+2")>::type
+> exp_parser20::apply<BOOST_METAPARSE_STRING("(1+2")>::type
 << compilation error >>
 ..... x__________________PARSING_FAILED__________________x<1, 5, unpaired<1, 1, literal_expected<')'>>> ....
 << compilation error >>
@@ -1921,7 +1923,7 @@ points to the open paren which is not closed. This looks great, but we are not
 done yet. Let's try a slightly more complex input:
 
 ```cpp
-> exp_parser20::apply<BOOST_STRING("0+(1+2")>::type
+> exp_parser20::apply<BOOST_METAPARSE_STRING("0+(1+2")>::type
 mpl_::integral_c<int, 0>
 ```
 
@@ -1983,7 +1985,7 @@ any error coming from
 Let's try this new expression parser out with a missing closing paren:
 
 ```cpp
-> exp_parser21::apply<BOOST_STRING("0+(1+2")>::type
+> exp_parser21::apply<BOOST_METAPARSE_STRING("0+(1+2")>::type
 << compilation error >>
 ..... x__________________PARSING_FAILED__________________x<1, 7, unpaired<1, 3, literal_expected<')'>>> ....
 << compilation error >>
@@ -2028,7 +2030,7 @@ This makes the implementation of the repetition with advanced error reporting
 simpler. Let's try it out:
 
 ```cpp
-> exp_parser22::apply<BOOST_STRING("0+(1+2")>::type
+> exp_parser22::apply<BOOST_METAPARSE_STRING("0+(1+2")>::type
 << compilation error >>
 ..... x__________________PARSING_FAILED__________________x<1, 7, unpaired<1, 3, literal_expected<')'>>> ....
 << compilation error >>
@@ -2078,14 +2080,14 @@ all layers:
 Let's try different invalid expressions:
 
 ```cpp
-> exp_parser23::apply<BOOST_STRING("1+(2*")>::type
+> exp_parser23::apply<BOOST_METAPARSE_STRING("1+(2*")>::type
 << compilation error >>
 ..... x__________________PARSING_FAILED__________________x<1, 6, missing_primary_expression> ....
 << compilation error >>
 ```
 
 ```cpp
-> exp_parser23::apply<BOOST_STRING("1+(2*3")>::type
+> exp_parser23::apply<BOOST_METAPARSE_STRING("1+(2*3")>::type
 << compilation error >>
 ..... x__________________PARSING_FAILED__________________x<1, 7, unpaired<1, 3, literal_expected<')'>>> ....
 << compilation error >>

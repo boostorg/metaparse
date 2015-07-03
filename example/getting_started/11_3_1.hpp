@@ -8,10 +8,10 @@
 
 // Definitions of section 11.3
 // query:
-//    exp_parser20::apply<BOOST_STRING("(1+2")>::type
+//    exp_parser20::apply<BOOST_METAPARSE_STRING("(1+2")>::type
 
 // query:
-//    exp_parser20::apply<BOOST_STRING("0+(1+2")>::type
+//    exp_parser20::apply<BOOST_METAPARSE_STRING("0+(1+2")>::type
 
 #include <boost/metaparse/fail_at_first_char_expected.hpp>
 
@@ -32,7 +32,7 @@ struct plus_exp4 :
 using exp_parser21 = build_parser<plus_exp4>;
 
 // query:
-//    exp_parser21::apply<BOOST_STRING("0+(1+2")>::type
+//    exp_parser21::apply<BOOST_METAPARSE_STRING("0+(1+2")>::type
 
 #endif
 

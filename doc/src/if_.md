@@ -65,14 +65,14 @@ using int13 = std::integral_constant<int, 13>;
 
 static_assert(
   get_result<
-    if_<int_, int11, int13>::apply<BOOST_STRING("1234"), start>
+    if_<int_, int11, int13>::apply<BOOST_METAPARSE_STRING("1234"), start>
   >::type::value == 11,
   "When the int_ parser succeeds, the result of parsing should be 11"
 );
 
 static_assert(
   get_result<
-    if_<int_, int11, int13>::apply<BOOST_STRING("foo"), start>
+    if_<int_, int11, int13>::apply<BOOST_METAPARSE_STRING("foo"), start>
   >::type::value == 13,
   "When the int_ parser fails, the result of parsing should be 13"
 );
@@ -86,5 +86,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

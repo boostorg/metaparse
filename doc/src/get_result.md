@@ -41,12 +41,20 @@ using namespace boost::metaparse;
 struct returns_accept
 {
   using type =
-    accept<std::integral_constant<int, 13>, BOOST_STRING("foo"), start>;
+    accept<
+      std::integral_constant<int, 13>,
+      BOOST_METAPARSE_STRING("foo"),
+      start
+    >;
 };
 
 static_assert(
   get_result<
-    accept<std::integral_constant<int, 13>, BOOST_STRING("foo"), start>
+    accept<
+      std::integral_constant<int, 13>,
+      BOOST_METAPARSE_STRING("foo"),
+      start
+    >
   >::type::value == 13,
   "It should return the result of parsing"
 );

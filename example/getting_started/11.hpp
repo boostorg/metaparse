@@ -56,7 +56,7 @@ struct plus_exp2 :
 using exp_parser19 = build_parser<plus_exp2>;
 
 // query:
-//    exp_parser19::apply<BOOST_STRING("(1 + 2) * 3")>::type
+//    exp_parser19::apply<BOOST_METAPARSE_STRING("(1 + 2) * 3")>::type
 
 #endif
 

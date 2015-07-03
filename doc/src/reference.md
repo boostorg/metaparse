@@ -138,7 +138,7 @@ choosing among the `fold*` parsers.
 
 * [string](string.html)
 * [string_tag](string_tag.html)
-* [BOOST_STRING](BOOST_STRING.html)
+* [BOOST_METAPARSE_STRING](BOOST_METAPARSE_STRING.html)
 
 ## Errors
 
@@ -211,5 +211,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](index.html)
-
 

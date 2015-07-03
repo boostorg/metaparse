@@ -72,7 +72,9 @@ static_assert(
       boost::mpl::char_<'2'>,
       boost::mpl::char_<'3'>
     >,
-    get_result<iterate_c<digit, 3>::apply<BOOST_STRING("123"), start>>::type
+    get_result<
+      iterate_c<digit, 3>::apply<BOOST_METAPARSE_STRING("123"), start>
+    >::type
   >::type::value,
   "the result should be the sequence of the individual applications of digit"
 );
@@ -84,14 +86,16 @@ static_assert(
       boost::mpl::char_<'2'>,
       boost::mpl::char_<'3'>
     >,
-    get_result<iterate_c<digit, 3>::apply<BOOST_STRING("1234"), start>>::type
+    get_result<
+      iterate_c<digit, 3>::apply<BOOST_METAPARSE_STRING("1234"), start>
+    >::type
   >::type::value,
   "only three iterations should be made"
 );
 
 static_assert(
   is_error<
-    iterate_c<digit, 3>::apply<BOOST_STRING("12"), start>
+    iterate_c<digit, 3>::apply<BOOST_METAPARSE_STRING("12"), start>
   >::type::value,
   "it should fail when digit can not be applied three times"
 );

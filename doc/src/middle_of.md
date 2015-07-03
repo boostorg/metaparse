@@ -74,18 +74,22 @@ using int_in_parens = middle_of<left_paren_token, int_token, right_paren_token>;
 
 static_assert(
   get_result<
-    int_in_parens::apply<BOOST_STRING("(13)"), start>
+    int_in_parens::apply<BOOST_METAPARSE_STRING("(13)"), start>
   >::type::value == 13,
   "it should return the result of the middle parser"
 );
 
 static_assert(
-  is_error<int_in_parens::apply<BOOST_STRING("13"), start>>::type::value,
+  is_error<
+    int_in_parens::apply<BOOST_METAPARSE_STRING("13"), start>
+  >::type::value,
   "it should reject the input when there are no parens"
 );
 
 static_assert(
-  is_error<int_in_parens::apply<BOOST_STRING("(13"), start>>::type::value,
+  is_error<
+    int_in_parens::apply<BOOST_METAPARSE_STRING("(13"), start>
+  >::type::value,
   "it should reject the input when there is no closing paren"
 );
 ```

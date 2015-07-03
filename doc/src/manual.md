@@ -22,10 +22,10 @@ with compilers using C++98, but the input of the parsers has to be defined the
 way it is described above.
 
 Based on `constexpr`, a feature provided by C++11, Metaparse provides a macro,
-[`BOOST_STRING`](BOOST_STRING.html) for defining strings:
+[`BOOST_METAPARSE_STRING`](BOOST_METAPARSE_STRING.html) for defining strings:
 
 ```cpp
-BOOST_STRING("Hello World!")
+BOOST_METAPARSE_STRING("Hello World!")
 ```
 
 This defines a [`string`](string.html) as well, however, it is easier to
@@ -125,7 +125,8 @@ using int_token = token<int_>;
 ```
 
 The result of parsing is a boxed integer value: the value of the parsed number.
-For example parsing [`BOOST_STRING`](BOOST_STRING.html)`("13  ")` gives
+For example parsing
+[`BOOST_METAPARSE_STRING`](BOOST_METAPARSE_STRING.html)`("13  ")` gives
 `boost::mpl::int_<13>` as the result.
 
 Our example input is a list of numbers. Each number can be parsed by
@@ -299,7 +300,7 @@ let's expect numbers separated by a `+` symbol. Our example input becomes the
 following:
 
 ```cpp
-BOOST_STRING("11 + 13 + 3 + 21")
+BOOST_METAPARSE_STRING("11 + 13 + 3 + 21")
 ```
 
 Parsing it with [`foldl`](foldl.html) or [`any`](any.html) is difficult: there
@@ -415,7 +416,7 @@ the input is correct. However, it is not always the case. Consider the following
 input for example:
 
 ```cpp
-BOOST_STRING("11 + 13 + 3 + 21 +")
+BOOST_METAPARSE_STRING("11 + 13 + 3 + 21 +")
 ```
 
 This is an ivalid expression. However, if we parse it using the
@@ -477,12 +478,12 @@ Metaparse provides a way to define grammars in a syntax that resembles EBNF. The
 used the following way:
 
 ```cpp
-grammar<BOOST_STRING("plus_exp")>
-  ::import<BOOST_STRING("int_token"), token<int_>>::type
+grammar<BOOST_METAPARSE_STRING("plus_exp")>
+  ::import<BOOST_METAPARSE_STRING("int_token"), token<int_>>::type
 
-  ::rule<BOOST_STRING("ws ::= (' ' | '\n' | '\r' | '\t')*")>::type
-  ::rule<BOOST_STRING("plus_token ::= '+' ws"), front<_1>>::type
-  ::rule<BOOST_STRING("plus_exp ::= int_token (plus_token int_token)*"), plus_action>::type
+  ::rule<BOOST_METAPARSE_STRING("ws ::= (' ' | '\n' | '\r' | '\t')*")>::type
+  ::rule<BOOST_METAPARSE_STRING("plus_token ::= '+' ws"), front<_1>>::type
+  ::rule<BOOST_METAPARSE_STRING("plus_exp ::= int_token (plus_token int_token)*"), plus_action>::type
 ```
 
 The code above defines a parser from a grammar definition. The start symbol of
@@ -539,5 +540,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](index.html)
-
 

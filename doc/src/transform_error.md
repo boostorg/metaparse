@@ -74,7 +74,7 @@ using namespace boost::metaparse;
 
 BOOST_METAPARSE_DEFINE_ERROR(name_expected, "Name expected");
 
-using keyword_name = token<keyword<BOOST_STRING("name")>>;
+using keyword_name = token<keyword<BOOST_METAPARSE_STRING("name")>>;
 using name_token = token<any1<letter>>;
 
 using name_parser =
@@ -89,18 +89,24 @@ using name_parser =
   >;
 
 static_assert(
-  !is_error<name_parser::apply<BOOST_STRING("name Bela"), start>>::type::value,
+  !is_error<
+    name_parser::apply<BOOST_METAPARSE_STRING("name Bela"), start>
+  >::type::value,
   "name_parser should accept \"name <a name>\""
 );
 
 static_assert(
-  is_error<name_parser::apply<BOOST_STRING("name ?"), start>>::type::value,
+  is_error<
+    name_parser::apply<BOOST_METAPARSE_STRING("name ?"), start>
+  >::type::value,
   "name_parser should reject input when name is a question mark"
 );
 
 static_assert(
   std::is_same<
-    get_message<name_parser::apply<BOOST_STRING("name ?"), start>>::type,
+    get_message<
+      name_parser::apply<BOOST_METAPARSE_STRING("name ?"), start>
+    >::type,
     name_expected
   >::type::value,
   "the error message should be the one specified by change_error_message"

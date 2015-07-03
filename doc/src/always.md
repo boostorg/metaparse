@@ -60,20 +60,20 @@ using namespace boost::metaparse;
 using always13 = always<lit_c<'x'>, std::integral_constant<int, 13>>;
 
 static_assert(
-  !is_error<always13::apply<BOOST_STRING("x"), start>>::type::value,
+  !is_error<always13::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "always13 should accept x"
 );
 
 static_assert(
   std::is_same<
-    get_result<always13::apply<BOOST_STRING("x"), start>>::type,
+    get_result<always13::apply<BOOST_METAPARSE_STRING("x"), start>>::type,
     std::integral_constant<int, 13>
   >::type::value,
   "the result of parsing should be the integral_constant type"
 );
 
 static_assert(
-  is_error<always13::apply<BOOST_STRING("y"), start>>::type::value,
+  is_error<always13::apply<BOOST_METAPARSE_STRING("y"), start>>::type::value,
   "always13 should reject characters other than x"
 );
 ```
@@ -86,5 +86,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

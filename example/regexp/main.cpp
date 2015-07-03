@@ -132,7 +132,7 @@ void test_string(const std::string& s)
 #ifdef BOOST_NO_CONSTEXPR
   typedef boost::metaparse::string<'.','(','b','c',')'> regexp;
 #else
-  typedef BOOST_STRING(".(bc)") regexp;
+  typedef BOOST_METAPARSE_STRING(".(bc)") regexp;
 #endif
 
   const sregex re = apply_wrap1<regexp_parser, regexp>::type::value;

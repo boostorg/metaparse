@@ -85,14 +85,16 @@ using except_int =
   except<int_, std::integral_constant<int, 1>, number_is_not_allowed>;
 
 static_assert(
-  get_result<except_int::apply<BOOST_STRING("foo"), start>>::type::value == 1,
+  get_result<
+    except_int::apply<BOOST_METAPARSE_STRING("foo"), start>
+  >::type::value == 1,
   "it should accept the input when it is not an integer"
 );
 
 static_assert(
   std::is_same<
     number_is_not_allowed,
-    get_message<except_int::apply<BOOST_STRING("13"), start>>::type
+    get_message<except_int::apply<BOOST_METAPARSE_STRING("13"), start>>::type
   >::type::value,
   "it should reject the input when it is an integer"
 );

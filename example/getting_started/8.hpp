@@ -19,7 +19,7 @@ using exp_parser15 =
  >;
 
 // query:
-//    exp_parser15::apply<BOOST_STRING("1 + 2 * 3")>::type
+//    exp_parser15::apply<BOOST_METAPARSE_STRING("1 + 2 * 3")>::type
 
 #endif
 

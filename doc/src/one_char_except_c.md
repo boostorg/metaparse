@@ -79,7 +79,7 @@ static_assert(
       boost::mpl::char_<'o'>
     >,
     get_result<
-      string_literal_parser::apply<BOOST_STRING("\"hello\""), start>
+      string_literal_parser::apply<BOOST_METAPARSE_STRING("\"hello\""), start>
     >::type
   >::type::value,
   "it should return the content of the string literal"

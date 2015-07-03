@@ -16,7 +16,7 @@ using namespace boost::metaparse;
 using exp_parser1 = build_parser<int_>;
 
 // query:
-//    exp_parser1::apply<BOOST_STRING("13")>::type
+//    exp_parser1::apply<BOOST_METAPARSE_STRING("13")>::type
 
 #endif
 

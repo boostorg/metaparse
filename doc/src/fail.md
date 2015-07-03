@@ -56,13 +56,13 @@ BOOST_METAPARSE_DEFINE_ERROR(sample_error, "This is an example parsing error");
 using fail_p = fail<sample_error>;
 
 static_assert(
-  is_error<fail_p::apply<BOOST_STRING("foo"), start>>::type::value,
+  is_error<fail_p::apply<BOOST_METAPARSE_STRING("foo"), start>>::type::value,
   "it should reject every input"
 );
 
 static_assert(
   std::is_same<
-    get_message<fail_p::apply<BOOST_STRING("foo"), start>>::type,
+    get_message<fail_p::apply<BOOST_METAPARSE_STRING("foo"), start>>::type,
     sample_error
   >::type::value,
   "the error message should be the type specified"

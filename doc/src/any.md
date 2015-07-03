@@ -79,7 +79,7 @@ using digits = any<digit_val>;
 
 static_assert(
   boost::mpl::equal<
-    get_result<digits::apply<BOOST_STRING("1234"), start>>::type,
+    get_result<digits::apply<BOOST_METAPARSE_STRING("1234"), start>>::type,
     boost::mpl::vector<
       boost::mpl::int_<1>,
       boost::mpl::int_<2>,
@@ -92,7 +92,7 @@ static_assert(
 
 static_assert(
   boost::mpl::equal<
-    get_result<digits::apply<BOOST_STRING("x"), start>>::type,
+    get_result<digits::apply<BOOST_METAPARSE_STRING("x"), start>>::type,
     boost::mpl::vector<>
   >::type::value,
   "any should accept the input when it can't parse anything with digit_val"

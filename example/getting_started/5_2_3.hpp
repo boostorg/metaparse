@@ -28,7 +28,7 @@ using exp_parser8 =
  >;
 
 // query:
-//    exp_parser8::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type
+//    exp_parser8::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type
 
 using exp_parser9 = 
  build_parser< 
@@ -52,7 +52,7 @@ using exp_parser9 =
  >;
 
 // query:
-//    exp_parser9::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type
+//    exp_parser9::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type
 
 #endif
 

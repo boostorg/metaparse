@@ -41,17 +41,19 @@ transform<digit, util::digit_to_int<>>
 using namespace boost::metaparse;
 
 static_assert(
-  !is_error<digit_val::apply<BOOST_STRING("0"), start>>::type::value,
+  !is_error<digit_val::apply<BOOST_METAPARSE_STRING("0"), start>>::type::value,
   "digit_val should accept a digit"
 );
 
 static_assert(
-  is_error<digit_val::apply<BOOST_STRING("x"), start>>::type::value,
+  is_error<digit_val::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "digit_val should reject a character"
 );
 
 static_assert(
-  get_result<digit_val::apply<BOOST_STRING("0"), start>>::type::value == 0,
+  get_result<
+    digit_val::apply<BOOST_METAPARSE_STRING("0"), start>
+  >::type::value == 0,
   "the result of parsing should be the int value"
 );
 ```

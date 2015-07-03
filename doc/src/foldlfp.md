@@ -106,13 +106,15 @@ using ints = foldlfp<plus_int, int_token, sum_op>;
 
 static_assert(
   get_result<
-    ints::apply<BOOST_STRING("11 + 13 + 3 + 21"), start>
+    ints::apply<BOOST_METAPARSE_STRING("11 + 13 + 3 + 21"), start>
   >::type::value == 48,
   "ints should sum the numbers"
 );
 
 static_assert(
-  is_error<ints::apply<BOOST_STRING("11 + 13 + 3 +"), start>>::type::value,
+  is_error<
+    ints::apply<BOOST_METAPARSE_STRING("11 + 13 + 3 +"), start>
+  >::type::value,
   "when the last number is missing, it should be an error"
 );
 ```

@@ -237,7 +237,7 @@ int main()
   #error META_LAMBDA already defined
 #endif
 #define META_LAMBDA(exp) \
-  apply_wrap1<metafunction_parser, BOOST_STRING(#exp)>::type
+  apply_wrap1<metafunction_parser, BOOST_METAPARSE_STRING(#exp)>::type
 
 int main()
 {

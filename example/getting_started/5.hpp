@@ -39,7 +39,7 @@ using exp_parser6 =
  >;
 
 // query:
-//    exp_parser6::apply<BOOST_STRING("11 + 2")>::type
+//    exp_parser6::apply<BOOST_METAPARSE_STRING("11 + 2")>::type
 
 #endif
 

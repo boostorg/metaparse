@@ -41,17 +41,19 @@ accept_when<one_char, util::is_letter<>, error::letter_expected>
 using namespace boost::metaparse;
 
 static_assert(
-  !is_error<letter::apply<BOOST_STRING("a"), start>>::type::value,
+  !is_error<letter::apply<BOOST_METAPARSE_STRING("a"), start>>::type::value,
   "letter should accept a letter"
 );
 
 static_assert(
-  is_error<letter::apply<BOOST_STRING("0"), start>>::type::value,
+  is_error<letter::apply<BOOST_METAPARSE_STRING("0"), start>>::type::value,
   "letter should reject a digit"
 );
 
 static_assert(
-  get_result<letter::apply<BOOST_STRING("z"), start>>::type::value == 'z',
+  get_result<
+    letter::apply<BOOST_METAPARSE_STRING("z"), start>
+  >::type::value == 'z',
   "the result of parsing should be the character value"
 );
 ```

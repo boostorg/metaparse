@@ -44,14 +44,14 @@ using namespace boost::metaparse;
 
 static_assert(
   std::is_same<
-    BOOST_STRING(" foo"),
-    get_remaining<space::apply<BOOST_STRING("  foo"), start>>::type
+    BOOST_METAPARSE_STRING(" foo"),
+    get_remaining<space::apply<BOOST_METAPARSE_STRING("  foo"), start>>::type
   >::type::value,
   "it should consume the first space of the input"
 );
 
 static_assert(
-  is_error<space::apply<BOOST_STRING("x"), start>>::type::value,
+  is_error<space::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "it should return an error when the input does not begin with a whitespace"
 );
 ```

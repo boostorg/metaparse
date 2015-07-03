@@ -54,7 +54,7 @@ struct binary : binary_parser::apply<S>::type {};
 #ifdef _STR
 #  error _STR already defined
 #endif
-#define _STR BOOST_STRING
+#define _STR BOOST_METAPARSE_STRING
 
 #ifdef BOOST_NO_CONSTEXPR
 

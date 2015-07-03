@@ -8,7 +8,7 @@
 
 // Definitions of section 11
 // query:
-//    exp_parser19::apply<BOOST_STRING("hello")>::type
+//    exp_parser19::apply<BOOST_METAPARSE_STRING("hello")>::type
 
 #endif
 

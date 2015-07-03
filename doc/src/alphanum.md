@@ -41,22 +41,24 @@ one_of<digit, letter>
 using namespace boost::metaparse;
 
 static_assert(
-  !is_error<alphanum::apply<BOOST_STRING("0"), start>>::type::value,
+  !is_error<alphanum::apply<BOOST_METAPARSE_STRING("0"), start>>::type::value,
   "alphanum should accept a digit"
 );
 
 static_assert(
-  !is_error<alphanum::apply<BOOST_STRING("x"), start>>::type::value,
+  !is_error<alphanum::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "alphanum should accept a character"
 );
 
 static_assert(
-  get_result<alphanum::apply<BOOST_STRING("x"), start>>::type::value == 'x',
+  get_result<
+    alphanum::apply<BOOST_METAPARSE_STRING("x"), start>
+  >::type::value == 'x',
   "the result of parsing should be the character value"
 );
 
 static_assert(
-  is_error<alphanum::apply<BOOST_STRING(","), start>>::type::value,
+  is_error<alphanum::apply<BOOST_METAPARSE_STRING(","), start>>::type::value,
   "alphanum should reject a comma"
 );
 ```
@@ -69,5 +71,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

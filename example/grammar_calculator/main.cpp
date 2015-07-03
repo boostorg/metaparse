@@ -64,7 +64,7 @@ using boost::mpl::int_;
 #ifdef _STR
   #error _STR already defined
 #endif
-#define _STR BOOST_STRING
+#define _STR BOOST_METAPARSE_STRING
 
 template <class A, class B>
 struct lazy_plus : plus<typename A::type, typename B::type> {};
@@ -157,5 +157,4 @@ int main()
     ;
 }
 #endif
-
 

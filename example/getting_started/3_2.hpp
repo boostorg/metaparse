@@ -8,7 +8,7 @@
 
 // Definitions of section 3.1
 // query:
-//    exp_parser1::apply<BOOST_STRING("thirteen")>::type
+//    exp_parser1::apply<BOOST_METAPARSE_STRING("thirteen")>::type
 
 #endif
 

@@ -81,13 +81,13 @@ using ints = foldl1<int_token, boost::mpl::int_<0>, sum_op>;
 
 static_assert(
   get_result<
-    ints::apply<BOOST_STRING("11 13 3 21"), start>
+    ints::apply<BOOST_METAPARSE_STRING("11 13 3 21"), start>
   >::type::value == 48,
   "ints should sum the numbers"
 );
 
 static_assert(
-  is_error<ints::apply<BOOST_STRING(""), start>>::type::value,
+  is_error<ints::apply<BOOST_METAPARSE_STRING(""), start>>::type::value,
   "when no numbers are provided, it should be an error"
 );
 ```
@@ -100,5 +100,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

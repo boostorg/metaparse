@@ -35,10 +35,10 @@ semantics for further details.
 
 > Note that for backward compatibility when `Result::type` is not defined,
 > `accept<....>::type` does not evaluate `Result`. For example
-> `accept<int, BOOST_STRING("foo"), start>::type` is
-> `accept<int, BOOST_STRING("foo")::type, start::type>`. Using types that are
-> not template metaprogramming values as `Result` is deprecated and will not
-> work in future versions of the library.
+> `accept<int, BOOST_METAPARSE_STRING("foo"), start>::type` is
+> `accept<int, BOOST_METAPARSE_STRING("foo")::type, start::type>`. Using types
+> that are not template metaprogramming values as `Result` is deprecated and
+> will not work in future versions of the library.
 
 ## Expressions semantics
 

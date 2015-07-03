@@ -7,7 +7,7 @@
 #include "5_2.hpp"
 
 // Definitions of section 5.2
-using temp_result = exp_parser7::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type;
+using temp_result = exp_parser7::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type;
 
 #endif
 

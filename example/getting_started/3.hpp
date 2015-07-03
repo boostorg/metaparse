@@ -13,7 +13,7 @@
 //    boost::metaparse::string<'1', '1', ' ', '+', ' ', '2'>
 
 // query:
-//    BOOST_STRING("11 + 2")
+//    BOOST_METAPARSE_STRING("11 + 2")
 
 #endif
 

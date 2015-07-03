@@ -36,19 +36,19 @@ support them.
 
 ## Macros
 
-Macros defined by the library are prefixed with `BOOST_V1_`. For example
-`BOOST_V1_STRING`. It is defined in the
+Macros defined by the library are prefixed with `BOOST_METAPARSE_V1_`. For
+example `BOOST_METAPARSE_V1_STRING`. It is defined in the
 `<boost/metaparse/v1/string.hpp>` header file. The library provides the
 `<boost/metaparse/srting.hpp>` header file as well, which includes the
 definition of this macro and provides the following definition:
 
 ```cpp
-#define BOOST_STRING BOOST_V1_STRING
+#define BOOST_METAPARSE_STRING BOOST_METAPARSE_V1_STRING
 ```
 
-This makes it possible to use the macro as `BOOST_STRING`. Future versions of
-the library may define other versions of this macro (eg. `BOOST_V2_STRING`).
-`BOOST_STRING` will refer to the latest version.
+This makes it possible to use the macro as `BOOST_METAPARSE_STRING`. Future
+versions of the library may define other versions of this macro (eg.
+`BOOST_V2_STRING`). `BOOST_METAPARSE_STRING` will refer to the latest version.
 
 This versioning does not affect macros that may be overridden by the code using
 the library. (eg. `BOOST_LIMIT_STRING_SIZE`)

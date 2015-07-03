@@ -77,7 +77,7 @@ using namespace boost::metaparse;
 using string_to_int = build_parser<int_>::type;
 
 static_assert(
-  string_to_int::apply<BOOST_STRING("1113")>::type::value == 1113,
+  string_to_int::apply<BOOST_METAPARSE_STRING("1113")>::type::value == 1113,
   "string_to_int should be a metafunction turning a string into an int"
 );
 ```
@@ -90,5 +90,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

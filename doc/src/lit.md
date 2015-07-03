@@ -57,17 +57,26 @@ accept_when<
 using namespace boost::metaparse;
 
 static_assert(
-  is_error<lit<std::integral_constant<char, 'x'>>::apply<BOOST_STRING("a"), start>>::type::value,
+  is_error<
+    lit<std::integral_constant<char, 'x'>>
+      ::apply<BOOST_METAPARSE_STRING("a"), start>
+  >::type::value,
   "a different character should be an error"
 );
 
 static_assert(
-  is_error<lit<std::integral_constant<char, 'x'>>::apply<BOOST_STRING(""), start>>::type::value,
+  is_error<
+    lit<std::integral_constant<char, 'x'>>
+      ::apply<BOOST_METAPARSE_STRING(""), start>
+  >::type::value,
   "empty input should be an error"
 );
 
 static_assert(
-  get_result<lit<std::integral_constant<char, 'x'>>::apply<BOOST_STRING("x"), start>>::type::value == 'x',
+  get_result<
+    lit<std::integral_constant<char, 'x'>>
+      ::apply<BOOST_METAPARSE_STRING("x"), start>
+  >::type::value == 'x',
   "result of parsing should be the accepted character"
 );
 ```

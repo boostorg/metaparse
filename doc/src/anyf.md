@@ -87,14 +87,16 @@ static_assert(
   boost::mpl::equal<
     boost::mpl::vector_c<int, 13, 3, 21>,
     get_result<
-      ints::apply<BOOST_STRING("+ 13 + 3 + 21"), start>
+      ints::apply<BOOST_METAPARSE_STRING("+ 13 + 3 + 21"), start>
     >::type
   >::type::value,
   "ints should parse the numbers"
 );
 
 static_assert(
-  is_error<ints::apply<BOOST_STRING("+ 13 + 3 +"), start>>::type::value,
+  is_error<
+    ints::apply<BOOST_METAPARSE_STRING("+ 13 + 3 +"), start>
+  >::type::value,
   "when the last number is missing, it should be an error"
 );
 ```

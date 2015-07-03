@@ -45,7 +45,7 @@ int main()
 #ifdef _STR
 #  error _STR already defined
 #endif
-#define _STR BOOST_STRING
+#define _STR BOOST_METAPARSE_STRING
 
 template <class T, char C>
 struct is_c : bool_<T::type::value == C> {};
@@ -230,7 +230,7 @@ typedef build_parser<entire_input<g>> function_parser;
 #ifdef LAMBDA
   #error LAMBDA already defined
 #endif
-#define LAMBDA(exp) apply_wrap1<function_parser, BOOST_STRING(#exp)>::type
+#define LAMBDA(exp) apply_wrap1<function_parser, _STR(#exp)>::type
 
 LAMBDA(13) f1;
 LAMBDA(2 + 3) f2;

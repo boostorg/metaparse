@@ -57,25 +57,29 @@ using namespace boost::metaparse;
 using int_token = token<int_>;
 
 static_assert(
-  get_result<int_token::apply<BOOST_STRING("13 "), start>>::type::value,
+  get_result<
+    int_token::apply<BOOST_METAPARSE_STRING("13 "), start>
+  >::type::value,
   "the result of int_token is the number"
 );
 
 static_assert(
   std::is_same<
-    BOOST_STRING(""),
-    get_remaining<int_token::apply<BOOST_STRING("13 "), start>>::type
+    BOOST_METAPARSE_STRING(""),
+    get_remaining<int_token::apply<BOOST_METAPARSE_STRING("13 "), start>>::type
   >::type::value,
   "token consumes whitespaces after the number"
 );
 
 static_assert(
-  get_result<int_token::apply<BOOST_STRING("13"), start>>::type::value,
+  get_result<
+    int_token::apply<BOOST_METAPARSE_STRING("13"), start>
+  >::type::value,
   "whitespaces after the number are optional"
 );
 
 static_assert(
-  is_error<int_token::apply<BOOST_STRING("foo"), start>>::type::value,
+  is_error<int_token::apply<BOOST_METAPARSE_STRING("foo"), start>>::type::value,
   "when there is no number, token fails"
 );
 ```

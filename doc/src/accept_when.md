@@ -82,19 +82,23 @@ BOOST_METAPARSE_DEFINE_ERROR(digit_expected, "Digit expected");
 using accept_digit = accept_when<one_char, util::is_digit<>, digit_expected>;
 
 static_assert(
-  !is_error<accept_digit::apply<BOOST_STRING("0"), start>>::type::value,
+  !is_error<
+    accept_digit::apply<BOOST_METAPARSE_STRING("0"), start>
+  >::type::value,
   "accept_digit should accept a digit"
 );
 
 static_assert(
   get_result<
-    accept_digit::apply<BOOST_STRING("0"), start>
+    accept_digit::apply<BOOST_METAPARSE_STRING("0"), start>
   >::type::value == '0',
   "the result of parsing should be the character value"
 );
 
 static_assert(
-  is_error<accept_digit::apply<BOOST_STRING("x"), start>>::type::value,
+  is_error<
+    accept_digit::apply<BOOST_METAPARSE_STRING("x"), start>
+  >::type::value,
   "accept_digit should reject a character that is not a digit"
 );
 ```

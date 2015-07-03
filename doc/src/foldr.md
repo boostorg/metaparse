@@ -113,14 +113,14 @@ using ints = foldr<int_token, boost::mpl::int_<0>, sum_op>;
 
 static_assert(
   get_result<
-    ints::apply<BOOST_STRING("11 13 3 21"), start>
+    ints::apply<BOOST_METAPARSE_STRING("11 13 3 21"), start>
   >::type::value == 48,
   "ints should sum the numbers"
 );
 
 static_assert(
   get_result<
-    ints::apply<BOOST_STRING(""), start>
+    ints::apply<BOOST_METAPARSE_STRING(""), start>
   >::type::value == 0,
   "the sum of no elements is 0"
 );
@@ -134,5 +134,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

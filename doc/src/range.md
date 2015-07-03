@@ -60,17 +60,19 @@ using one_digit =
   range<std::integral_constant<char, '0'>, std::integral_constant<char, '9'>>;
 
 static_assert(
-  !is_error<one_digit::apply<BOOST_STRING("0"), start>>::type::value,
+  !is_error<one_digit::apply<BOOST_METAPARSE_STRING("0"), start>>::type::value,
   "one_digit should accept a digit"
 );
 
 static_assert(
-  is_error<one_digit::apply<BOOST_STRING("x"), start>>::type::value,
+  is_error<one_digit::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "one_digit should reject a value outside of ['0'..'9']"
 );
 
 static_assert(
-  get_result<one_digit::apply<BOOST_STRING("0"), start>>::type::value == '0',
+  get_result<
+    one_digit::apply<BOOST_METAPARSE_STRING("0"), start>
+  >::type::value == '0',
   "the result of parsing should be the character value"
 );
 ```

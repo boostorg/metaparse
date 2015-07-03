@@ -71,7 +71,7 @@ static_assert(
     >,
     get_result<
       iterate<digit, std::integral_constant<int, 3>>::apply<
-        BOOST_STRING("123"),
+        BOOST_METAPARSE_STRING("123"),
         start
       >
     >::type
@@ -88,7 +88,7 @@ static_assert(
     >,
     get_result<
       iterate<digit, std::integral_constant<int, 3>>::apply<
-        BOOST_STRING("1234"),
+        BOOST_METAPARSE_STRING("1234"),
         start
       >
     >::type
@@ -99,7 +99,7 @@ static_assert(
 static_assert(
   is_error<
     iterate<digit, std::integral_constant<int, 3>>::apply<
-      BOOST_STRING("12"),
+      BOOST_METAPARSE_STRING("12"),
       start
     >
   >::type::value,

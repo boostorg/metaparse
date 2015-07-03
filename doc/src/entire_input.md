@@ -67,14 +67,16 @@ using int_parser = entire_input<int_, extra_chars_at_end>;
 
 static_assert(
   get_result<
-    int_parser::apply<BOOST_STRING("1113"), start>
+    int_parser::apply<BOOST_METAPARSE_STRING("1113"), start>
   >::type::value == 1113,
   "it should parse the input if it contains only an integer"
 );
 
 static_assert(
   std::is_same<
-    get_message<int_parser::apply<BOOST_STRING("1113mm"), start>>::type,
+    get_message<
+      int_parser::apply<BOOST_METAPARSE_STRING("1113mm"), start>
+    >::type,
     extra_chars_at_end
   >::type::value,
   "it should return the specified error message when there are extra characters"

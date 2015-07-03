@@ -43,7 +43,7 @@ using exp_parser13 =
  >;
 
 // query:
-//    exp_parser13::apply<BOOST_STRING("1 + 2 - 3")>::type
+//    exp_parser13::apply<BOOST_METAPARSE_STRING("1 + 2 - 3")>::type
 
 #endif
 

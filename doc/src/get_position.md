@@ -60,7 +60,9 @@ static_assert(
 static_assert(
   std::is_same<
     start,
-    get_position<accept<sample_error, BOOST_STRING("foo"), start>>::type
+    get_position<
+      accept<sample_error, BOOST_METAPARSE_STRING("foo"), start>
+    >::type
   >::type::value,
   "It should return the position of an accept"
 );

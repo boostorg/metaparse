@@ -51,17 +51,19 @@ lit<boost::mpl::char_<c>>
 using namespace boost::metaparse;
 
 static_assert(
-  is_error<lit_c<'x'>::apply<BOOST_STRING("a"), start>>::type::value,
+  is_error<lit_c<'x'>::apply<BOOST_METAPARSE_STRING("a"), start>>::type::value,
   "a different character should be an error"
 );
 
 static_assert(
-  is_error<lit_c<'x'>::apply<BOOST_STRING(""), start>>::type::value,
+  is_error<lit_c<'x'>::apply<BOOST_METAPARSE_STRING(""), start>>::type::value,
   "empty input should be an error"
 );
 
 static_assert(
-  get_result<lit_c<'x'>::apply<BOOST_STRING("x"), start>>::type::value == 'x',
+  get_result<
+    lit_c<'x'>::apply<BOOST_METAPARSE_STRING("x"), start>
+  >::type::value == 'x',
   "result of parsing should be the accepted character"
 );
 ```

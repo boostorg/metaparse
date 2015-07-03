@@ -65,7 +65,7 @@ prints the result of parsing to the standard output and calls `exit`.
 
 using namespace boost::metaparse;
 
-debug_parsing_error<int_, BOOST_STRING("not an int")> do_debugging;
+debug_parsing_error<int_, BOOST_METAPARSE_STRING("not an int")> do_debugging;
 
 int main() {}
 ```
@@ -90,6 +90,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
-
 

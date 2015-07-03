@@ -33,10 +33,10 @@ using exp_parser18 =
  >;
 
 // query:
-//    exp_parser18::apply<BOOST_STRING("---13")>::type
+//    exp_parser18::apply<BOOST_METAPARSE_STRING("---13")>::type
 
 // query:
-//    exp_parser18::apply<BOOST_STRING("13")>::type
+//    exp_parser18::apply<BOOST_METAPARSE_STRING("13")>::type
 
 #endif
 

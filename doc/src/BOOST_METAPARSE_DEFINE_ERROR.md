@@ -82,7 +82,7 @@ using name_age = sequence<name_token, age_token>;
 static_assert(
   std::is_same<
     age_expected,
-    get_message<name_age::apply<BOOST_STRING("Joe "), start>>::type
+    get_message<name_age::apply<BOOST_METAPARSE_STRING("Joe "), start>>::type
   >::type::value,
   "the error message should be age_expected when the age is missing"
 );

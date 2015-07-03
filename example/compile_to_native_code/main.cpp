@@ -224,7 +224,7 @@ lambda<string<'2',' ','*',' ','_'> >::type f5;
 #ifdef LAMBDA
   #error LAMBDA already defined
 #endif
-#define LAMBDA(exp) apply_wrap1<function_parser, BOOST_STRING(#exp)>::type
+#define LAMBDA(exp) apply_wrap1<function_parser, BOOST_METAPARSE_STRING(#exp)>::type
 
 LAMBDA(13) f1;
 LAMBDA(2 + 3) f2;

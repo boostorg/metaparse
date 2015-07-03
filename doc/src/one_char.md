@@ -42,8 +42,8 @@ stored in the source position). `one_char` updates the source position's `col`
 and `line` values based on the new line characters. It detects Linux (`\n`),
 Windows (`\r\n`) and Mac (`\r`) line endings.
 
-`one_char::apply<BOOST_STRING(""), pos>` returns an error for every `pos`
-source position.
+`one_char::apply<BOOST_METAPARSE_STRING(""), pos>` returns an error for every
+`pos` source position.
 
 ## Example
 
@@ -60,20 +60,22 @@ source position.
 using namespace boost::metaparse;
 
 static_assert(
-  get_result<one_char::apply<BOOST_STRING("foo"), start>>::type::value == 'f',
+  get_result<
+    one_char::apply<BOOST_METAPARSE_STRING("foo"), start>
+  >::type::value == 'f',
   "the result of parsing should be the first character of the input"
 );
 
 static_assert(
   std::is_same<
-    BOOST_STRING("oo"),
-    get_remaining<one_char::apply<BOOST_STRING("foo"), start>>::type
+    BOOST_METAPARSE_STRING("oo"),
+    get_remaining<one_char::apply<BOOST_METAPARSE_STRING("foo"), start>>::type
   >::type::value,
   "one_char should consume the first character of the input"
 );
 
 static_assert(
-  is_error<one_char::apply<BOOST_STRING(""), start>>::type::value,
+  is_error<one_char::apply<BOOST_METAPARSE_STRING(""), start>>::type::value,
   "it should return an error for empty input"
 );
 ```

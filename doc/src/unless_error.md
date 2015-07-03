@@ -60,10 +60,10 @@ using namespace boost::metaparse;
 BOOST_METAPARSE_DEFINE_ERROR(sample_error, "Sample error message");
 
 using accept1 =
-  accept<std::integral_constant<int, 11>, BOOST_STRING("foo"), start>;
+  accept<std::integral_constant<int, 11>, BOOST_METAPARSE_STRING("foo"), start>;
 
 using accept2 =
-  accept<std::integral_constant<int, 13>, BOOST_STRING("bar"), start>;
+  accept<std::integral_constant<int, 13>, BOOST_METAPARSE_STRING("bar"), start>;
 
 using reject1 = reject<sample_error, start>;
 

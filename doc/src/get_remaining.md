@@ -43,14 +43,22 @@ using namespace boost::metaparse;
 struct returns_accept
 {
   using type =
-    accept<std::integral_constant<int, 13>, BOOST_STRING("foo"), start>;
+    accept<
+      std::integral_constant<int, 13>,
+      BOOST_METAPARSE_STRING("foo"),
+      start
+    >;
 };
 
 static_assert(
   std::is_same<
-    BOOST_STRING("foo"),
+    BOOST_METAPARSE_STRING("foo"),
     get_remaining<
-      accept<std::integral_constant<int, 13>, BOOST_STRING("foo"), start>
+      accept<
+        std::integral_constant<int, 13>,
+        BOOST_METAPARSE_STRING("foo"),
+        start
+      >
     >::type
   >::type::value,
   "It should return the remaining input"
@@ -58,7 +66,7 @@ static_assert(
 
 static_assert(
   std::is_same<
-    BOOST_STRING("foo"),
+    BOOST_METAPARSE_STRING("foo"),
     get_remaining<returns_accept>::type
   >::type::value,
   "It should support lazy evaluation"

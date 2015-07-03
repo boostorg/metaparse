@@ -20,23 +20,23 @@ measurements. Here is a list of the `printf` calls and their compilation speed
     <td style='text-align:center'>3.51</td>
   </tr>
   <tr>
-    <td>`printf<BOOST_STRING("%f")>(1.0)`</td>
+    <td>`printf<BOOST_METAPARSE_STRING("%f")>(1.0)`</td>
     <td style='text-align:center'>4.95</td>
   </tr>
   <tr>
-    <td>`printf<BOOST_STRING("%f%f")>(1.0, 2.0)`</td>
+    <td>`printf<BOOST_METAPARSE_STRING("%f%f")>(1.0, 2.0)`</td>
     <td style='text-align:center'>5.26</td>
   </tr>
   <tr>
-    <td>`printf<BOOST_STRING("%f%f%f")>(1.0, 2.0, 3.0)`</td>
+    <td>`printf<BOOST_METAPARSE_STRING("%f%f%f")>(1.0, 2.0, 3.0)`</td>
     <td style='text-align:center'>5.50</td>
   </tr>
   <tr>
-    <td>`printf<BOOST_STRING("%f%f%f%f")>(1.0, 2.0, 3.0, 4.0)`</td>
+    <td>`printf<BOOST_METAPARSE_STRING("%f%f%f%f")>(1.0, 2.0, 3.0, 4.0)`</td>
     <td style='text-align:center'>5.82</td>
   </tr>
   <tr>
-    <td>`printf<BOOST_STRING("%f%f%f%f%f")>(1.0, 2.0, 3.0, 4.0, 5.0)`</td>
+    <td>`printf<BOOST_METAPARSE_STRING("%f%f%f%f%f")>(1.0, 2.0, 3.0, 4.0, 5.0)`</td>
     <td style='text-align:center'>6.07</td>
   </tr>
 </table>
@@ -59,5 +59,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](index.html)
-
 

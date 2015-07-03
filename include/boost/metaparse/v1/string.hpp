@@ -273,24 +273,24 @@ namespace boost
     #endif
     #define BOOST_DEF(n) = {BOOST_PP_ENUM_PARAMS(n, C) BOOST_PP_COMMA_IF(n) 0}
 
-    #ifdef BOOST_STRING_DECLARE
-    #  error BOOST_STRING_DECLARE already defined
+    #ifdef BOOST_METAPARSE_STRING_DECLARE
+    #  error BOOST_METAPARSE_STRING_DECLARE already defined
     #endif
-    #ifdef BOOST_STRING_DEFINE
-    #  error BOOST_STRING_DECLARE already defined
+    #ifdef BOOST_METAPARSE_STRING_DEFINE
+    #  error BOOST_METAPARSE_STRING_DECLARE already defined
     #endif
     #ifdef BOOST_USE_CONSTEXPR
-    #  define BOOST_STRING_DECLARE(n) BOOST_DEF(n)
-    #  define BOOST_STRING_DEFINE(n)
+    #  define BOOST_METAPARSE_STRING_DECLARE(n) BOOST_DEF(n)
+    #  define BOOST_METAPARSE_STRING_DEFINE(n)
     #else
-    #  define BOOST_STRING_DECLARE(n)
-    #  define BOOST_STRING_DEFINE(n) BOOST_DEF(n)
+    #  define BOOST_METAPARSE_STRING_DECLARE(n)
+    #  define BOOST_METAPARSE_STRING_DEFINE(n) BOOST_DEF(n)
     #endif
 
-    #ifdef BOOST_STRING_CASE
-    #  error BOOST_STRING_CASE is already defined
+    #ifdef BOOST_METAPARSE_STRING_CASE
+    #  error BOOST_METAPARSE_STRING_CASE is already defined
     #endif
-    #define BOOST_STRING_CASE(z, n, unused) \
+    #define BOOST_METAPARSE_STRING_CASE(z, n, unused) \
       template <BOOST_PP_ENUM_PARAMS(n, int C)> \
       struct \
         c_str< \
@@ -306,7 +306,7 @@ namespace boost
       { \
         typedef c_str type; \
         static BOOST_CONSTEXPR const char value[n + 1] \
-          BOOST_STRING_DECLARE(n); \
+          BOOST_METAPARSE_STRING_DECLARE(n); \
       }; \
       \
       template <BOOST_PP_ENUM_PARAMS(n, int C)> \
@@ -319,28 +319,28 @@ namespace boost
             ~ \
           ) \
         > \
-      >::value[n + 1] BOOST_STRING_DEFINE(n);
+      >::value[n + 1] BOOST_METAPARSE_STRING_DEFINE(n);
 
     BOOST_PP_REPEAT_FROM_TO(
       1,
       BOOST_LIMIT_STRING_SIZE,
-      BOOST_STRING_CASE,
+      BOOST_METAPARSE_STRING_CASE,
       ~
     )
 
-    #undef BOOST_STRING_CASE
-    #undef BOOST_STRING_DECLARE
-    #undef BOOST_STRING_DEFINE
+    #undef BOOST_METAPARSE_STRING_CASE
+    #undef BOOST_METAPARSE_STRING_DECLARE
+    #undef BOOST_METAPARSE_STRING_DEFINE
     #undef BOOST_DEF
 #endif
   }
 }
 
 /*
- * The BOOST_STRING macro
+ * The BOOST_METAPARSE_STRING macro
  */
 
-#if defined BOOST_USE_CONSTEXPR && !defined BOOST_CONFIG_NO_BOOST_STRING
+#if defined BOOST_USE_CONSTEXPR && !defined BOOST_CONFIG_NO_BOOST_METAPARSE_STRING
 
 #include <boost/metaparse/v1/impl/remove_trailing_no_chars.hpp>
 
@@ -362,21 +362,25 @@ namespace boost
   }
 }
 
-  #ifdef BOOST_V1_STRING_N
-  #  error BOOST_V1_STRING_N already defined
+  #ifdef BOOST_METAPARSE_V1_STRING_N
+  #  error BOOST_METAPARSE_V1_STRING_N already defined
   #endif
-  #define BOOST_V1_STRING_N(z, n, s) \
+  #define BOOST_METAPARSE_V1_STRING_N(z, n, s) \
     boost::metaparse::v1::impl::string_at((s), n)
 
-  #ifdef BOOST_V1_STRING
-  #  error BOOST_V1_STRING already defined
+  #ifdef BOOST_METAPARSE_V1_STRING
+  #  error BOOST_METAPARSE_V1_STRING already defined
   #endif
-  #define BOOST_V1_STRING(s) \
+  #define BOOST_METAPARSE_V1_STRING(s) \
     boost::metaparse::v1::impl::assert_string_length< \
       sizeof(s) - 1, \
       boost::metaparse::v1::impl::remove_trailing_no_chars< \
         boost::metaparse::v1::string< \
-          BOOST_PP_ENUM(BOOST_LIMIT_STRING_SIZE, BOOST_V1_STRING_N, s) \
+          BOOST_PP_ENUM( \
+            BOOST_LIMIT_STRING_SIZE, \
+            BOOST_METAPARSE_V1_STRING_N, \
+            s \
+          ) \
         > \
       > \
     >::type
@@ -386,13 +390,13 @@ namespace boost
   // Include it only when it is needed
   #include <boost/static_assert.hpp>
 
-  #ifdef BOOST_V1_STRING
-  #  error BOOST_V1_STRING already defined
+  #ifdef BOOST_METAPARSE_V1_STRING
+  #  error BOOST_METAPARSE_V1_STRING already defined
   #endif
-  #define BOOST_V1_STRING(s) \
-    BOOST_STATIC_ASSERT_MSG(false, "BOOST_STRING is not supported")
+  #define BOOST_METAPARSE_V1_STRING(s) \
+    BOOST_STATIC_ASSERT_MSG(false, "BOOST_METAPARSE_STRING is not supported")
 
-  #define BOOST_V1_CONFIG_NO_BOOST_STRING
+  #define BOOST_METAPARSE_V1_CONFIG_NO_BOOST_METAPARSE_STRING
 
 #endif
 

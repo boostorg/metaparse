@@ -36,7 +36,7 @@ typedef boost::metaparse::string<'a','a','a','c'> invalid_input;
 
 #else
 
-typedef BOOST_STRING("aaac") invalid_input;
+typedef BOOST_METAPARSE_STRING("aaac") invalid_input;
 
 #endif
 

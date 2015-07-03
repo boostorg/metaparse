@@ -160,7 +160,7 @@ typedef build_parser<entire_input<expression> > calculator_parser;
 #ifdef _STR
 #  error _STR already defined
 #endif
-#define _STR BOOST_STRING
+#define _STR BOOST_METAPARSE_STRING
 
 #ifdef BOOST_NO_CONSTEXPR
 int main()

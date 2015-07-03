@@ -50,12 +50,14 @@ foldl1<
 using namespace boost::metaparse;
 
 static_assert(
-  get_result<int_::apply<BOOST_STRING("13"), start>>::type::value == 13,
+  get_result<
+    int_::apply<BOOST_METAPARSE_STRING("13"), start>
+  >::type::value == 13,
   "It should parse an integer value"
 );
 
 static_assert(
-  is_error<int_::apply<BOOST_STRING("six"), start>>::type::value,
+  is_error<int_::apply<BOOST_METAPARSE_STRING("six"), start>>::type::value,
   "It should reject the input if it is not a number"
 );
 ```

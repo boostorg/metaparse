@@ -60,7 +60,11 @@ struct returns_reject
 
 static_assert(
   !is_error<
-    accept<std::integral_constant<int, 13>, BOOST_STRING("foo"), start>
+    accept<
+      std::integral_constant<int, 13>,
+      BOOST_METAPARSE_STRING("foo"),
+      start
+    >
   >::type::value,
   "an accept should not be an error"
 );

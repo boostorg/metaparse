@@ -43,7 +43,7 @@ struct plus_exp3 :
 using exp_parser20 = build_parser<plus_exp3>;
 
 // query:
-//    exp_parser20::apply<BOOST_STRING("hello")>::type
+//    exp_parser20::apply<BOOST_METAPARSE_STRING("hello")>::type
 
 #endif
 

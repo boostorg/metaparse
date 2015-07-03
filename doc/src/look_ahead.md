@@ -69,23 +69,25 @@ using namespace boost::metaparse;
 
 static_assert(
   get_result<
-    look_ahead<int_>::apply<BOOST_STRING("13"), start>
+    look_ahead<int_>::apply<BOOST_METAPARSE_STRING("13"), start>
   >::type::value == 13,
   "it should return the same result as the wrapped parser"
 );
 
 static_assert(
   std::is_same<
-    BOOST_STRING("13"),
+    BOOST_METAPARSE_STRING("13"),
     get_remaining<
-      look_ahead<int_>::apply<BOOST_STRING("13"), start>
+      look_ahead<int_>::apply<BOOST_METAPARSE_STRING("13"), start>
     >::type
   >::type::value,
   "it should not consume any input"
 );
 
 static_assert(
-  is_error<look_ahead<int_>::apply<BOOST_STRING("six"), start>>::type::value,
+  is_error<
+    look_ahead<int_>::apply<BOOST_METAPARSE_STRING("six"), start>
+  >::type::value,
   "it should fail when the wrapped parser fails"
 );
 ```

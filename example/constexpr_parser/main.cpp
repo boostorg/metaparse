@@ -216,7 +216,7 @@ typedef build_parser<entire_input<s> > parser;
   #error P already defined
 #endif
 #define P(x) \
-  parsed::build<boost::mpl::apply_wrap1<parser, BOOST_STRING(#x)> >()
+  parsed::build<boost::mpl::apply_wrap1<parser, BOOST_METAPARSE_STRING(#x)> >()
 
 // Mixed parser
 
@@ -286,7 +286,9 @@ typedef build_parser<entire_input<s_mixed> > parser_mixed;
   #error P_MIXED already defined
 #endif
 #define P_MIXED(x) \
-  parsed::build<boost::mpl::apply_wrap1<parser_mixed, BOOST_STRING(#x)> >()
+  parsed::build< \
+    boost::mpl::apply_wrap1<parser_mixed, BOOST_METAPARSE_STRING(#x)> \
+  >()
 
 int main()
 {

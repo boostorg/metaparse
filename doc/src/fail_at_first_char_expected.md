@@ -90,12 +90,16 @@ using plus_exp =
   >;
 
 static_assert(
-  get_result<plus_exp::apply<BOOST_STRING("1+2+3"), start>>::type::value == 6,
+  get_result<
+    plus_exp::apply<BOOST_METAPARSE_STRING("1+2+3"), start>
+  >::type::value == 6,
   "it should accept the input when it is a list of '+' separated ints"
 );
 
 static_assert(
-  is_error<plus_exp::apply<BOOST_STRING("1+2+3+"), start>>::type::value,
+  is_error<
+    plus_exp::apply<BOOST_METAPARSE_STRING("1+2+3+"), start>
+  >::type::value,
   "it should reject the input when it has an extra +"
 );
 ```

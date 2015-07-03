@@ -52,22 +52,22 @@ except<one_char, c, error::end_of_input_expected>
 
 using namespace boost::metaparse;
 
-using want_empty = empty<BOOST_STRING("result")>;
+using want_empty = empty<BOOST_METAPARSE_STRING("result")>;
 
 static_assert(
-  !is_error<want_empty::apply<BOOST_STRING(""), start>>::type::value,
+  !is_error<want_empty::apply<BOOST_METAPARSE_STRING(""), start>>::type::value,
   "empty accepts the empty input"
 );
 
 static_assert(
-  is_error<want_empty::apply<BOOST_STRING("x"), start>>::type::value,
+  is_error<want_empty::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "empty should reject non-empty input"
 );
 
 static_assert(
   std::is_same<
-    get_result<want_empty::apply<BOOST_STRING(""), start>>::type,
-    BOOST_STRING("result")
+    get_result<want_empty::apply<BOOST_METAPARSE_STRING(""), start>>::type,
+    BOOST_METAPARSE_STRING("result")
   >::type::value,
   "the result of parsing should be the given value"
 );

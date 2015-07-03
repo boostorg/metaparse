@@ -69,12 +69,14 @@ using whitespace =
   one_of<lit_c<' '>, lit_c<'\n'>, lit_c<'\r'>, lit_c<'\t'>, lit_c<'\v'>>;
 
 static_assert(
-  get_result<whitespace::apply<BOOST_STRING(" "), start>>::type::value == ' ',
+  get_result<
+    whitespace::apply<BOOST_METAPARSE_STRING(" "), start>
+  >::type::value == ' ',
   "the result of parsing should be the first character of the input"
 );
 
 static_assert(
-  is_error<whitespace::apply<BOOST_STRING("x"), start>>::type::value,
+  is_error<whitespace::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "it should return an error when the input does not begin with a whitespace"
 );
 

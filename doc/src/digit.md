@@ -41,17 +41,19 @@ accept_when<one_char, util::is_digit, error::digit_expected>
 using namespace boost::metaparse;
 
 static_assert(
-  !is_error<digit::apply<BOOST_STRING("0"), start>>::type::value,
+  !is_error<digit::apply<BOOST_METAPARSE_STRING("0"), start>>::type::value,
   "digit should accept a digit"
 );
 
 static_assert(
-  is_error<digit::apply<BOOST_STRING("x"), start>>::type::value,
+  is_error<digit::apply<BOOST_METAPARSE_STRING("x"), start>>::type::value,
   "digit should reject a character"
 );
 
 static_assert(
-  get_result<digit::apply<BOOST_STRING("0"), start>>::type::value == '0',
+  get_result<
+    digit::apply<BOOST_METAPARSE_STRING("0"), start>
+  >::type::value == '0',
   "the result of parsing should be the character value"
 );
 ```
@@ -64,5 +66,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

@@ -3,7 +3,7 @@
 ## Synopsis
 
 ```cpp
-template <class StartSymbol = BOOST_STRING("S")>
+template <class StartSymbol = BOOST_METAPARSE_STRING("S")>
 struct grammar
 {
   template <class S, class Pos>
@@ -38,8 +38,8 @@ where a definition can be a rule or an import command.
 Rules look like on of the following:
 
 ```cpp
-  ::rule<BOOST_STRING("name ::= def")>
-  ::rule<BOOST_STRING("name ::= def"), semantic_action>
+  ::rule<BOOST_METAPARSE_STRING("name ::= def")>
+  ::rule<BOOST_METAPARSE_STRING("name ::= def"), semantic_action>
 ```
 
 `name` consists of letters, digits and the `_` character. It is the name of
@@ -63,7 +63,7 @@ Imports can be used to turn an arbitrary parser into a symbol available for the
 rules. Import definitions look like the following:
 
 ```cpp
-  ::import<BOOST_STRING("name"), parser>
+  ::import<BOOST_METAPARSE_STRING("name"), parser>
 ```
 
 `name` is the name of the symbol, `parser` is the parser to bind the name to.
@@ -121,18 +121,18 @@ using plus_action =
   lazy_fold<back<_1>, front<_1>, lambda<lazy_plus<_1, back<_2>>>::type>;
 
 using plus_grammar =
-  grammar<BOOST_STRING("plus_exp")>
-    ::import<BOOST_STRING("int_token"), token<int_>>::type
+  grammar<BOOST_METAPARSE_STRING("plus_exp")>
+    ::import<BOOST_METAPARSE_STRING("int_token"), token<int_>>::type
 
-    ::rule<BOOST_STRING("ws ::= (' ' | '\n' | '\r' | '\t')*")>::type
-    ::rule<BOOST_STRING("plus_token ::= '+' ws"), front<_1>>::type
-    ::rule<BOOST_STRING("plus_exp ::= int_token (plus_token int_token)*"), plus_action>::type
+    ::rule<BOOST_METAPARSE_STRING("ws ::= (' ' | '\n' | '\r' | '\t')*")>::type
+    ::rule<BOOST_METAPARSE_STRING("plus_token ::= '+' ws"), front<_1>>::type
+    ::rule<BOOST_METAPARSE_STRING("plus_exp ::= int_token (plus_token int_token)*"), plus_action>::type
   ;
 
 using plus_parser = build_parser<entire_input<plus_grammar>>;
 
 static_assert(
-  plus_parser::apply<BOOST_STRING("1 + 2 + 3 + 4")>::type::value == 10,
+  plus_parser::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type::value == 10,
   "Arithmetic expression should be evaluated"
 );
 ```
@@ -145,5 +145,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

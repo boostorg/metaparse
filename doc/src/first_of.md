@@ -62,13 +62,15 @@ using namespace boost::metaparse;
 using int_with_semicolon = first_of<int_, lit_c<';'>>;
 
 static_assert(
-  is_error<int_with_semicolon::apply<BOOST_STRING("13"), start>>::type::value,
+  is_error<
+    int_with_semicolon::apply<BOOST_METAPARSE_STRING("13"), start>
+  >::type::value,
   "int without semicolon is rejected"
 );
 
 static_assert(
   get_result<
-    int_with_semicolon::apply<BOOST_STRING("13;"), start>
+    int_with_semicolon::apply<BOOST_METAPARSE_STRING("13;"), start>
   >::type::value,
   "the result is the result of the first parser"
 );
@@ -82,5 +84,4 @@ Distributed under the Boost Software License, Version 1.0.
 </p>
 
 [[up]](reference.html)
-
 

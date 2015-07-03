@@ -149,14 +149,14 @@ BOOST_AUTO_TEST_CASE(test_string)
   ));
 
 #ifndef BOOST_NO_CONSTEXPR
-  // BOOST_STRING macro
+  // BOOST_METAPARSE_STRING macro
   ///////////////////////
 
   // test_empty_string
-  BOOST_MPL_ASSERT((equal<BOOST_STRING(""), empty_string>));
+  BOOST_MPL_ASSERT((equal<BOOST_METAPARSE_STRING(""), empty_string>));
 
   // test_string_creation
-  BOOST_MPL_ASSERT((equal<BOOST_STRING("Hello"), hello>));
+  BOOST_MPL_ASSERT((equal<BOOST_METAPARSE_STRING("Hello"), hello>));
 #endif
 
 }
