@@ -19,9 +19,9 @@
 #include <boost/mpl/vector_c.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_any_one_of)
+BOOST_METAPARSE_TEST_CASE(any_one_of)
 {
   using boost::metaparse::fail;
   using boost::metaparse::get_result;
@@ -99,5 +99,4 @@ BOOST_AUTO_TEST_CASE(test_any_one_of)
     >
   ));
 }
-
 

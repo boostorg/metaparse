@@ -19,7 +19,7 @@
 #include <boost/mpl/lambda.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -32,7 +32,7 @@ namespace
   typedef any<one_char> any_one_char;
 }
 
-BOOST_AUTO_TEST_CASE(test_transform)
+BOOST_METAPARSE_TEST_CASE(transform)
 {
   using boost::metaparse::get_result;
   using boost::metaparse::transform;

@@ -14,7 +14,7 @@
 
 #include <boost/type_traits.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -25,7 +25,7 @@ namespace
   };
 }
 
-BOOST_AUTO_TEST_CASE(test_accept)
+BOOST_METAPARSE_TEST_CASE(accept)
 {
   using boost::metaparse::accept;
   using boost::metaparse::start;

@@ -3,6 +3,9 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE string
+
 #define BOOST_LIMIT_STRING_SIZE 64
 
 #include <boost/metaparse/string.hpp>
@@ -30,6 +33,7 @@
 #include <boost/mpl/push_front.hpp>
 #include <boost/mpl/push_back.hpp>
 #include <boost/mpl/string.hpp>
+#include <boost/mpl/assert.hpp>
 
 #include <boost/test/unit_test.hpp>
 
@@ -160,5 +164,4 @@ BOOST_AUTO_TEST_CASE(test_string)
 #endif
 
 }
-
 

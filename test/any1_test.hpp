@@ -21,9 +21,9 @@
 #include <boost/mpl/vector.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-DEFINE_TEST_CASE
+BOOST_METAPARSE_TEST_CASE(TEST_NAME)
 { 
   using boost::metaparse::get_result;
   using boost::metaparse::letter;

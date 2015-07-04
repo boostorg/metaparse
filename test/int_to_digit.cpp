@@ -10,9 +10,9 @@
 #include <boost/mpl/int.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_int_to_digit)
+BOOST_METAPARSE_TEST_CASE(int_to_digit)
 {
   using boost::metaparse::util::int_to_digit;
 

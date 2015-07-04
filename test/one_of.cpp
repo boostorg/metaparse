@@ -19,9 +19,9 @@
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_one_of)
+BOOST_METAPARSE_TEST_CASE(one_of)
 {
   using boost::metaparse::is_error;
   using boost::metaparse::one_of;

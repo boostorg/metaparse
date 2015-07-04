@@ -17,11 +17,11 @@
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 #include <boost/type_traits/is_same.hpp>
 
-BOOST_AUTO_TEST_CASE(test_digit)
+BOOST_METAPARSE_TEST_CASE(digit)
 {
   using boost::metaparse::is_error;
   using boost::metaparse::digit;

@@ -15,10 +15,9 @@
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-
-BOOST_AUTO_TEST_CASE(test_alphanum)
+BOOST_METAPARSE_TEST_CASE(alphanum)
 {
   using boost::metaparse::get_result;
   using boost::metaparse::alphanum;

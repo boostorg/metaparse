@@ -22,7 +22,7 @@
 #include <boost/mpl/less_equal.hpp>
 #include <boost/mpl/not.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -34,7 +34,7 @@ namespace
   typedef next_char<start, char_0> next0;
  }
 
-BOOST_AUTO_TEST_CASE(test_source_position)
+BOOST_METAPARSE_TEST_CASE(source_position)
 {
   using boost::metaparse::get_line;
   using boost::metaparse::get_col;

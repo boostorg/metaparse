@@ -3,6 +3,9 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE empty_string
+
 #include <boost/metaparse/v1/impl/empty_string.hpp>
 
 #include <boost/test/unit_test.hpp>
@@ -17,5 +20,4 @@ BOOST_AUTO_TEST_CASE(test_empty_string)
   // test_value
   BOOST_REQUIRE_EQUAL(string(), empty_string<>::value);
 }
-
 

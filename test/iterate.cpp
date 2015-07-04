@@ -17,9 +17,9 @@
 #include <boost/mpl/vector_c.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_iterate)
+BOOST_METAPARSE_TEST_CASE(iterate)
 {
   using boost::metaparse::is_error;
   using boost::metaparse::iterate;

@@ -13,7 +13,7 @@
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -23,7 +23,7 @@ namespace
   typedef apply_wrap2<fail<int1>, int11, int2> err;
 }
 
-BOOST_AUTO_TEST_CASE(test_util_unless_error)
+BOOST_METAPARSE_TEST_CASE(util_unless_error)
 {
   using boost::metaparse::is_error;
   using boost::metaparse::unless_error;

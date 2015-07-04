@@ -8,10 +8,11 @@
 
 #include <boost/mpl/equal_to.hpp>
 #include <boost/mpl/char.hpp>
+#include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_pop_front)
+BOOST_METAPARSE_TEST_CASE(pop_front)
 {
   using boost::metaparse::v1::impl::pop_front;
   using boost::metaparse::string;

@@ -23,7 +23,7 @@ namespace
   struct anyf : foldrf<P, list<>, lambda<push_front<_1, _2> >::type> {};
 }
 
-#define DEFINE_TEST_CASE BOOST_AUTO_TEST_CASE(test_foldrf)
+#define TEST_NAME foldrf
 
 #include "anyf_test.hpp"  
 

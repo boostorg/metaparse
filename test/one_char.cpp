@@ -10,8 +10,7 @@ namespace
   typedef boost::metaparse::one_char oc;
 }
 
-#define TEST_NAME test_one_char
+#define TEST_NAME one_char
 
 #include "one_char_test.hpp"
-
 

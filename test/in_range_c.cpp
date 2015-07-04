@@ -11,9 +11,9 @@
 #include <boost/mpl/not.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_util_in_range_c)
+BOOST_METAPARSE_TEST_CASE(util_in_range_c)
 {
   using boost::metaparse::util::in_range_c;
   

@@ -17,7 +17,7 @@
 #include <boost/mpl/char.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -30,7 +30,7 @@ namespace
   };
 }
 
-BOOST_AUTO_TEST_CASE(test_foldlfp)
+BOOST_METAPARSE_TEST_CASE(foldlfp)
 {
   using boost::metaparse::foldlfp;
   using boost::metaparse::start;
@@ -86,7 +86,7 @@ namespace
   {};
 }
 
-#define DEFINE_TEST_CASE BOOST_AUTO_TEST_CASE(test_foldlfp_as_foldlf)
+#define TEST_NAME foldlfp_as_foldlf
 
 #include "anyf_test.hpp"  
 

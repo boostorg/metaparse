@@ -15,7 +15,7 @@
 
 #include <boost/type_traits.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 using boost::metaparse::reject;
 using boost::metaparse::get_position;
@@ -37,7 +37,7 @@ namespace
   };
 }
 
-BOOST_AUTO_TEST_CASE(test_transform_error_message)
+BOOST_METAPARSE_TEST_CASE(transform_error_message)
 {
   using boost::metaparse::transform_error_message;
   using boost::metaparse::start;

@@ -5,9 +5,11 @@
 
 #include <boost/metaparse/error/unpaired.hpp>
 
+#include <boost/mpl/assert.hpp>
+
 #include <boost/type_traits/is_same.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -17,7 +19,7 @@ namespace
   };
 }
 
-BOOST_AUTO_TEST_CASE(test_unpaired)
+BOOST_METAPARSE_TEST_CASE(unpaired)
 {
   using boost::metaparse::error::unpaired;
   

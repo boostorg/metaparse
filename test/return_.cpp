@@ -15,7 +15,7 @@
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -28,7 +28,7 @@ namespace
   typedef return_<char_x> return_x;
 }
 
-BOOST_AUTO_TEST_CASE(test_return)
+BOOST_METAPARSE_TEST_CASE(return)
 {
   using boost::metaparse::get_result;
   using boost::metaparse::get_remaining;

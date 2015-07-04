@@ -7,7 +7,7 @@
 
 using boost::metaparse::any;
 
-#define DEFINE_TEST_CASE BOOST_AUTO_TEST_CASE(test_any)
+#define TEST_NAME any
 
 #include "any_test.hpp"  
 

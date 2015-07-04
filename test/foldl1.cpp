@@ -22,7 +22,7 @@ namespace
   struct any1 : foldl1<P, vector<>, push_back<_1, _2> > {};
 }
 
-#define DEFINE_TEST_CASE BOOST_AUTO_TEST_CASE(test_foldl1)
+#define TEST_NAME foldl1
 
 #include "any1_test.hpp"  
 

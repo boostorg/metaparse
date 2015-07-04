@@ -20,9 +20,9 @@
 #include <boost/mpl/equal.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_any_one_of1)
+BOOST_METAPARSE_TEST_CASE(any_one_of1)
 {
   using boost::metaparse::fail;
   using boost::metaparse::is_error;

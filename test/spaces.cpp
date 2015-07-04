@@ -16,7 +16,7 @@
 #include <boost/mpl/equal.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -29,7 +29,7 @@ namespace
 
 }
 
-BOOST_AUTO_TEST_CASE(test_spaces)
+BOOST_METAPARSE_TEST_CASE(spaces)
 {
   using boost::metaparse::is_error;
   using boost::metaparse::spaces;

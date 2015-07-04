@@ -10,7 +10,7 @@
 #include <boost/metaparse/is_error.hpp>
 #include <boost/metaparse/string.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/equal_to.hpp>
@@ -35,7 +35,7 @@ namespace
   };
 }
 
-BOOST_AUTO_TEST_CASE(test_grammar)
+BOOST_METAPARSE_TEST_CASE(grammar)
 {
   using boost::metaparse::grammar;
   using boost::metaparse::lit_c;

@@ -8,10 +8,11 @@
 
 #include <boost/mpl/equal_to.hpp>
 #include <boost/mpl/int.hpp>
+#include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_size)
+BOOST_METAPARSE_TEST_CASE(size)
 {
   using boost::metaparse::v1::impl::size;
   using boost::metaparse::string;

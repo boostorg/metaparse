@@ -15,9 +15,9 @@
 
 #include <boost/type_traits/is_same.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_digit_to_int)
+BOOST_METAPARSE_TEST_CASE(digit_to_int)
 {
   using boost::metaparse::util::digit_to_int;
   using boost::metaparse::error::digit_expected;

@@ -18,9 +18,9 @@
 #include <boost/mpl/equal.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_look_ahead)
+BOOST_METAPARSE_TEST_CASE(look_ahead)
 {
  
   using boost::metaparse::get_result;

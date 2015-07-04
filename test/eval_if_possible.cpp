@@ -9,7 +9,7 @@
 
 #include <boost/type_traits.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -20,7 +20,7 @@ namespace
   };
 }
 
-BOOST_AUTO_TEST_CASE(test_eval_if_possible)
+BOOST_METAPARSE_TEST_CASE(eval_if_possible)
 {
   using boost::metaparse::v1::impl::eval_if_possible;
 

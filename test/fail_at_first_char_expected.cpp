@@ -10,9 +10,9 @@
 
 #include "common.hpp"
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_fail_at_first_char_expected)
+BOOST_METAPARSE_TEST_CASE(fail_at_first_char_expected)
 {
   using boost::metaparse::fail_at_first_char_expected;
   using boost::metaparse::is_error;

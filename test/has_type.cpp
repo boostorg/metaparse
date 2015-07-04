@@ -8,7 +8,7 @@
 #include <boost/mpl/assert.hpp>
 #include <boost/mpl/not.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -18,7 +18,7 @@ namespace
   };
 }
 
-BOOST_AUTO_TEST_CASE(test_has_type)
+BOOST_METAPARSE_TEST_CASE(has_type)
 {
   using boost::metaparse::v1::impl::has_type;
   using boost::mpl::not_;

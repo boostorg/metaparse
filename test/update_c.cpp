@@ -7,10 +7,11 @@
 #include <boost/metaparse/string.hpp>
 
 #include <boost/mpl/equal_to.hpp>
+#include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_update_c)
+BOOST_METAPARSE_TEST_CASE(update_c)
 {
   using boost::metaparse::v1::impl::update_c;
   using boost::metaparse::string;
@@ -34,5 +35,4 @@ BOOST_AUTO_TEST_CASE(test_update_c)
     equal_to<string<'h','e','l','l','x'>, update_c<hello, 4, 'x'>::type>
   ));
 }
-
 

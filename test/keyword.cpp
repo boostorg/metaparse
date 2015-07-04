@@ -16,7 +16,7 @@
 #include <boost/mpl/equal.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -34,7 +34,7 @@ namespace
   typedef keyword<str_hello> keyword_hello;
 }
 
-BOOST_AUTO_TEST_CASE(test_keyword)
+BOOST_METAPARSE_TEST_CASE(keyword)
 {
   using boost::metaparse::get_result;
   using boost::metaparse::start;

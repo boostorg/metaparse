@@ -17,7 +17,7 @@
 #include <boost/mpl/equal.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -32,7 +32,7 @@ namespace
   typedef token<test_parser> a_test_token;
 }
 
-BOOST_AUTO_TEST_CASE(test_token)
+BOOST_METAPARSE_TEST_CASE(token)
 {
   using boost::metaparse::get_result;
   using boost::metaparse::start;

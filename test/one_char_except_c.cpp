@@ -12,7 +12,7 @@ namespace
   typedef boost::metaparse::one_char_except_c<'0', '1'> oc;
 }
 
-#define TEST_NAME test_one_char_except_c
+#define TEST_NAME one_char_except_c
 
 #include "one_char_except_test.hpp"
 

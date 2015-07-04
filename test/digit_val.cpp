@@ -14,9 +14,9 @@
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_digit_val)
+BOOST_METAPARSE_TEST_CASE(digit_val)
 {
   using boost::metaparse::is_error;
   using boost::metaparse::digit_val;

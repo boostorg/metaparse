@@ -7,7 +7,7 @@
 
 using boost::metaparse::anyf;
 
-#define DEFINE_TEST_CASE BOOST_AUTO_TEST_CASE(test_anyf)
+#define TEST_NAME anyf
 
 #include "anyf_test.hpp"  
 

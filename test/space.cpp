@@ -15,7 +15,7 @@
 #include <boost/mpl/char.hpp>
 #include <boost/mpl/assert.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -26,7 +26,7 @@ namespace
   typedef list_c<char, '\r', 'e', 'l', 'l', 'o'> str_with_r;
 }
 
-BOOST_AUTO_TEST_CASE(test_space)
+BOOST_METAPARSE_TEST_CASE(space)
 {
   using boost::metaparse::is_error;
   using boost::metaparse::space;

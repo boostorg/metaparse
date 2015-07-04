@@ -19,9 +19,9 @@
 
 #include <boost/type_traits/is_same.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_middle_of)
+BOOST_METAPARSE_TEST_CASE(middle_of)
 {
   using boost::metaparse::get_result;
   using boost::metaparse::middle_of;

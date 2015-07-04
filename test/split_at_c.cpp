@@ -7,12 +7,13 @@
 #include <boost/metaparse/string.hpp>
 
 #include <boost/mpl/pair.hpp>
+#include <boost/mpl/assert.hpp>
 
 #include <boost/type_traits/is_same.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_split_at_c)
+BOOST_METAPARSE_TEST_CASE(split_at_c)
 {
   using boost::metaparse::v1::impl::split_at_c;
   using boost::metaparse::string;

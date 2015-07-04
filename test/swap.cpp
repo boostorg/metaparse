@@ -7,7 +7,7 @@
 
 #include <boost/type_traits/is_same.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
 namespace
 {
@@ -34,7 +34,7 @@ namespace
   };
 }
 
-BOOST_AUTO_TEST_CASE(test_swap)
+BOOST_METAPARSE_TEST_CASE(swap)
 {
   using boost::metaparse::v1::swap;
   using boost::is_same;

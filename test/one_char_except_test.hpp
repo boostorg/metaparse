@@ -13,9 +13,9 @@
 
 #include <boost/preprocessor/cat.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(BOOST_PP_CAT(TEST_NAME, _except))
+BOOST_METAPARSE_TEST_CASE(BOOST_PP_CAT(TEST_NAME, _except))
 {
   using boost::metaparse::is_error;
   using boost::metaparse::start;
@@ -30,5 +30,4 @@ BOOST_AUTO_TEST_CASE(BOOST_PP_CAT(TEST_NAME, _except))
 }
 
 #include "one_char_test.hpp"
-
 

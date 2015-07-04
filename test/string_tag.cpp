@@ -5,11 +5,13 @@
 
 #include <boost/metaparse/string_tag.hpp>
 
+#include <boost/mpl/assert.hpp>
+
 #include <boost/type_traits/is_same.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_string_tag)
+BOOST_METAPARSE_TEST_CASE(string_tag)
 {
   using boost::metaparse::string_tag;
   
@@ -18,5 +20,4 @@ BOOST_AUTO_TEST_CASE(test_string_tag)
   // test_metaprogramming_value
   BOOST_MPL_ASSERT((is_same<string_tag, string_tag::type>));
 }
-
 

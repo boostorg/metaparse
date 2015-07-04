@@ -9,9 +9,9 @@
 
 #include <boost/type_traits.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_returns)
+BOOST_METAPARSE_TEST_CASE(returns)
 {
   using boost::metaparse::v1::impl::returns;
 

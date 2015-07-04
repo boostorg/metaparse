@@ -18,9 +18,9 @@
 
 #include <boost/type_traits/is_same.hpp>
 
-#include <boost/test/unit_test.hpp>
+#include "test_case.hpp"
 
-BOOST_AUTO_TEST_CASE(test_entire_input)
+BOOST_METAPARSE_TEST_CASE(entire_input)
 {
   using boost::metaparse::get_result;
   using boost::metaparse::entire_input;

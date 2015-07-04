@@ -22,7 +22,7 @@ namespace
   struct any1 : foldr1<P, list<>, push_front<_1, _2> > {};
 }
 
-#define DEFINE_TEST_CASE BOOST_AUTO_TEST_CASE(test_foldr1)
+#define TEST_NAME foldr1
 
 #include "any1_test.hpp"  
 
