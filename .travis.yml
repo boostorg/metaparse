@@ -4,9 +4,19 @@ compiler:
   - gcc
   - clang
 script:
-  - git clone --recursive "https://github.com/boostorg/boost.git"
+  - git clone "https://github.com/boostorg/boost.git"
   - cd boost
-  -   git submodule foreach git checkout master
+  -   git submodule init -- libs/test
+  -   git submodule init -- libs/config
+  -   git submodule init -- libs/wave
+  -   git submodule init -- libs/timer
+  -   git submodule init -- libs/chrono
+  -   git submodule init -- libs/system
+  -   git submodule init -- libs/core
+  -   git submodule init -- libs/predef
+  -   git submodule init -- tools/build
+  -   git submodule init -- tools/inspect
+  -   git submodule update
   -   cd libs
   -     git clone "https://github.com/sabel83/metaparse.git"
   -   cd ..
