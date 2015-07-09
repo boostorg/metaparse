@@ -6,8 +6,6 @@ project metaparse :
     <toolset>clang:<cxxflags>"-ftemplate-depth-300"
   ;
 
-lib boost_unit_test_framework ;
-
 test-suite metaparse-unit-tests :
   [ compile accept.cpp ]
   [ compile accept_when.cpp ]
@@ -25,12 +23,12 @@ test-suite metaparse-unit-tests :
   [ compile build_parser.cpp ]
   [ compile change_error_message.cpp ]
   [ compile concat.cpp ]
-  [ run define_error.cpp boost_unit_test_framework ]
+  [ run define_error.cpp /boost/test//boost_unit_test_framework/<link>static ]
   [ compile digit.cpp ]
   [ compile digit_to_int.cpp ]
   [ compile digit_val.cpp ]
   [ compile empty.cpp ]
-  [ run empty_string.cpp boost_unit_test_framework ]
+  [ run empty_string.cpp /boost/test//boost_unit_test_framework/<link>static ]
   [ compile entire_input.cpp ]
   [ compile eval_if_possible.cpp ]
   [ compile except.cpp ]
@@ -93,7 +91,7 @@ test-suite metaparse-unit-tests :
   [ compile space.cpp ]
   [ compile spaces.cpp ]
   [ compile split_at_c.cpp ]
-  [ run string.cpp boost_unit_test_framework ]
+  [ run string.cpp /boost/test//boost_unit_test_framework/<link>static ]
   [ compile string_iterator_tag.cpp ]
   [ compile string_tag.cpp ]
   [ compile swap.cpp ]
