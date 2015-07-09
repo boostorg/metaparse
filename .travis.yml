@@ -14,6 +14,10 @@ script:
   -   git submodule init -- libs/system
   -   git submodule init -- libs/core
   -   git submodule init -- libs/predef
+  -   git submodule init -- libs/type_traits
+  -   git submodule init -- libs/assert
+  -   git submodule init -- libs/mpl
+  -   git submodule init -- libs/preprocessor
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
