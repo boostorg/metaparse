@@ -23,6 +23,10 @@ script:
   -   git submodule init -- libs/ratio
   -   git submodule init -- libs/function
   -   git submodule init -- libs/static_assert
+  -   git submodule init -- libs/throw_exception
+  -   git submodule init -- libs/detail
+  -   git submodule init -- libs/integer
+  -   git submodule init -- libs/typeof
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
