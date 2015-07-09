@@ -39,6 +39,7 @@ script:
   -   git submodule init -- libs/concept_check
   -   git submodule init -- libs/array
   -   git submodule init -- libs/functional
+  -   git submodule init -- libs/container
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
