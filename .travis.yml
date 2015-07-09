@@ -1,0 +1,19 @@
+language: cpp
+os: linux
+compiler:
+  - gcc
+  - clang
+script:
+  - git clone --recursive "https://github.com/boostorg/boost.git"
+  - cd boost
+  -   git submodule foreach git checkout master
+  -   cd libs
+  -     git clone "https://github.com/sabel83/metaparse.git"
+  -   cd ..
+  -   ./bootstrap.sh
+  -   cd libs
+  -     cd test/build
+  -       ../../../b2
+  -     cd ../..
+  -     cd metaparse/test
+  -       ../../../b2
