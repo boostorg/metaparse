@@ -37,6 +37,7 @@ script:
   -   git submodule init -- libs/lexical_cast
   -   git submodule init -- libs/range
   -   git submodule init -- libs/concept_check
+  -   git submodule init -- libs/array
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
