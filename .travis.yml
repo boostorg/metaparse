@@ -33,6 +33,7 @@ script:
   -   git submodule init -- libs/numeric/conversion
   -   git submodule init -- libs/iterator
   -   git submodule init -- libs/optional
+  -   git submodule init -- libs/move
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
