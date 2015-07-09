@@ -24,12 +24,15 @@ script:
   -   git submodule init -- libs/function
   -   git submodule init -- libs/static_assert
   -   git submodule init -- libs/throw_exception
+  -   git submodule init -- libs/exception
   -   git submodule init -- libs/detail
   -   git submodule init -- libs/integer
   -   git submodule init -- libs/typeof
   -   git submodule init -- libs/bind
   -   git submodule init -- libs/io
   -   git submodule init -- libs/numeric/conversion
+  -   git submodule init -- libs/iterator
+  -   git submodule init -- libs/optional
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
