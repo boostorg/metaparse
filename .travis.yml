@@ -18,6 +18,11 @@ script:
   -   git submodule init -- libs/assert
   -   git submodule init -- libs/mpl
   -   git submodule init -- libs/preprocessor
+  -   git submodule init -- libs/utility
+  -   git submodule init -- libs/smart_ptr
+  -   git submodule init -- libs/ratio
+  -   git submodule init -- libs/function
+  -   git submodule init -- libs/static_assert
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
