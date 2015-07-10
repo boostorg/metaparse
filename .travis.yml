@@ -42,6 +42,7 @@ script:
   -   git submodule init -- libs/container
   -   git submodule init -- libs/math
   -   git submodule init -- libs/xpressive
+  -   git submodule init -- libs/proto
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
