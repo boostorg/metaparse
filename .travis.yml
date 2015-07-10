@@ -52,5 +52,6 @@ script:
   -     cd test/build
   -       ../../../b2
   -     cd ../..
-  -     cd metaparse/test
+  -     cd metaparse/build
   -       ../../../b2
+
