@@ -14,10 +14,10 @@ matrix:
       env: CXX_VER=4.8
 sudo: required
 install:
-  - if [ "$CXX_VER" == "4.8" ]
+  - if [ "$CXX_VER" == "4.8" ] ;
     then
-      sudo apt-get install -y g++-4.8
-      export CXX="g++-4.8"
+      sudo apt-get install -y g++-4.8;
+      export CXX="g++-4.8";
     fi
 script:
   - git clone "https://github.com/boostorg/boost.git"
