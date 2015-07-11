@@ -43,13 +43,17 @@ script:
   -   git submodule init -- libs/math
   -   git submodule init -- libs/xpressive
   -   git submodule init -- libs/proto
+  -   git submodule init -- libs/fusion
+  -   git submodule init -- libs/conversion
   -   git submodule init -- tools/build
   -   git submodule init -- tools/inspect
   -   git submodule update
+  -   git submodule foreach git checkout master
   -   cd libs
   -     git clone "https://github.com/sabel83/metaparse.git"
   -   cd ..
   -   ./bootstrap.sh
+  -   ./b2 headers
   -   cd libs
   -     cd test/build
   -       ../../../b2
