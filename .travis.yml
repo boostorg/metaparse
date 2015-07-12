@@ -4,11 +4,14 @@ compiler:
   - gcc
   - clang
 env:
+  - CXX_VER=3.4
   - CXX_VER=4.6
   - CXX_VER=4.7
   - CXX_VER=4.8
 matrix:
   exclude:
+    - compiler: gcc
+      env: CXX_VER=3.4
     - compiler: clang
       env: CXX_VER=4.6
     - compiler: clang
@@ -26,6 +29,10 @@ install:
   - |
     if [ "$CXX_VER" == "4.7" -o "$CXX_VER" == "4.8" ] ; then
       echo "using gcc : $CXX_VER : g++-$CXX_VER ;" > ~/user-config.jam;
+    fi
+  - |
+    if [ "$CXX" == "clang++" ] ; then
+      echo "using clang ;" > ~/user-config.jam;
     fi
 script:
   - git clone "https://github.com/boostorg/boost.git"
@@ -78,7 +85,9 @@ script:
   -     git clone "https://github.com/sabel83/metaparse.git"
   -   cd ..
   -   cat ~/user-config.jam || true
-  -   ./bootstrap.sh
+  -   if [ "$CXX" == "g++"     ] ; then export TOOLSET=gcc;   fi
+  -   if [ "$CXX" == "clang++" ] ; then export TOOLSET=clang; fi
+  -   ./bootstrap.sh --with-toolset=$TOOLSET
   -   ./b2 headers
   -   cd libs
   -     cd test/build
