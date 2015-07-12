@@ -17,7 +17,7 @@ install:
   - |
     if [ "$CXX_VER" == "4.8" ] ; then
       sudo apt-get install -y g++-4.8;
-      echo "using gcc : $CXX_VER : g++-$CXX_VER" > ~/user-config.jam;
+      echo "using gcc : $CXX_VER : g++-$CXX_VER ;" > ~/user-config.jam;
     fi
 script:
   - git clone "https://github.com/boostorg/boost.git"
