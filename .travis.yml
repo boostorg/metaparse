@@ -75,7 +75,7 @@ script:
   -   cd libs
   -     git clone "https://github.com/sabel83/metaparse.git"
   -   cd ..
-  -   cat ~/user-config.jam
+  -   cat ~/user-config.jam || true
   -   ./bootstrap.sh
   -   ./b2 headers
   -   cd libs
