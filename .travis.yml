@@ -15,14 +15,16 @@ matrix:
       env: CXX_VER=4.7
     - compiler: clang
       env: CXX_VER=4.8
-sudo: required
-before_install:
-  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get update -qq
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.7
+      - g++-4.8
 install:
   - |
     if [ "$CXX_VER" == "4.7" -o "$CXX_VER" == "4.8" ] ; then
-      sudo apt-get install -y g++-$CXX_VER;
       echo "using gcc : $CXX_VER : g++-$CXX_VER ;" > ~/user-config.jam;
     fi
 script:
