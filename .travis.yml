@@ -3,29 +3,29 @@ os: linux
 matrix:
   include:
     - compiler: clang
-      env: CXX_VER=3.4
+      env: CXX_VER=3.4 TOOLSET=clang
     - compiler: gcc
-      env: CXX_VER=4.6
+      env: CXX_VER=4.6 TOOLSET=gcc
     - compiler: gcc
-      env: CXX_VER=4.7
+      env: CXX_VER=4.7 TOOLSET=gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.7
+      install:
+        - echo "using gcc : 4.7 : g++-4.7 ;" > ~/user-config.jam
     - compiler: gcc
-      env: CXX_VER=4.8
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.7
-      - g++-4.8
-install:
-  - |
-    if [ "$CXX_VER" == "4.7" -o "$CXX_VER" == "4.8" ] ; then
-      echo "using gcc : $CXX_VER : g++-$CXX_VER ;" > ~/user-config.jam;
-    fi
-  - |
-    if [ "$CXX" == "clang++" ] ; then
-      echo "using clang ;" > ~/user-config.jam;
-    fi
+      env: CXX_VER=4.8 TOOLSET=gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.8
+      install:
+        - echo "using gcc : 4.8 : g++-4.8 ;" > ~/user-config.jam
 script:
   - git clone "https://github.com/boostorg/boost.git"
   - cd boost
@@ -77,8 +77,6 @@ script:
   -     git clone "https://github.com/sabel83/metaparse.git"
   -   cd ..
   -   cat ~/user-config.jam || true
-  -   if [ "$CXX" == "g++"     ] ; then export TOOLSET=gcc;   fi
-  -   if [ "$CXX" == "clang++" ] ; then export TOOLSET=clang; fi
   -   ./bootstrap.sh --with-toolset=$TOOLSET
   -   ./b2 headers
   -   cd libs
