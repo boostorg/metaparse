@@ -13,6 +13,9 @@ matrix:
     - compiler: clang
       env: CXX_VER=4.8
 sudo: required
+before_install:
+  - sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+  - sudo apt-get update -qq
 install:
   - |
     if [ "$CXX_VER" == "4.8" ] ; then
