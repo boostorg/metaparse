@@ -72,8 +72,8 @@ script:
   -   ./b2 headers
   -   cd libs
   -     cd test/build
-  -       ../../../b2
+  -       ../../../b2 -d+2
   -     cd ../..
   -     cd metaparse/build
-  -       ../../../b2
+  -       ../../../b2 -d+2
 
