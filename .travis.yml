@@ -4,6 +4,16 @@ matrix:
   include:
     - compiler: clang
       env: CXX_VER=3.4 TOOLSET=clang
+    - compiler: clang
+      env: CXX_VER=3.5 TOOLSET=clang
+      addons:
+        apt:
+          sources:
+            - llvm-toolchain-precise-3.5
+          packages:
+            - clang-3.5
+      install:
+        - "echo \"using clang : 3.5 : clang++-3.5 ;\" > ~/user-config.jam"
     - compiler: gcc
       env: CXX_VER=4.6 TOOLSET=gcc
     - compiler: gcc
