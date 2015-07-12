@@ -22,47 +22,48 @@ install:
 script:
   - git clone "https://github.com/boostorg/boost.git"
   - cd boost
-  -   git submodule init -- libs/test
-  -   git submodule init -- libs/config
-  -   git submodule init -- libs/wave
-  -   git submodule init -- libs/timer
-  -   git submodule init -- libs/chrono
-  -   git submodule init -- libs/system
-  -   git submodule init -- libs/core
-  -   git submodule init -- libs/predef
-  -   git submodule init -- libs/type_traits
-  -   git submodule init -- libs/assert
-  -   git submodule init -- libs/mpl
-  -   git submodule init -- libs/preprocessor
-  -   git submodule init -- libs/utility
-  -   git submodule init -- libs/smart_ptr
-  -   git submodule init -- libs/ratio
-  -   git submodule init -- libs/function
-  -   git submodule init -- libs/static_assert
-  -   git submodule init -- libs/throw_exception
-  -   git submodule init -- libs/exception
-  -   git submodule init -- libs/detail
-  -   git submodule init -- libs/integer
-  -   git submodule init -- libs/typeof
-  -   git submodule init -- libs/bind
-  -   git submodule init -- libs/io
-  -   git submodule init -- libs/numeric/conversion
-  -   git submodule init -- libs/iterator
-  -   git submodule init -- libs/optional
-  -   git submodule init -- libs/move
-  -   git submodule init -- libs/lexical_cast
-  -   git submodule init -- libs/range
-  -   git submodule init -- libs/concept_check
-  -   git submodule init -- libs/array
-  -   git submodule init -- libs/functional
-  -   git submodule init -- libs/container
-  -   git submodule init -- libs/math
-  -   git submodule init -- libs/xpressive
-  -   git submodule init -- libs/proto
-  -   git submodule init -- libs/fusion
-  -   git submodule init -- libs/conversion
-  -   git submodule init -- tools/build
-  -   git submodule init -- tools/inspect
+  -   git submodule init --
+        libs/test
+        libs/config
+        libs/wave
+        libs/timer
+        libs/chrono
+        libs/system
+        libs/core
+        libs/predef
+        libs/type_traits
+        libs/assert
+        libs/mpl
+        libs/preprocessor
+        libs/utility
+        libs/smart_ptr
+        libs/ratio
+        libs/function
+        libs/static_assert
+        libs/throw_exception
+        libs/exception
+        libs/detail
+        libs/integer
+        libs/typeof
+        libs/bind
+        libs/io
+        libs/numeric/conversion
+        libs/iterator
+        libs/optional
+        libs/move
+        libs/lexical_cast
+        libs/range
+        libs/concept_check
+        libs/array
+        libs/functional
+        libs/container
+        libs/math
+        libs/xpressive
+        libs/proto
+        libs/fusion
+        libs/conversion
+        tools/build
+        tools/inspect
   -   git submodule update
   -   git submodule foreach git checkout master
   -   cd libs
