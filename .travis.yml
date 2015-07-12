@@ -5,11 +5,14 @@ compiler:
   - clang
 env:
   - CXX_VER=4.6
+  - CXX_VER=4.7
   - CXX_VER=4.8
 matrix:
   exclude:
     - compiler: clang
       env: CXX_VER=4.6
+    - compiler: clang
+      env: CXX_VER=4.7
     - compiler: clang
       env: CXX_VER=4.8
 sudo: required
@@ -18,8 +21,8 @@ before_install:
   - sudo apt-get update -qq
 install:
   - |
-    if [ "$CXX_VER" == "4.8" ] ; then
-      sudo apt-get install -y g++-4.8;
+    if [ ("$CXX_VER" == "4.7") -o ("$CXX_VER" == "4.8") ] ; then
+      sudo apt-get install -y g++-$CXX_VER;
       echo "using gcc : $CXX_VER : g++-$CXX_VER ;" > ~/user-config.jam;
     fi
 script:
