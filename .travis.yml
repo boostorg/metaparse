@@ -21,7 +21,7 @@ before_install:
   - sudo apt-get update -qq
 install:
   - |
-    if [ ("$CXX_VER" == "4.7") -o ("$CXX_VER" == "4.8") ] ; then
+    if [ "$CXX_VER" == "4.7" -o "$CXX_VER" == "4.8" ] ; then
       sudo apt-get install -y g++-$CXX_VER;
       echo "using gcc : $CXX_VER : g++-$CXX_VER ;" > ~/user-config.jam;
     fi
