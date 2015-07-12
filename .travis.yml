@@ -48,6 +48,16 @@ matrix:
             - g++-4.8
       install:
         - "echo \"using gcc : 4.8 : g++-4.8 ;\" > ~/user-config.jam"
+    - compiler: gcc
+      env: CXX_VER=4.9 TOOLSET=gcc
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.9
+      install:
+        - "echo \"using gcc : 4.9 : g++-4.9 ;\" > ~/user-config.jam"
 script:
   - git clone "https://github.com/boostorg/boost.git"
   - cd boost
