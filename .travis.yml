@@ -1,22 +1,14 @@
 language: cpp
 os: linux
-compiler:
-  - gcc
-  - clang
-env:
-  - CXX_VER=3.4
-  - CXX_VER=4.6
-  - CXX_VER=4.7
-  - CXX_VER=4.8
 matrix:
-  exclude:
-    - compiler: gcc
+  include:
+    - compiler: clang
       env: CXX_VER=3.4
-    - compiler: clang
+    - compiler: gcc
       env: CXX_VER=4.6
-    - compiler: clang
+    - compiler: gcc
       env: CXX_VER=4.7
-    - compiler: clang
+    - compiler: gcc
       env: CXX_VER=4.8
 addons:
   apt:
