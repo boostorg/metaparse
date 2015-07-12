@@ -15,6 +15,17 @@ matrix:
             - clang-3.5
       install:
         - "echo \"using clang : 3.5 : clang++-3.5 ;\" > ~/user-config.jam"
+    - compiler: clang
+      env: CXX_VER=3.6 TOOLSET=clang
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
+          packages:
+            - clang-3.6
+      install:
+        - "echo \"using clang : 3.6 : clang++-3.6 ;\" > ~/user-config.jam"
     - compiler: gcc
       env: CXX_VER=4.6 TOOLSET=gcc
     - compiler: gcc
