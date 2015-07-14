@@ -3,9 +3,9 @@ os: linux
 matrix:
   include:
     - compiler: clang
-      env: CXX_VER=3.4 TOOLSET=clang
+      env: CXX_VER=3.4 TOOLSET=clang STD=c++98
     - compiler: clang
-      env: CXX_VER=3.5 TOOLSET=clang
+      env: CXX_VER=3.5 TOOLSET=clang STD=c++98
       addons:
         apt:
           sources:
@@ -16,7 +16,7 @@ matrix:
       install:
         - "echo \"using clang : 3.5 : clang++-3.5 ;\" > ~/user-config.jam"
     - compiler: clang
-      env: CXX_VER=3.6 TOOLSET=clang
+      env: CXX_VER=3.6 TOOLSET=clang STD=c++98
       addons:
         apt:
           sources:
@@ -27,9 +27,9 @@ matrix:
       install:
         - "echo \"using clang : 3.6 : clang++-3.6 ;\" > ~/user-config.jam"
     - compiler: gcc
-      env: CXX_VER=4.6 TOOLSET=gcc
+      env: CXX_VER=4.6 TOOLSET=gcc STD=c++98
     - compiler: gcc
-      env: CXX_VER=4.7 TOOLSET=gcc
+      env: CXX_VER=4.7 TOOLSET=gcc STD=c++98
       addons:
         apt:
           sources:
@@ -39,7 +39,7 @@ matrix:
       install:
         - "echo \"using gcc : 4.7 : g++-4.7 ;\" > ~/user-config.jam"
     - compiler: gcc
-      env: CXX_VER=4.8 TOOLSET=gcc
+      env: CXX_VER=4.8 TOOLSET=gcc STD=c++98
       addons:
         apt:
           sources:
@@ -49,7 +49,17 @@ matrix:
       install:
         - "echo \"using gcc : 4.8 : g++-4.8 ;\" > ~/user-config.jam"
     - compiler: gcc
-      env: CXX_VER=4.9 TOOLSET=gcc
+      env: CXX_VER=4.8 TOOLSET=gcc STD=c++11
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.8
+      install:
+        - "echo \"using gcc : 4.8 : g++-4.8 ;\" > ~/user-config.jam"
+    - compiler: gcc
+      env: CXX_VER=4.9 TOOLSET=gcc STD=c++98
       addons:
         apt:
           sources:
@@ -116,5 +126,5 @@ script:
   -       ../../../b2 -d+2
   -     cd ../..
   -     cd metaparse/build
-  -       ../../../b2 -d+2
+  -       ../../../b2 -d+2 cxxflags="-std=$STD -ftemplate-depth=512"
 
