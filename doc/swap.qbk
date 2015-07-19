@@ -1,0 +1,75 @@
+[#swap]
+[section swap]
+
+[h1 Synopsis]
+
+  namespace v1
+  {
+    template <class F>
+    struct swap
+    {
+      template <class A, class B>
+      struct apply;
+    };
+  }
+
+This is a [link metafunction_class template metafunction class].
+
+[table Arguments
+  [[Name] [Type]]
+  [[`F`]  [[link metafunction_class template metafunction class] taking two arguments]]
+  [[`A`]  [a type, `F` accepts as its second argument]]
+  [[`B`]  [a type, `F` accepts as its first argument]]
+]
+
+[h1 Description]
+
+It wraps `F`, a template metafunction class and swaps its arguments. It is
+available in the `v1` namespace only, as it is intended to be used as a helper
+utility during the migration to `v1`.
+
+[h1 Return value]
+
+It calls `F` with `B` and `A` and forwards its return value.
+
+[h1 Header]
+
+  #include <boost/metaparse/v1/swap.hpp>
+
+[h1 Expression semantics]
+
+For any `F` template metafunction class expecting two arguments, and `A`, `B`
+classes the following expressions are equivalent:
+
+  swap<F>::apply<A, B>::type
+  F::apply<B, A>::type
+
+[h1 Example]
+
+  #include <boost/metaparse/v1/swap.hpp>
+  
+  #include <type_traits>
+  
+  using namespace boost::metaparse;
+  
+  struct returns_first
+  {
+    typedef returns_first type;
+  
+    template <class A, class>
+    struct apply
+    {
+      typedef A type;
+    };
+  };
+  
+  static_assert(
+    is_same<
+      double,
+      v1::swap<returns_first>::apply<int, double>::type
+    >::type::value,
+    "swap swaps the arguments"
+  );
+
+[endsect]
+

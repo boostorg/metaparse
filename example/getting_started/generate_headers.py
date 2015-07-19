@@ -39,19 +39,18 @@ def parse_md(filename):
   defs = []
   current_section = ''
   in_cpp_snippet = False
-  numbered_section_header = re.compile('^#+ *([0-9.]+)')
-  cpp_snippet_begin = re.compile('^```cpp')
-  cpp_snippet_end = re.compile('^```')
+  numbered_section_header = re.compile('^\[section *([0-9.]+)')
   metashell_command = re.compile('^> [^ ]')
   metashell_prompt = re.compile('^(\.\.\.|)>')
   msh_cmd = ''
   for l in open(filename, 'r'):
-    if in_cpp_snippet:
-      if cpp_snippet_end.match(l):
-        in_cpp_snippet = False
-      elif in_msh_cpp_snippet:
-        if metashell_command.match(l) or msh_cmd != '':
-          cmd = metashell_prompt.sub('', remove_newline(l))
+    if l.startswith('  '):
+      ll = l[2:]
+      if not in_cpp_snippet:
+        in_msh_cpp_snippet = True
+      if in_msh_cpp_snippet:
+        if metashell_command.match(ll) or msh_cmd != '':
+          cmd = metashell_prompt.sub('', remove_newline(ll))
           if msh_cmd != '':
             msh_cmd = msh_cmd + '\n'
           msh_cmd = msh_cmd + cmd
@@ -62,18 +61,15 @@ def parse_md(filename):
               msh_cmd = '// query:\n%s' % (prefix_lines('//   ', msh_cmd))
             defs.append((current_section, protect_metashell(msh_cmd.strip())))
             msh_cmd = ''
-        elif first_line_of_cpp_snippet:
+        elif not in_cpp_snippet:
           in_msh_cpp_snippet = False
-      first_line_of_cpp_snippet = False
+      in_cpp_snippet = True
     else:
+      in_cpp_snippet = False
       m = numbered_section_header.match(l)
       if m:
         current_section = remove_last_dot(m.group(1)).replace('.', '_')
         sections.append(current_section)
-      elif cpp_snippet_begin.match(l):
-        in_cpp_snippet = True
-        in_msh_cpp_snippet = True
-        first_line_of_cpp_snippet = True
 
   sections.sort(key = lambda s: [int(n) for n in s.split('_')])
   return (sections, defs)
@@ -121,8 +117,8 @@ def main():
   parser.add_argument(
     '--src',
     dest='src',
-    default='../../doc/src/getting_started.md',
-    help='The .md source of the Getting Started guide'
+    default='../../doc/getting_started.qbk',
+    help='The .qbk source of the Getting Started guide'
   )
   parser.add_argument(
     '--dst',
