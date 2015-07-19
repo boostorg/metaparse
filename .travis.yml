@@ -4,6 +4,11 @@ matrix:
   include:
     - compiler: clang
       env: CXX_VER=3.4 TOOLSET=clang STD=c++98
+      addons: &doc
+        apt:
+          packages:
+            - doxygen
+            - xsltproc
     - compiler: clang
       env: CXX_VER=3.5 TOOLSET=clang STD=c++98
       addons: &clang35
@@ -13,6 +18,8 @@ matrix:
             - llvm-toolchain-precise-3.5
           packages:
             - clang-3.5
+            - doxygen
+            - xsltproc
       install:
         - "echo \"using clang : 3.5 : clang++-3.5 ;\" > ~/user-config.jam"
     - compiler: clang
@@ -29,6 +36,8 @@ matrix:
             - llvm-toolchain-precise-3.6
           packages:
             - clang-3.6
+            - doxygen
+            - xsltproc
       install:
         - "echo \"using clang : 3.6 : clang++-3.6 ;\" > ~/user-config.jam"
     - compiler: clang
@@ -38,6 +47,7 @@ matrix:
         - "echo \"using clang : 3.6 : clang++-3.6 ;\" > ~/user-config.jam"
     - compiler: gcc
       env: CXX_VER=4.6 TOOLSET=gcc STD=c++98
+      addons: *doc
     - compiler: gcc
       env: CXX_VER=4.7 TOOLSET=gcc STD=c++98
       addons: &gcc47
@@ -46,6 +56,8 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.7
+            - doxygen
+            - xsltproc
       install:
         - "echo \"using gcc : 4.7 : g++-4.7 ;\" > ~/user-config.jam"
     - compiler: gcc
@@ -61,6 +73,8 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.8
+            - doxygen
+            - xsltproc
       install:
         - "echo \"using gcc : 4.8 : g++-4.8 ;\" > ~/user-config.jam"
     - compiler: gcc
@@ -76,6 +90,8 @@ matrix:
             - ubuntu-toolchain-r-test
           packages:
             - g++-4.9
+            - doxygen
+            - xsltproc
       install:
         - "echo \"using gcc : 4.9 : g++-4.9 ;\" > ~/user-config.jam"
     - compiler: gcc
@@ -84,6 +100,9 @@ matrix:
       install:
         - "echo \"using gcc : 4.9 : g++-4.9 ;\" > ~/user-config.jam"
 script:
+  - echo "using doxygen ;" >> ~/user-config.jam
+  - echo "using xsltproc ;" >> ~/user-config.jam
+  - echo "using quickbook ;" >> ~/user-config.jam
   - git clone "https://github.com/boostorg/boost.git"
   - cd boost
   -   git submodule init --
@@ -128,18 +147,40 @@ script:
         libs/conversion
         tools/build
         tools/inspect
+  -   git submodule init --
+        libs/program_options
+        libs/filesystem
+        libs/spirit
+        libs/foreach
+        libs/iostreams
+        libs/algorithm
+        libs/tuple
+        libs/any
+        libs/type_index
+        libs/unordered
+        libs/align
+        libs/tokenizer
+        tools/boostbook
+        tools/quickbook
   -   git submodule update
   -   git submodule foreach git checkout master
   -   cd libs
   -     git clone "https://github.com/sabel83/metaparse.git"
   -   cd ..
-  -   cat ~/user-config.jam || true
+  -   cd tools/boostbook
+  -     ./setup_boostbook.sh
+  -   cd ../..
+  -   cat ~/user-config.jam
   -   ./bootstrap.sh --with-toolset=$TOOLSET
   -   ./b2 headers
   -   cd libs
   -     cd test/build
   -       ../../../b2 -d+2
   -     cd ../..
-  -     cd metaparse/build
-  -       ../../../b2 -d+2 cxxflags="-std=$STD -ftemplate-depth=512"
+  -     cd metaparse
+  -       cd build
+  -         ../../../b2 -d+2 cxxflags="-std=$STD -ftemplate-depth=512"
+  -       cd ..
+  -       cd doc
+  -         ../../../b2 -d+2
 
