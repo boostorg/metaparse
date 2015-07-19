@@ -182,5 +182,5 @@ script:
   -         ../../../b2 -d+2 cxxflags="-std=$STD -ftemplate-depth=512"
   -       cd ..
   -       cd doc
-  -         ../../../b2 -d+2 cxxglags="-Wno-unused-local-typedefs"
+  -         ../../../b2 -d+2 cxxflags="-Wno-unused-local-typedefs"
 
