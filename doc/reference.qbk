@@ -210,7 +210,6 @@ choosing among the `fold*` parsers.
 
 * [link debug_parsing_error debug_parsing_error]
 * [link BOOST_METAPARSE_DEFINE_ERROR BOOST_METAPARSE_DEFINE_ERROR]
-* [link swap v1::swap]
 
 Metaparse uses a number of general purpose metafunctions and metafunction
 classes.
@@ -357,7 +356,6 @@ classes.
 [include start.qbk]
 [include string.qbk]
 [include string_tag.qbk]
-[include swap.qbk]
 [include tag.qbk]
 [include token.qbk]
 [include transform_error_message.qbk]

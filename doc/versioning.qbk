@@ -24,7 +24,7 @@ the following:
 
 This makes it possible to use `one_char` as `boost::metaparse::one_char`.
 
-Future versions of the library may provide other namespaces (eg. `v3`). The
+Future versions of the library may provide other namespaces (eg. `v2`). The
 header files in `<boost/metaparse/...>` provide the latest version of the
 library. To always get version `v1`, one should use header files in
 `<boost/metaparse/v1/...>`.
@@ -46,20 +46,11 @@ definition of this macro and provides the following definition:
 
 This makes it possible to use the macro as `BOOST_METAPARSE_STRING`. Future
 versions of the library may define other versions of this macro (eg.
-`BOOST_V2_STRING`). `BOOST_METAPARSE_STRING` will refer to the latest version.
+`BOOST_METAPARSE_V2_STRING`). `BOOST_METAPARSE_STRING` will refer to the latest
+version.
 
 This versioning does not affect macros that may be overridden by the code using
 the library. (eg. `BOOST_LIMIT_STRING_SIZE`)
-
-[endsect]
-
-[section Migration from `v1`]
-
-The callback functions of [link foldl `foldl`], [link foldl1 `foldl1`],
-[link foldlp `foldlp`], [link foldr `foldr`], [link foldr1 `foldr1`],
-[link foldrp `foldrp`] expect their arguments in reverse order in `v1` compared
-to `v1`. To help migration, Metaparse provides the [link swap `v1::swap`]
-metafunction class.
 
 [endsect]
 
