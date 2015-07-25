@@ -25,7 +25,7 @@ constructor. When parsing the input string using the parser generates an error,
 the default constructor of `debug_parsing_error` prints the error message to the
 standard output at run-time and calls `exit`.
 
-[:
+[note
 Note that more powerful debugging utilities, like
 [@https://github.com/sabel83/metashell#metashell Metashell] are also
 available.

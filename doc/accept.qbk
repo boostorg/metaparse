@@ -22,7 +22,7 @@ Values representing a successful parser application. It behaves as a
 metafunction, it returns itself with its arguments evaluated. See expression
 semantics for further details.
 
-[:
+[note
 Note that for backward compatibility when `Result::type` is not defined,
 `accept<....>::type` does not evaluate `Result`. For example
 `accept<int, BOOST_METAPARSE_STRING("foo"), start>::type` is

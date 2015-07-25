@@ -28,7 +28,7 @@ If you're about to start (or continue) this guide from section 5.2.1, you can
 include `5_2_1.hpp`. This will define everything you need to start with that
 section.
 
-[:
+[note
 You have access to these headers in the online Metashell demo as well. For
 example you can include the `<boost/metaparase/getting_started/5_2_1.hpp>`
 header to start from section 5.2.1.
@@ -57,7 +57,7 @@ Metaparse provides this type for you. Run the following command in Metashell:
 
   > #include <boost/metaparse/string.hpp>
 
-[:
+[note
 Note that in the [@http://abel.web.elte.hu/shell/metashell.html online-demo]
 of Metashell you can paste code into the shell by right-clicking on the shell
 somewhere and choosing ['Paste from browser] in the context menu.
@@ -97,7 +97,7 @@ think of this first parsing exercise as a ['template metaprogramming
 string-to-int conversion] because we expect to get the value `13` as the result
 of parsing.
 
-[:
+[note
 You know the difference between `"13"` and `13` in C++. One of them is a
 character array, the other one is an integral value. But what is the
 difference between them in template metaprogramming? They are represented by
@@ -122,7 +122,7 @@ of use. Metaparse provides the [link build_parser `build_parser`]
 [link metafunction metafunction] that adds a wrapper to parsers with a simple
 interface.
 
-[:
+[note
 In this tutorial, we will always be wrapping our parsers with this. We will
 call these wrapped parsers parsers as well. If you are interested in it, you
 can learn about the complete interface of parsers [link parser here].
@@ -410,7 +410,7 @@ parses:
 
 [link getting_started_4 copy-paste friendly version]
 
-[:
+[note
 Note that we have to use `boost::mpl::quote1` to turn our `eval_plus`
 [link metafunction metafunction] into a
 [link metafunction_class metafunction class].
@@ -551,7 +551,7 @@ parsed numbers and summarise them. We can provide it a
 and the next element of the `vector`. This [link metafunction metafunction]
 will be called for every element of the `vector`.
 
-[:
+[note
 Note that this is very similar to the `std::accumulate` algorithm.
 [@http://boost.org/libs/mpl Boost.MPL] provides `boost::mpl::accumulate` as
 well, which is a synonym for `boost::mpl::fold`. This tutorial (and Metaparse)
@@ -703,7 +703,7 @@ value of the first `<number>` element). Let's try fold out for this:
 
 [link getting_started_10 copy-paste friendly version]
 
-[:
+[note
 We are using `sum_items` as the function to call in each iteration. We are
 passing a [link metafunction metafunction] (`sum_items`) to another
 [link metafunction metafunction] (`boost::mpl::fold`) as an argument. To be
@@ -809,11 +809,11 @@ There are two loops in this process:
 * then `boost::mpl::fold` loops over this `vector` to summarise the elements.
   (`Loop 2` on the diagram)
 
-[:
-  Note that we have been talking about ['loop]s while there is no such thing as
-  a loop in template metaprogramming. Loops can be implemented using
-  ['recursion]: every recursive call is one iteration of the loop. The loop is
-  stopped at the bottom of the recursive chain.
+[note
+Note that we have been talking about ['loop]s while there is no such thing as
+a loop in template metaprogramming. Loops can be implemented using
+['recursion]: every recursive call is one iteration of the loop. The loop is
+stopped at the bottom of the recursive chain.
 ]
 
 [endsect]
@@ -971,7 +971,7 @@ implemented using [link one_of `one_of`]:
 either a `+` (using `plus_token`) or a `-` (using `minus_token`) symbol. The
 result of parsing is the result of the parser that succeeded.
 
-[:
+[note
 You can give any parser to [link one_of `one_of`], therefore it is possible
 that more than one of them can parse the input. In those cases the order
 matters: [link one_of `one_of`] tries parsing the input with the parsers from
@@ -1027,7 +1027,7 @@ The first command declares the `eval_binary_op` metafunction. The first and
 third arguments are the left and right operands and the second argument is the
 operator.
 
-[:
+[note
 Note that it does not satisfy the expectations of a
 [link metafunction template metafunction] since it takes the operator as a
 `char` and not as a `class` (or `typename`) argument. For simplicity, we will
@@ -1402,7 +1402,7 @@ choosing between folding solutions. The folding solutions going from left to
 right implement left associativity, while the solutions going from right to left
 implement right associativity.
 
-[:
+[note
 Note that folding solutions going from left to right is implemented in a more
 efficient way than folding from right to left. Therefore when both solutions
 can be used you should prefer folding from left to right.
@@ -1556,7 +1556,7 @@ Think about it:
 * `primary_exp` uses `paren_exp`
 * `paren_exp` uses `plus_exp`
 
-[:
+[note
 Since we are versioning the different parser implementations in Metashell
 (`paren_exp1`, `paren_exp2`, etc) you might try to define these recursive
 parsers and it might seem to work for the first time. In that case, when you
@@ -1941,7 +1941,7 @@ all layers:
 
 [link getting_started_40 copy-paste friendly version]
 
-[:
+[note
 Note that `unary_exp4` uses [link foldrp `foldrp`] instead of `foldrfp`. The
 reason behind it is that there is no `foldrfp`. [link foldrp `foldrp`]
 applies the `primary_exp4` parser when `minus_token` does not accept the

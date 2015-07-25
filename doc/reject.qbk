@@ -21,7 +21,7 @@ Values representing a failed parser application. It behaves as a
 metafunction, it returns itself with its arguments evaluated. See expression
 semantics for further details.
 
-[:
+[note
 Note that for backward compatibility when `Msg::type` is not defined,
 `reject<....>::type` does not evaluate `Msg`. For example
 `reject<int, start>::type` is `reject<int, start::type>`. Using types that are

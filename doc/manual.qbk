@@ -197,7 +197,7 @@ and summarises the values. It starts with the second argument of `fold`,
 `int_<0>` and adds every item of the list of numbers (which is the result of
 the parser [link any `any`]`<int_token>`) one by one.
 
-[:
+[note
   Note that [link transform `transform`] wraps another parser,
   [link any `any`]`<int_token>` here. It parses the input with that parser,
   gets the result of that parsing and changes that result.
@@ -255,9 +255,10 @@ and would like to reject empty string)
 
 [endsect]
 
+[#introducing-foldr]
 [section Introducing foldr]
 
-[:
+[note
   Note that if you are reading this manual for the first time, you probably want
   to skip this section and proceed with [link introducing-foldlp Introducing foldlp]
 ]
@@ -275,7 +276,7 @@ results coming out of the individual applications of `int_token` are summarised
 in a right-to-left order. As `sum_op` is addition, it does not affect the end
 result, but in other cases it might.
 
-[:
+[note
   Note that the implementation of [link foldl `foldl`] is more efficient than
   [link foldr `foldr`]. Prefer [link foldl `foldl`] whenever possible.
 ]
@@ -360,7 +361,7 @@ list by using `plus_int` multiple times.
 [#introducing-foldrp]
 [section Introducing foldrp]
 
-[:
+[note
   Note that if you are reading this manual for the first time, you probably want
   to skip this section and try creating some parsers using
   [link foldlp `foldlp`] instead.
@@ -391,7 +392,7 @@ thus `int_plus` fails to parse it and it stops the iteration.
 input. It succeeds and the result it returns is used as the starting value for
 folding from the right.
 
-[:
+[note
   Note that as the above description also suggests, the implementation of
   [link foldlp `foldlp`] is more efficient than [link foldrp `foldrp`]. Prefer
   [link foldlp `foldlp`] whenever possible.
@@ -453,7 +454,7 @@ used:
 
 [$folds.png [width 70%]]
 
-[:
+[note
   Note that there is no `foldrfp`. The `p` version of the right-folding parsers
   applies the special parser, whose result is the initial value, after the
   repeated elements. Therefore, when the parser parsing one repeated element
