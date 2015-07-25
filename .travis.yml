@@ -168,6 +168,9 @@ script:
   -     git clone "https://github.com/sabel83/metaparse.git"
   -   cd ..
   -   cd tools/boostbook
+  -      wget http://abel.web.elte.hu/boost_book_dependencies/docbook-xml-4.2.zip
+  -      wget http://abel.web.elte.hu/boost_book_dependencies/docbook-xsl-1.75.2.tar.gz
+  -      wget http://abel.web.elte.hu/boost_book_dependencies/fop-0.94-bin-jdk1.4.tar.gz
   -     ./setup_boostbook.sh
   -   cd ../..
   -   cat ~/user-config.jam
