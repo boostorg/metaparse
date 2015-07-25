@@ -199,17 +199,12 @@ choosing among the `fold*` parsers.
 
 [endsect]
 
-[section Metafunctions and metafunction classes]
-
-* [link build_parser build_parser]
-* [link unless_error unless_error]
-
-[endsect]
-
 [section Utilities]
 
+* [link build_parser build_parser]
 * [link debug_parsing_error debug_parsing_error]
 * [link BOOST_METAPARSE_DEFINE_ERROR BOOST_METAPARSE_DEFINE_ERROR]
+* [link unless_error unless_error]
 
 Metaparse uses a number of general purpose metafunctions and metafunction
 classes.
