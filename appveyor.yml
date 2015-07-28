@@ -53,6 +53,7 @@ build_script:
   -     git clone https://github.com/sabel83/metaparse.git
   -   cd ..
   -   bootstrap.bat
+  -   b2 headers
   -   cd libs
   -     cd test\build
   -       ..\..\..\b2 -d+2
