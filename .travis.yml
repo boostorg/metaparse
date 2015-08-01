@@ -103,8 +103,8 @@ script:
   - echo "using doxygen ;" >> ~/user-config.jam
   - echo "using xsltproc ;" >> ~/user-config.jam
   - echo "using quickbook ;" >> ~/user-config.jam
-  - git clone "https://github.com/boostorg/boost.git"
-  - cd boost
+  - git clone "https://github.com/boostorg/boost.git .boost"
+  - cd .boost
   -   git submodule init --
         libs/test
         libs/config
@@ -165,7 +165,8 @@ script:
   -   git submodule update
   -   git submodule foreach git checkout master
   -   cd libs
-  -     git clone "https://github.com/sabel83/metaparse.git"
+  -     mkdir metaparse
+  -     mv ../../* metaparse
   -   cd ..
   -   cd tools/boostbook
   -      wget http://abel.web.elte.hu/boost_book_dependencies/docbook-xml-4.2.zip
