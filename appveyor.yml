@@ -1,8 +1,13 @@
-os: Visual Studio 2015 CTP 6 
+os: Visual Studio 2015
 platform: x64
 configuration: Debug
 
-build_script:
+clone_folder: c:\build\boost\libs\metaparse
+
+init:
+  - cd c:\
+  - md build
+  - cd build
   - git clone https://github.com/boostorg/boost.git
   - cd boost
   -   git submodule init --
@@ -50,15 +55,15 @@ build_script:
         tools/inspect
   -   git submodule update
   -   git submodule foreach git checkout master
-  -   cd libs
-  -     git clone https://github.com/sabel83/metaparse.git
-  -   cd ..
-  -   bootstrap.bat
-  -   b2 headers
-  -   cd libs
-  -     cd test\build
+
+build_script:
+  - cd ..\..
+  - bootstrap.bat
+  - b2 headers
+  - cd libs
+  -   cd test\build
+  -     ..\..\..\b2 -d+2
+  -   cd ..\..
+  -   cd metaparse
+  -     cd build
   -       ..\..\..\b2 -d+2
-  -     cd ..\..
-  -     cd metaparse
-  -       cd build
-  -         ..\..\..\b2 -d+2
