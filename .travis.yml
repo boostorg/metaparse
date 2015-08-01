@@ -103,7 +103,7 @@ script:
   - echo "using doxygen ;" >> ~/user-config.jam
   - echo "using xsltproc ;" >> ~/user-config.jam
   - echo "using quickbook ;" >> ~/user-config.jam
-  - git clone "https://github.com/boostorg/boost.git .boost"
+  - git clone https://github.com/boostorg/boost.git .boost
   - cd .boost
   -   git submodule init --
         libs/test
