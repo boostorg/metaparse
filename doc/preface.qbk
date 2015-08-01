@@ -88,5 +88,20 @@ following way:
 [endsect]
 
 
+[section Supported platforms]
+
+Metaparse is based on C++98. The only exception is the
+[link BOOST_METAPARSE_STRING] macro, which needs C++11 `constexpr`.
+
+Compilers Metaparse is actively (in a CI environment) tested on:
+
+* GCC 4.6, 4.7, 4.8, 4.9
+* Clang 3.4, 3.5, 3.6
+* Visual C++ 2015
+
+Metaparse is expected to work on Visual C++ 2012 and 2010.
+
+[endsect]
+
 [endsect]
 
