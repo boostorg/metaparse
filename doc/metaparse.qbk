@@ -68,6 +68,7 @@ engineering (GPCE 2010). ACM, October 2010, pp. 137-146.
 
 [endsect]
 
+[include preface.qbk]
 [include getting_started.qbk]
 [include manual.qbk]
 [include versioning.qbk]

@@ -1626,6 +1626,7 @@ Our parser accepts and can deal with parens in the expressions.
 
 [endsect]
 
+[#dealing_with_invalid_input]
 [section 11. Dealing with invalid input]
 
 So far we have been focusing on parsing valid user input. However, users of our
