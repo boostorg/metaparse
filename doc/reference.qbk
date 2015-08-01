@@ -3,6 +3,7 @@
 
 [section Parsers and combinators provided by the library]
 
+[#parsers]
 [section Parsers]
 
 [section Character]
@@ -51,6 +52,7 @@
 
 [endsect]
 
+[#combinators]
 [section Combinators]
 
 [section Validation and error reporting]
@@ -167,6 +169,7 @@ choosing among the `fold*` parsers.
 
 [endsect]
 
+[#ref-string]
 [section String]
 
 * [link string string]

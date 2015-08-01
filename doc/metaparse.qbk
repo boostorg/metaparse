@@ -73,5 +73,6 @@ engineering (GPCE 2010). ACM, October 2010, pp. 137-146.
 [include manual.qbk]
 [include versioning.qbk]
 [include performance.qbk]
+[include design.qbk]
 [include reference.qbk]
 
