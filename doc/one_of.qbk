@@ -17,7 +17,8 @@ This is a [link parser_combinator parser combinator].
 
 It accepts an input when any of the `P1`, ... `Pn` parsers accept it. The result
 of parsing is the result of applying the first parser that accepts the input.
-The parsers are tried in order.
+The parsers are tried in order, therefore in case of ambiguous grammars the
+result of parsing depends on the order of the `P1` ... `Pn` parsers.
 
 The maximum number of accepted parsers is defined by the
 `BOOST_LIMIT_ONE_OF_SIZE` macro. Its default value is `20`.
