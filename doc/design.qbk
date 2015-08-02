@@ -26,5 +26,32 @@ The key components of the library:
   used to build more and more complex [link parser parser]s out of the simple
   ones.
 
+[section Design rationale]
+
+* [*Why template metaprogramming?]
+
+An alternative is using `constexpr` functions instead of template metaprograms.
+There are ceratin things that are difficult (if possible) using `constexpr`
+functions: building containers (at compile-time) the lenght of which depend on
+the parsed text (eg. parsing a JSON list), generating and validating types (eg.
+`printf`).
+
+* [*Why are there so many folding parsers?]
+
+Compilation speed and memory consumption is a critical part of template
+metaprogramming-based libraries. Users of the library interfaces built with
+Metaparse will have to pay for that every time they compile their code.
+Therefore it is important to provide the parser authors the ability to use the
+parser combinators with minimal overhead, while it is also important to provide
+convenient combinators for beginners and for the cases where that is the best
+option anyway.
+
+[link any `any`] combined with [link sequence `sequence`],
+[link accept_when `accept_when`] and [link transform `transform`] can replace
+any of the folding parsers, however, for the cost of constructing intermediate
+containers, that are (usually) processed sequentially after that.
+
+[endsect]
+
 [endsect]
 
