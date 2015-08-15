@@ -145,6 +145,7 @@ script:
         libs/proto
         libs/fusion
         libs/conversion
+        libs/rational
         tools/build
         tools/inspect
   -   git submodule init --

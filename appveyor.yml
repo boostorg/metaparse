@@ -50,6 +50,7 @@ init:
         libs/proto
         libs/fusion
         libs/conversion
+        libs/rational
         libs/winapi
         tools/build
         tools/inspect
