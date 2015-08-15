@@ -75,6 +75,7 @@ test-suite metaparse-unit-tests :
   [ compile one_char_except.cpp ]
   [ compile one_of_c.cpp ]
   [ compile one_of.cpp ]
+  [ compile optional.cpp ]
   [ compile pop_back.cpp ]
   [ compile pop_front.cpp ]
   [ compile push_back_c.cpp ]

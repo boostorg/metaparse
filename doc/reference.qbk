@@ -106,6 +106,7 @@ choosing among the `fold*` parsers.
 * [link if_ if_]
 * [link one_of one_of]
 * [link one_of_c one_of_c]
+* [link optional optional]
 
 [endsect]
 
@@ -338,6 +339,7 @@ classes.
 [include one_char.qbk]
 [include one_of_c.qbk]
 [include one_of.qbk]
+[include optional.qbk]
 [include parser_combinator.qbk]
 [include parser.qbk]
 [include parsing_error_message.qbk]

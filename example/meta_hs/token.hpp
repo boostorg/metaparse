@@ -22,6 +22,7 @@
 #include <boost/metaparse/transform.hpp>
 #include <boost/metaparse/letter.hpp>
 #include <boost/metaparse/keyword.hpp>
+#include <boost/metaparse/optional.hpp>
 
 #include <boost/mpl/lambda.hpp>
 #include <boost/mpl/push_back.hpp>
@@ -84,14 +85,12 @@ namespace token
         >,
         boost::metaparse::last_of<
           boost::metaparse::lit_c<'>'>,
-          boost::metaparse::one_of<
+          boost::metaparse::optional<
             boost::metaparse::always_c<
               '=',
               boost::metaparse::string<'.','>','=','.'>
             >,
-            boost::metaparse::return_<
-              boost::metaparse::string<'.','>','.'>
-            >
+            boost::metaparse::string<'.','>','.'>
           >
         >
       >
