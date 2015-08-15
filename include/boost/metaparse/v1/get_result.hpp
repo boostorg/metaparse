@@ -18,9 +18,9 @@ namespace boost
       struct get_result_impl;
 
       template <class T>
-      struct get_result : get_result_impl<typename T::type::tag>::template apply<typename T::type>
+      struct get_result :
+        get_result_impl<typename T::type::tag>::template apply<typename T::type>
       {};
-
     }
   }
 }
