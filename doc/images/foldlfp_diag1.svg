@@ -637,9 +637,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="515.74894"
-     inkscape:cy="61.70246"
+     inkscape:zoom="2"
+     inkscape:cx="908.79702"
+     inkscape:cy="1281.7025"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -716,13 +716,13 @@
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
        id="rect17648-5"
-       d="m 575.55096,284.54116 94.03224,0.12897 57.57796,88.89341 -136.07394,0 z" />
+       d="m 575.55096,284.54116 109.03224,-0.37103 42.57796,89.39341 -136.07394,0 z" />
     <rect
        style="fill:#808080;fill-opacity:1"
        y="243.10817"
-       x="-669.96472"
+       x="-685.96472"
        height="42.426407"
-       width="94.954346"
+       width="110.95435"
        id="rect18516-4-8"
        transform="scale(-1,1)" />
     <rect
@@ -1206,16 +1206,16 @@
     <rect
        style="fill:#c0c0c0;fill-opacity:1"
        y="242.21988"
-       x="669.9798"
+       x="684.9798"
        height="42.426407"
-       width="48.487324"
+       width="33.487324"
        id="rect18516-8" />
     <path
        style="fill:#c0c0c0;fill-opacity:1"
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
        id="rect17648-37-1"
-       d="m 714.55787,282.11478 -44.48743,0.12897 111.9068,88.17912 132.84611,0.71429 z" />
+       d="m 716.8314,282.11478 -31.76096,0.12897 105.04845,88.17912 124.70446,0.71429 z" />
     <g
        transform="matrix(0.54151067,0,0,0.5239281,756.35115,305.92454)"
        id="g17514-3-6">
@@ -1242,15 +1242,15 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="-94.903526"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="751.02618"
        y="278.58533"
        id="text2985"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2987"
-         x="-94.903526"
-         y="278.58533">MPLLIBS_STRING(&quot;11  + 13  + 3  + 21 +&quot;)</tspan></text>
+         x="751.02618"
+         y="278.58533">BOOST_METAPARSE_STRING(&quot;11  + 13  + 3  + 21 +&quot;)</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"

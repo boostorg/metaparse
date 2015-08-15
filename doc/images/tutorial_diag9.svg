@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="tutorial_diag8.svg">
+   sodipodi:docname="tutorial_diag9.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -2541,7 +2541,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.69999999"
      inkscape:cx="945.5565"
-     inkscape:cy="723.26189"
+     inkscape:cy="551.83332"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -2835,15 +2835,15 @@
     </g>
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="299.73462"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="936.75806"
        y="331.33722"
        id="text2985"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="299.73462"
+         x="936.75806"
          y="331.33722"
-         id="tspan6811">MPLLIBS_STRING(&quot;8   /   4  /  2&quot;)</tspan></text>
+         id="tspan6811">BOOST_METAPARSE_STRING(&quot;8   /   4  /  2&quot;)</tspan></text>
     <g
        id="g4204-7-4"
        transform="matrix(0.54151067,0,0,0.5239281,180.96877,907.63444)" />

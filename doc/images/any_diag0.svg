@@ -10,7 +10,7 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="842.64844"
+   width="925.36719"
    height="291.17438"
    id="svg2"
    version="1.1"
@@ -302,8 +302,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
-     inkscape:cx="491.39711"
-     inkscape:cy="1.0320621"
+     inkscape:cx="574.11586"
+     inkscape:cy="1.0320807"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -332,7 +332,7 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(102.00116,-242.21983)">
+     transform="translate(184.71991,-242.21983)">
     <path
        style="fill:#c0c0c0;fill-opacity:1"
        sodipodi:nodetypes="ccccc"
@@ -388,15 +388,15 @@
        id="rect18516" />
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="41.096474"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="700.02618"
        y="278.58533"
        id="text2985"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2987"
-         x="41.096474"
-         y="278.58533">MPLLIBS_STRING(&quot;11  13  3  21&quot;)</tspan></text>
+         x="700.02618"
+         y="278.58533">BOOST_METAPARSE_STRING(&quot;11  13  3  21&quot;)</tspan></text>
     <g
        transform="matrix(0.54151067,0,0,0.5239281,-1.7638252,307.9855)"
        id="g17514">

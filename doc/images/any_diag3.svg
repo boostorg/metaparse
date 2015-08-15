@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="any_diag2.svg">
+   sodipodi:docname="any_diag3.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -639,7 +639,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.49497475"
      inkscape:cx="831.57597"
-     inkscape:cy="1211.4019"
+     inkscape:cy="1049.7775"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -748,15 +748,15 @@
        id="rect18516" />
     <text
        xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="41.096474"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="700.02618"
        y="278.58533"
        id="text2985"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan2987"
-         x="41.096474"
-         y="278.58533">MPLLIBS_STRING(&quot;11  13  3  21&quot;)</tspan></text>
+         x="700.02618"
+         y="278.58533">BOOST_METAPARSE_STRING(&quot;11  13  3  21&quot;)</tspan></text>
     <g
        transform="matrix(0.54151067,0,0,0.5239281,-1.7638252,307.9855)"
        id="g17514">

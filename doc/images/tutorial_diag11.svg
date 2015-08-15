@@ -15,7 +15,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="tutorial_diag10.svg">
+   sodipodi:docname="tutorial_diag11.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -3302,13 +3302,13 @@
          sodipodi:linespacing="125%"
          id="text2985"
          y="331.33722"
-         x="299.73462"
-         style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="936.75806"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
            id="tspan6811"
            y="331.33722"
-           x="299.73462"
-           sodipodi:role="line">MPLLIBS_STRING(&quot;8   /   4  /  2&quot;)</tspan></text>
+           x="936.75806"
+           sodipodi:role="line">BOOST_METAPARSE_STRING(&quot;8   /   4  /  2&quot;)</tspan></text>
       <g
          id="g17514-2-0-1"
          transform="matrix(0.54151067,0,0,0.5239281,306.94959,981.25987)">
@@ -3951,13 +3951,13 @@
          sodipodi:linespacing="125%"
          id="text2985-7"
          y="-23.656773"
-         x="1778.3374"
-         style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         x="2415.3608"
+         style="font-size:40px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
            id="tspan6811-2"
            y="-23.656773"
-           x="1778.3374"
-           sodipodi:role="line">MPLLIBS_STRING(&quot;8   /   4  /  2&quot;)</tspan></text>
+           x="2415.3608"
+           sodipodi:role="line">BOOST_METAPARSE_STRING(&quot;8   /   4  /  2&quot;)</tspan></text>
       <g
          transform="matrix(0.54151067,0,0,0.5239281,1659.5716,552.64045)"
          id="g4204-7-4-0" />
