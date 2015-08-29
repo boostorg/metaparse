@@ -23,14 +23,14 @@ namespace boost
         template <class S>
         struct pop_front;
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
         template <char C, char... Cs>
         struct pop_front<string<C, Cs...>> : string<Cs...> {};
 #else
-        #ifdef BOOST_POP_FRONT
-        #  error BOOST_POP_FRONT already defined
+        #ifdef BOOST_METAPARSE_POP_FRONT
+        #  error BOOST_METAPARSE_POP_FRONT already defined
         #endif
-        #define BOOST_POP_FRONT(z, n, unused) \
+        #define BOOST_METAPARSE_POP_FRONT(z, n, unused) \
           BOOST_PP_COMMA_IF(BOOST_PP_DEC(n)) BOOST_PP_CAT(C, n)
 
         template < \
@@ -44,14 +44,14 @@ namespace boost
             BOOST_PP_REPEAT_FROM_TO(
               1,
               BOOST_METAPARSE_LIMIT_STRING_SIZE,
-              BOOST_POP_FRONT,
+              BOOST_METAPARSE_POP_FRONT,
               ~
             ),
             BOOST_NO_CHAR
           >
         {};
 
-        #undef BOOST_POP_FRONT
+        #undef BOOST_METAPARSE_POP_FRONT
 #endif
       }
     }

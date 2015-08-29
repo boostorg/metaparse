@@ -32,10 +32,10 @@ namespace boost
       >
       struct sequence;
 
-      #ifdef BOOST_SEQUENCE_N
-      #  error BOOST_SEQUENCE_N already defined
+      #ifdef BOOST_METAPARSE_SEQUENCE_N
+      #  error BOOST_METAPARSE_SEQUENCE_N already defined
       #endif
-      #define BOOST_SEQUENCE_N(z, n, unused) \
+      #define BOOST_METAPARSE_SEQUENCE_N(z, n, unused) \
         template <BOOST_PP_ENUM_PARAMS(n, class P)> \
         struct sequence< \
           BOOST_PP_ENUM_PARAMS(n, P) \
@@ -51,11 +51,11 @@ namespace boost
       BOOST_PP_REPEAT_FROM_TO(
         1,
         BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE,
-        BOOST_SEQUENCE_N,
+        BOOST_METAPARSE_SEQUENCE_N,
         ~
       )
       
-      #undef BOOST_SEQUENCE_N
+      #undef BOOST_METAPARSE_SEQUENCE_N
     }
   }
 }

@@ -25,7 +25,7 @@ namespace boost
         template <class S>
         struct pop_back;
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
         template <char C>
         struct pop_back<string<C>> : boost::mpl::clear<string<C>> {};
 

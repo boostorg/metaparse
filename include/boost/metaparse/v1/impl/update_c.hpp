@@ -30,16 +30,16 @@ namespace boost
         template <class S, int N, char C>
         struct update_c;
 
-#ifndef BOOST_VARIADIC_STRING
-        #ifdef BOOST_ARGN
-        #  error BOOST_ARGN already defined
+#ifndef BOOST_METAPARSE_VARIADIC_STRING
+        #ifdef BOOST_METAPARSE_ARGN
+        #  error BOOST_METAPARSE_ARGN already defined
         #endif
-        #define BOOST_ARGN(z, n, unused) , BOOST_PP_CAT(C, n)
+        #define BOOST_METAPARSE_ARGN(z, n, unused) , BOOST_PP_CAT(C, n)
 
-        #ifdef BOOST_UPDATE
-        #  error BOOST_UPDATE already defined
+        #ifdef BOOST_METAPARSE_UPDATE
+        #  error BOOST_METAPARSE_UPDATE already defined
         #endif
-        #define BOOST_UPDATE(z, n, unused) \
+        #define BOOST_METAPARSE_UPDATE(z, n, unused) \
           template < \
             BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C), \
             char Ch \
@@ -55,16 +55,20 @@ namespace boost
               BOOST_PP_REPEAT_FROM_TO( \
                 BOOST_PP_INC(n), \
                 BOOST_PP_DEC(BOOST_METAPARSE_LIMIT_STRING_SIZE), \
-                BOOST_ARGN, \
+                BOOST_METAPARSE_ARGN, \
                 ~ \
               ) \
             > \
           {};
 
-        BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_STRING_SIZE, BOOST_UPDATE, ~)
+        BOOST_PP_REPEAT(
+          BOOST_METAPARSE_LIMIT_STRING_SIZE,
+          BOOST_METAPARSE_UPDATE,
+          ~
+        )
 
-        #undef BOOST_UPDATE
-        #undef BOOST_ARGN
+        #undef BOOST_METAPARSE_UPDATE
+        #undef BOOST_METAPARSE_ARGN
 #else
         template <class S, int N, char C>
         struct update_c :

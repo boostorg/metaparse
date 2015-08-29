@@ -23,10 +23,10 @@ namespace boost
     {
       namespace impl
       {
-        #ifdef BOOST_SEQUENCE_CASE
-        #  error BOOST_SEQUENCE_CASE already defined
+        #ifdef BOOST_METAPARSE_SEQUENCE_CASE
+        #  error BOOST_METAPARSE_SEQUENCE_CASE already defined
         #endif
-        #define BOOST_SEQUENCE_CASE(z, n, unused) \
+        #define BOOST_METAPARSE_SEQUENCE_CASE(z, n, unused) \
           template <BOOST_PP_ENUM_PARAMS(n, class P)> \
           struct BOOST_PP_CAT(sequence, n) \
           { \
@@ -45,11 +45,11 @@ namespace boost
         BOOST_PP_REPEAT_FROM_TO(
           1,
           BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE,
-          BOOST_SEQUENCE_CASE,
+          BOOST_METAPARSE_SEQUENCE_CASE,
           ~
         )
         
-        #undef BOOST_SEQUENCE_CASE
+        #undef BOOST_METAPARSE_SEQUENCE_CASE
       } 
     }
   }

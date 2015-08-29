@@ -26,10 +26,10 @@ namespace boost
     {
       namespace impl
       {
-        #ifdef BOOST_NTH_OF_CASE
-        #  error BOOST_NTH_OF_CASE already defined
+        #ifdef BOOST_METAPARSE_NTH_OF_CASE
+        #  error BOOST_METAPARSE_NTH_OF_CASE already defined
         #endif
-        #define BOOST_NTH_OF_CASE(z, n, unused) \
+        #define BOOST_METAPARSE_NTH_OF_CASE(z, n, unused) \
           template < \
             int K BOOST_PP_COMMA_IF(n) \
             BOOST_PP_ENUM_PARAMS(n, class P) \
@@ -47,11 +47,11 @@ namespace boost
         
         BOOST_PP_REPEAT(
           BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE,
-          BOOST_NTH_OF_CASE,
+          BOOST_METAPARSE_NTH_OF_CASE,
           ~
         )
         
-        #undef BOOST_NTH_OF_CASE
+        #undef BOOST_METAPARSE_NTH_OF_CASE
       }
     }
   }

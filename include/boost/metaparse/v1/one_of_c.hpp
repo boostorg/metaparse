@@ -40,15 +40,15 @@ namespace boost
       >
       struct one_of_c;
 
-      #ifdef BOOST_ONE_OF_C_LIT
-      #  error BOOST_ONE_OF_C_LIT already defined
+      #ifdef BOOST_METAPARSE_ONE_OF_C_LIT
+      #  error BOOST_METAPARSE_ONE_OF_C_LIT already defined
       #endif
-      #define BOOST_ONE_OF_C_LIT(z, n, unused) lit_c<BOOST_PP_CAT(C, n)>
+      #define BOOST_METAPARSE_ONE_OF_C_LIT(z, n, unused) lit_c<BOOST_PP_CAT(C, n)>
 
-      #ifdef BOOST_ONE_OF_C_CASE
-      #  error BOOST_ONE_OF_C_CASE already defined
+      #ifdef BOOST_METAPARSE_ONE_OF_C_CASE
+      #  error BOOST_METAPARSE_ONE_OF_C_CASE already defined
       #endif
-      #define BOOST_ONE_OF_C_CASE(z, n, unused) \
+      #define BOOST_METAPARSE_ONE_OF_C_CASE(z, n, unused) \
         template <BOOST_PP_ENUM_PARAMS(n, long C)> \
         struct \
           one_of_c< \
@@ -60,13 +60,17 @@ namespace boost
               ~ \
             ) \
           > : \
-          one_of<BOOST_PP_ENUM(n, BOOST_ONE_OF_C_LIT, ~)> \
+          one_of<BOOST_PP_ENUM(n, BOOST_METAPARSE_ONE_OF_C_LIT, ~)> \
         {};
 
-      BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_ONE_OF_SIZE, BOOST_ONE_OF_C_CASE, ~)
+      BOOST_PP_REPEAT(
+        BOOST_METAPARSE_LIMIT_ONE_OF_SIZE,
+        BOOST_METAPARSE_ONE_OF_C_CASE,
+        ~
+      )
 
-      #undef BOOST_ONE_OF_C_CASE
-      #undef BOOST_ONE_OF_C_LIT
+      #undef BOOST_METAPARSE_ONE_OF_C_CASE
+      #undef BOOST_METAPARSE_ONE_OF_C_LIT
       #undef BOOST_NO_SCALAR_VALUE
     }
   }

@@ -38,7 +38,7 @@ namespace boost
   {
     namespace v1
     {
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
       template <char... Cs>
       struct string
       {
@@ -207,7 +207,7 @@ namespace boost
     template <class S>
     struct c_str;
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
     template <char... Cs>
     struct c_str<boost::metaparse::v1::string<Cs...>>
     {
@@ -269,10 +269,11 @@ namespace boost
       typedef c_str type;
     };
 
-    #ifdef BOOST_DEF
-    #  error BOOST_DEF already defined
+    #ifdef BOOST_METAPARSE_DEF
+    #  error BOOST_METAPARSE_DEF already defined
     #endif
-    #define BOOST_DEF(n) = {BOOST_PP_ENUM_PARAMS(n, C) BOOST_PP_COMMA_IF(n) 0}
+    #define BOOST_METAPARSE_DEF(n) \
+      = {BOOST_PP_ENUM_PARAMS(n, C) BOOST_PP_COMMA_IF(n) 0}
 
     #ifdef BOOST_METAPARSE_STRING_DECLARE
     #  error BOOST_METAPARSE_STRING_DECLARE already defined
@@ -281,11 +282,11 @@ namespace boost
     #  error BOOST_METAPARSE_STRING_DECLARE already defined
     #endif
     #ifdef BOOST_USE_CONSTEXPR
-    #  define BOOST_METAPARSE_STRING_DECLARE(n) BOOST_DEF(n)
+    #  define BOOST_METAPARSE_STRING_DECLARE(n) BOOST_METAPARSE_DEF(n)
     #  define BOOST_METAPARSE_STRING_DEFINE(n)
     #else
     #  define BOOST_METAPARSE_STRING_DECLARE(n)
-    #  define BOOST_METAPARSE_STRING_DEFINE(n) BOOST_DEF(n)
+    #  define BOOST_METAPARSE_STRING_DEFINE(n) BOOST_METAPARSE_DEF(n)
     #endif
 
     #ifdef BOOST_METAPARSE_STRING_CASE
@@ -332,7 +333,7 @@ namespace boost
     #undef BOOST_METAPARSE_STRING_CASE
     #undef BOOST_METAPARSE_STRING_DECLARE
     #undef BOOST_METAPARSE_STRING_DEFINE
-    #undef BOOST_DEF
+    #undef BOOST_METAPARSE_DEF
 #endif
   }
 }

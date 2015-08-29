@@ -30,7 +30,7 @@ namespace boost
         template <int N, class S>
         struct split_at_c;
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
         template <int N, char C, char... Cs>
         struct split_at_c<N, string<C, Cs...>> :
           boost::mpl::pair<
@@ -52,15 +52,15 @@ namespace boost
           boost::mpl::pair<string<>, string<Cs...>>
         {};
 #else
-        #ifdef BOOST_ARG
-        #  error BOOST_ARG already defined
+        #ifdef BOOST_METAPARSE_ARG
+        #  error BOOST_METAPARSE_ARG already defined
         #endif
-        #define BOOST_ARG(z, n, d) BOOST_PP_CAT(C, BOOST_PP_ADD(n, d))
+        #define BOOST_METAPARSE_ARG(z, n, d) BOOST_PP_CAT(C, BOOST_PP_ADD(n, d))
 
-        #ifdef BOOST_SPLIT_AT
-        #  error BOOST_SPLIT_AT already defined
+        #ifdef BOOST_METAPARSE_SPLIT_AT
+        #  error BOOST_METAPARSE_SPLIT_AT already defined
         #endif
-        #define BOOST_SPLIT_AT(z, n, unused) \
+        #define BOOST_METAPARSE_SPLIT_AT(z, n, unused) \
           template < \
             BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C) \
           > \
@@ -76,17 +76,21 @@ namespace boost
               string< \
                 BOOST_PP_ENUM( \
                   BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_STRING_SIZE, n), \
-                  BOOST_ARG, \
+                  BOOST_METAPARSE_ARG, \
                   n \
                 ) \
               > \
             > \
           {};
 
-        BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_STRING_SIZE, BOOST_SPLIT_AT, ~)
+        BOOST_PP_REPEAT(
+          BOOST_METAPARSE_LIMIT_STRING_SIZE,
+          BOOST_METAPARSE_SPLIT_AT,
+          ~
+        )
 
-        #undef BOOST_SPLIT_AT
-        #undef BOOST_ARG
+        #undef BOOST_METAPARSE_SPLIT_AT
+        #undef BOOST_METAPARSE_ARG
 #endif
       }
     }

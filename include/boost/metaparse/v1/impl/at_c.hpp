@@ -25,7 +25,7 @@ namespace boost
         template <class S, int N>
         struct at_c;
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
         template <char C, char... Cs, int N>
         struct at_c<string<C, Cs...>, N> : at_c<string<Cs...>, N - 1> {};
 

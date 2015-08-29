@@ -52,8 +52,10 @@
  * Metaparse config
  */
 
-#if defined BOOST_USE_VARIADIC_TEMPLATES && !defined BOOST_VARIADIC_STRING
-#  define BOOST_VARIADIC_STRING
+#if \
+  defined BOOST_USE_VARIADIC_TEMPLATES \
+  && !defined BOOST_METAPARSE_VARIADIC_STRING
+#  define BOOST_METAPARSE_VARIADIC_STRING
 #endif
 
 #endif

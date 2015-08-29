@@ -17,7 +17,7 @@ namespace boost
   {
     namespace v1
     {
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
       template <char... Cs>
       struct string;
 #else

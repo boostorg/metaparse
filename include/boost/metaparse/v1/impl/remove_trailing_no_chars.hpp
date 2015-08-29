@@ -21,7 +21,7 @@ namespace boost
         template <class S>
         struct remove_trailing_no_chars : S {};
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
         // this code assumes that BOOST_NO_CHARs are at the end of the string
         template <char... Cs>
         struct remove_trailing_no_chars<string<BOOST_NO_CHAR, Cs...>> :

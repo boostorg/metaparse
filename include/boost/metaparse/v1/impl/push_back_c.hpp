@@ -22,7 +22,7 @@ namespace boost
         template <class S, char C>
         struct push_back_c;
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
         template <char... Cs, char C>
         struct push_back_c<string<Cs...>, C> : string<Cs..., C> {};
 #else

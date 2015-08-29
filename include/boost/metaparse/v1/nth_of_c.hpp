@@ -34,10 +34,10 @@ namespace boost
       >
       struct nth_of_c;
 
-      #ifdef BOOST_NTH_OF_N
-      #  error BOOST_NTH_OF_N already defined
+      #ifdef BOOST_METAPARSE_NTH_OF_N
+      #  error BOOST_METAPARSE_NTH_OF_N already defined
       #endif
-      #define BOOST_NTH_OF_N(z, n, unused) \
+      #define BOOST_METAPARSE_NTH_OF_N(z, n, unused) \
         template <int K BOOST_PP_COMMA_IF(n) BOOST_PP_ENUM_PARAMS(n, class P)> \
         struct nth_of_c< \
           K, \
@@ -55,9 +55,13 @@ namespace boost
           > \
         {};
       
-      BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE, BOOST_NTH_OF_N, ~)
+      BOOST_PP_REPEAT(
+        BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE,
+        BOOST_METAPARSE_NTH_OF_N,
+        ~
+      )
       
-      #undef BOOST_NTH_OF_N
+      #undef BOOST_METAPARSE_NTH_OF_N
     }
   }
 }

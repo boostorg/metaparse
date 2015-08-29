@@ -29,7 +29,7 @@ namespace boost
         template <class S>
         struct size;
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
         template <char... Cs>
         struct size<string<Cs...>> : boost::mpl::int_<sizeof...(Cs)> {};
 #else

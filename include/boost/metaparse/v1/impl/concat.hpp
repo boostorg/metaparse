@@ -29,22 +29,23 @@ namespace boost
         template <class A, class B>
         struct concat;
 
-#ifdef BOOST_VARIADIC_STRING
+#ifdef BOOST_METAPARSE_VARIADIC_STRING
         template <char... As, char... Bs>
         struct concat<string<As...>, string<Bs...>> : string<As..., Bs...> {};
 #else
         template <class A, class B>
         struct concat_impl;
 
-        #ifdef BOOST_ARG
-        #  error BOOST_ARG already defined
+        #ifdef BOOST_METAPARSE_ARG
+        #  error BOOST_METAPARSE_ARG already defined
         #endif
-        #define BOOST_ARG(z, n, unused) BOOST_PP_CAT(B, BOOST_PP_INC(n))
+        #define BOOST_METAPARSE_ARG(z, n, unused) \
+          BOOST_PP_CAT(B, BOOST_PP_INC(n))
 
-        #ifdef BOOST_CONCAT
-        #  error BOOST_CONCAT already defined
+        #ifdef BOOST_METAPARSE_CONCAT
+        #  error BOOST_METAPARSE_CONCAT already defined
         #endif
-        #define BOOST_CONCAT(z, n, unused) \
+        #define BOOST_METAPARSE_CONCAT(z, n, unused) \
           template < \
             BOOST_PP_ENUM_PARAMS(n, int A) BOOST_PP_COMMA_IF(n) \
             BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int B) \
@@ -74,17 +75,21 @@ namespace boost
               string< \
                 BOOST_PP_ENUM( \
                   BOOST_PP_DEC(BOOST_METAPARSE_LIMIT_STRING_SIZE), \
-                  BOOST_ARG, \
+                  BOOST_METAPARSE_ARG, \
                   ~ \
                 ) \
               > \
             > \
           {};
 
-        BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_STRING_SIZE, BOOST_CONCAT, ~)
+        BOOST_PP_REPEAT(
+          BOOST_METAPARSE_LIMIT_STRING_SIZE,
+          BOOST_METAPARSE_CONCAT,
+          ~
+        )
 
-        #undef BOOST_ARG
-        #undef BOOST_CONCAT
+        #undef BOOST_METAPARSE_ARG
+        #undef BOOST_METAPARSE_CONCAT
 
         template <class S>
         struct concat<S, string<> > : S {};
