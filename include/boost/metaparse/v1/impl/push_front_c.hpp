@@ -28,16 +28,19 @@ namespace boost
         struct push_front_c<string<Cs...>, C> : string<C, Cs...> {};
 #else
         template <
-          BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int C),
+          BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C),
           char Ch
         >
         struct push_front_c<
-          string<BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, C)>,
+          string<BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C)>,
           Ch
         > :
           string<
             Ch,
-            BOOST_PP_ENUM_PARAMS(BOOST_PP_DEC(BOOST_LIMIT_STRING_SIZE), C)
+            BOOST_PP_ENUM_PARAMS(
+              BOOST_PP_DEC(BOOST_METAPARSE_LIMIT_STRING_SIZE),
+              C
+            )
           >
         {};
 #endif

@@ -50,7 +50,7 @@ versions of the library may define other versions of this macro (eg.
 version.
 
 This versioning does not affect macros that may be overridden by the code using
-the library. (eg. `BOOST_LIMIT_STRING_SIZE`)
+the library. (eg. `BOOST_METAPARSE_LIMIT_STRING_SIZE`)
 
 [endsect]
 

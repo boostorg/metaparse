@@ -23,7 +23,7 @@ namespace boost
     {
       template <
         BOOST_PP_ENUM_PARAMS_WITH_A_DEFAULT(
-          BOOST_LIMIT_ONE_OF_SIZE,
+          BOOST_METAPARSE_LIMIT_ONE_OF_SIZE,
           class P,
           boost::mpl::na
         )
@@ -32,7 +32,7 @@ namespace boost
         any<
           impl::one_of<
             boost::mpl::vector<
-              BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_ONE_OF_SIZE, P)
+              BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_ONE_OF_SIZE, P)
             >
           >
         >

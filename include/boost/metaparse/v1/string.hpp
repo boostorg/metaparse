@@ -46,7 +46,7 @@ namespace boost
         typedef string_tag tag;
       };
 #else
-      template <BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int C)>
+      template <BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C)>
       struct string
       {
         typedef string type;
@@ -234,30 +234,31 @@ namespace boost
     #endif
 
 #else
-    template <BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int C)>
+    template <BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C)>
     struct c_str<
       boost::metaparse::v1::string<
-        BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, C)
+        BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C)
       >
     >
     {
       typedef c_str type;
-      static BOOST_CONSTEXPR const char value[BOOST_LIMIT_STRING_SIZE + 1]
+      static BOOST_CONSTEXPR const char
+        value[BOOST_METAPARSE_LIMIT_STRING_SIZE + 1]
       #ifdef BOOST_USE_CONSTEXPR
-        = {BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, C), 0}
+        = {BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C), 0}
       #endif
         ;
     };
 
-    template <BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int C)>
+    template <BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C)>
     BOOST_CONSTEXPR const char
       c_str<
         boost::metaparse::v1::string<
-          BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, C)
+          BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C)
         >
-      >::value[BOOST_LIMIT_STRING_SIZE + 1]
+      >::value[BOOST_METAPARSE_LIMIT_STRING_SIZE + 1]
       #ifndef BOOST_USE_CONSTEXPR
-        = {BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, C), 0}
+        = {BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C), 0}
       #endif
         ;
 
@@ -297,7 +298,7 @@ namespace boost
           boost::metaparse::v1::string< \
             BOOST_PP_ENUM_PARAMS(n, C) BOOST_PP_COMMA_IF(n) \
             BOOST_PP_ENUM( \
-              BOOST_PP_SUB(BOOST_LIMIT_STRING_SIZE, n), \
+              BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_STRING_SIZE, n), \
               BOOST_NO_CHAR BOOST_PP_TUPLE_EAT(3), \
               ~ \
             ) \
@@ -314,7 +315,7 @@ namespace boost
         boost::metaparse::v1::string< \
           BOOST_PP_ENUM_PARAMS(n, C) BOOST_PP_COMMA_IF(n) \
           BOOST_PP_ENUM( \
-            BOOST_PP_SUB(BOOST_LIMIT_STRING_SIZE, n), \
+            BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_STRING_SIZE, n), \
             BOOST_NO_CHAR BOOST_PP_TUPLE_EAT(3), \
             ~ \
           ) \
@@ -323,7 +324,7 @@ namespace boost
 
     BOOST_PP_REPEAT_FROM_TO(
       1,
-      BOOST_LIMIT_STRING_SIZE,
+      BOOST_METAPARSE_LIMIT_STRING_SIZE,
       BOOST_METAPARSE_STRING_CASE,
       ~
     )
@@ -377,7 +378,7 @@ namespace boost
       boost::metaparse::v1::impl::remove_trailing_no_chars< \
         boost::metaparse::v1::string< \
           BOOST_PP_ENUM( \
-            BOOST_LIMIT_STRING_SIZE, \
+            BOOST_METAPARSE_LIMIT_STRING_SIZE, \
             BOOST_METAPARSE_V1_STRING_N, \
             s \
           ) \

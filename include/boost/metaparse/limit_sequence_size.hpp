@@ -6,8 +6,8 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_LIMIT_SEQUENCE_SIZE
-#  define BOOST_LIMIT_SEQUENCE_SIZE 5
+#ifndef BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE
+#  define BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE 5
 #endif
 
 #endif

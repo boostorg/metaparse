@@ -31,7 +31,7 @@ namespace boost
     {
       template <
         BOOST_PP_ENUM_PARAMS_WITH_A_DEFAULT(
-          BOOST_LIMIT_ONE_CHAR_EXCEPT_SIZE,
+          BOOST_METAPARSE_LIMIT_ONE_CHAR_EXCEPT_SIZE,
           class C,
           impl::one_char_except_not_used
         )
@@ -48,11 +48,17 @@ namespace boost
           BOOST_PP_COMMA_IF( \
             BOOST_PP_MUL( \
               n, \
-              BOOST_PP_SUB(BOOST_PP_DEC(BOOST_LIMIT_ONE_CHAR_EXCEPT_SIZE), n)\
+              BOOST_PP_SUB( \
+                BOOST_PP_DEC(BOOST_METAPARSE_LIMIT_ONE_CHAR_EXCEPT_SIZE), \
+                n \
+              ) \
             ) \
           ) \
           BOOST_PP_ENUM( \
-            BOOST_PP_SUB(BOOST_PP_DEC(BOOST_LIMIT_ONE_CHAR_EXCEPT_SIZE), n), \
+            BOOST_PP_SUB( \
+              BOOST_PP_DEC(BOOST_METAPARSE_LIMIT_ONE_CHAR_EXCEPT_SIZE), \
+              n \
+            ), \
             impl::one_char_except_not_used BOOST_PP_TUPLE_EAT(3), \
             ~ \
           ) \
@@ -65,7 +71,7 @@ namespace boost
         {};
 
       BOOST_PP_REPEAT(
-        BOOST_LIMIT_ONE_CHAR_EXCEPT_SIZE,
+        BOOST_METAPARSE_LIMIT_ONE_CHAR_EXCEPT_SIZE,
         MPLLBIS_METAPARSE_ONE_CHAR_EXCEPT_CASE,
         ~
       )

@@ -36,16 +36,24 @@ namespace boost
         #  error BOOST_METAPARSE_STRING_CASE is already defined
         #endif
         #define BOOST_METAPARSE_STRING_CASE(z, n, unused) \
-          template <BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int C)> \
+          template < \
+            BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C) \
+          > \
           struct \
             at_c< \
-              string<BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE,C)>, \
+              string< \
+                BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C) \
+              >, \
               n \
             > : \
             boost::mpl::char_<BOOST_PP_CAT(C, n)> \
           {};
       
-        BOOST_PP_REPEAT(BOOST_LIMIT_STRING_SIZE, BOOST_METAPARSE_STRING_CASE, ~)
+        BOOST_PP_REPEAT(
+          BOOST_METAPARSE_LIMIT_STRING_SIZE,
+          BOOST_METAPARSE_STRING_CASE,
+          ~
+        )
 
         #undef BOOST_METAPARSE_STRING_CASE
 #endif

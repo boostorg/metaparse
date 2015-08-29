@@ -43,7 +43,7 @@ namespace boost
               string< \
                 BOOST_PP_ENUM_PARAMS(n, C) BOOST_PP_COMMA_IF(n) \
                 BOOST_PP_ENUM( \
-                  BOOST_PP_SUB(BOOST_LIMIT_STRING_SIZE, n), \
+                  BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_STRING_SIZE, n), \
                   BOOST_NO_CHAR BOOST_PP_TUPLE_EAT(3), \
                   ~ \
                 ) \
@@ -52,7 +52,11 @@ namespace boost
             boost::mpl::int_<n> \
           {};
   
-        BOOST_PP_REPEAT(BOOST_LIMIT_STRING_SIZE, BOOST_METAPARSE_STRING_CASE, ~)
+        BOOST_PP_REPEAT(
+          BOOST_METAPARSE_LIMIT_STRING_SIZE,
+          BOOST_METAPARSE_STRING_CASE,
+          ~
+        )
   
         #undef BOOST_METAPARSE_STRING_CASE
 #endif

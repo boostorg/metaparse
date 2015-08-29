@@ -44,7 +44,7 @@ namespace boost
         
         BOOST_PP_REPEAT_FROM_TO(
           1,
-          BOOST_LIMIT_SEQUENCE_SIZE,
+          BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE,
           BOOST_SEQUENCE_CASE,
           ~
         )

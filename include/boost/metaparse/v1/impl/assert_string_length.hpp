@@ -19,7 +19,7 @@ namespace boost
         template <int Len, class S>
         struct assert_string_length : S
         {
-          BOOST_STATIC_ASSERT((Len <= BOOST_LIMIT_STRING_SIZE));
+          BOOST_STATIC_ASSERT((Len <= BOOST_METAPARSE_LIMIT_STRING_SIZE));
         };
       }
     }

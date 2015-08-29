@@ -47,28 +47,33 @@ namespace boost
         #define BOOST_CONCAT(z, n, unused) \
           template < \
             BOOST_PP_ENUM_PARAMS(n, int A) BOOST_PP_COMMA_IF(n) \
-            BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int B) \
+            BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int B) \
           > \
           struct \
             concat_impl< \
               string< \
                 BOOST_PP_ENUM_PARAMS(n, A) \
                 BOOST_PP_COMMA_IF( \
-                  BOOST_PP_MUL(BOOST_PP_SUB(BOOST_LIMIT_STRING_SIZE, n), n) \
+                  BOOST_PP_MUL( \
+                    BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_STRING_SIZE, n), \
+                    n \
+                  ) \
                 ) \
                 BOOST_PP_ENUM( \
-                  BOOST_PP_SUB(BOOST_LIMIT_STRING_SIZE, n), \
+                  BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_STRING_SIZE, n), \
                   BOOST_NO_CHAR BOOST_PP_TUPLE_EAT(3), \
                   ~ \
                 ) \
               >, \
-              string<BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, B)> \
+              string< \
+                BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, B) \
+              > \
             > : \
             concat< \
               string<BOOST_PP_ENUM_PARAMS(n, A) BOOST_PP_COMMA_IF(n) B0>, \
               string< \
                 BOOST_PP_ENUM( \
-                  BOOST_PP_DEC(BOOST_LIMIT_STRING_SIZE), \
+                  BOOST_PP_DEC(BOOST_METAPARSE_LIMIT_STRING_SIZE), \
                   BOOST_ARG, \
                   ~ \
                 ) \
@@ -76,7 +81,7 @@ namespace boost
             > \
           {};
 
-        BOOST_PP_REPEAT(BOOST_LIMIT_STRING_SIZE, BOOST_CONCAT, ~)
+        BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_STRING_SIZE, BOOST_CONCAT, ~)
 
         #undef BOOST_ARG
         #undef BOOST_CONCAT

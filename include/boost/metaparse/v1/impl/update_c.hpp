@@ -41,11 +41,11 @@ namespace boost
         #endif
         #define BOOST_UPDATE(z, n, unused) \
           template < \
-            BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int C), \
+            BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C), \
             char Ch \
           > \
           struct update_c< \
-            string<BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, C)>, \
+            string<BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C)>,\
             n, \
             Ch \
           > : \
@@ -54,14 +54,14 @@ namespace boost
               Ch \
               BOOST_PP_REPEAT_FROM_TO( \
                 BOOST_PP_INC(n), \
-                BOOST_PP_DEC(BOOST_LIMIT_STRING_SIZE), \
+                BOOST_PP_DEC(BOOST_METAPARSE_LIMIT_STRING_SIZE), \
                 BOOST_ARGN, \
                 ~ \
               ) \
             > \
           {};
 
-        BOOST_PP_REPEAT(BOOST_LIMIT_STRING_SIZE, BOOST_UPDATE, ~)
+        BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_STRING_SIZE, BOOST_UPDATE, ~)
 
         #undef BOOST_UPDATE
         #undef BOOST_ARGN

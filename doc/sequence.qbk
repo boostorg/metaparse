@@ -20,7 +20,7 @@ accepts an input when all of these parsers accept it. The result of parsing is a
 sequence of the results of the parsers.
 
 The maximum number of parsers `sequence` accepts can be specified with the
-`BOOST_LIMIT_SEQUENCE_SIZE` macro. Its default value is `5`.
+`BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE` macro. Its default value is `5`.
 
 [h1 Header]
 

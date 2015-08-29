@@ -26,7 +26,7 @@ When none of the `P1` ... `Pn` parsers accept the input in the first iteration,
 `any_one_of` accepts the input and the result of parsing is an empty sequence.
 
 The maximum number of accepted parsers is defined by the
-`BOOST_LIMIT_ONE_OF_SIZE` macro. Its default value is 20.
+`BOOST_METAPARSE_LIMIT_ONE_OF_SIZE` macro. Its default value is 20.
 
 [h1 Header]
 

@@ -23,7 +23,7 @@ namespace boost
 #else
       template <
         BOOST_PP_ENUM_PARAMS_WITH_A_DEFAULT(
-          BOOST_LIMIT_STRING_SIZE,
+          BOOST_METAPARSE_LIMIT_STRING_SIZE,
           int C,
           BOOST_NO_CHAR
         )

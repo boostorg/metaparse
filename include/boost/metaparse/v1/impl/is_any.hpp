@@ -59,7 +59,7 @@ namespace boost
 
         BOOST_PP_REPEAT_FROM_TO(
           1,
-          BOOST_LIMIT_ONE_CHAR_EXCEPT_SIZE,
+          BOOST_METAPARSE_LIMIT_ONE_CHAR_EXCEPT_SIZE,
           BOOST_METAPARSE_DEFINE_IS_ANY,
           ~
         )

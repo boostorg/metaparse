@@ -21,7 +21,8 @@ input is empty or begins with one of the non-accepted characters,
 result of parsing is the character value.
 
 The maximum number of template arguments this class can have is the value the
-macro `BOOST_LIMIT_ONE_CHAR_EXCEPT_SIZE` expands to. Its default value is 10.
+macro `BOOST_METAPARSE_LIMIT_ONE_CHAR_EXCEPT_SIZE` expands to. Its default value
+is 10.
 
 [h1 Header]
 

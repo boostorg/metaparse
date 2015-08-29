@@ -19,7 +19,7 @@ It accepts inputs beginning with any of the `P1`, ..., `Pn` characters. The
 result of parsing is the first character of the input.
 
 The maximum number of characters that can be provided is defined by the
-`BOOST_LIMIT_ONE_OF_SIZE` macro. Its default value is `20`.
+`BOOST_METAPARSE_LIMIT_ONE_OF_SIZE` macro. Its default value is `20`.
 
 [h1 Header]
 

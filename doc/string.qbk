@@ -23,7 +23,7 @@ as arguments. When `constexpr` is available, they can be constructed using the
 The tag of the strings is [link string_tag `string_tag`].
 
 [*C++98]: The maximum length of these strings is controlled by the
-`BOOST_LIMIT_STRING_SIZE` macro.
+`BOOST_METAPARSE_LIMIT_STRING_SIZE` macro.
 
 [*C++11]: The strings use variadic templates.
 

@@ -5,7 +5,7 @@
 
 #define BOOST_TEST_MODULE string
 
-#define BOOST_LIMIT_STRING_SIZE 64
+#define BOOST_METAPARSE_LIMIT_STRING_SIZE 64
 
 #include <boost/metaparse/string.hpp>
 

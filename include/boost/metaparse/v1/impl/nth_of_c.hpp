@@ -45,7 +45,11 @@ namespace boost
             >::type \
           {};
         
-        BOOST_PP_REPEAT(BOOST_LIMIT_SEQUENCE_SIZE, BOOST_NTH_OF_CASE, ~)
+        BOOST_PP_REPEAT(
+          BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE,
+          BOOST_NTH_OF_CASE,
+          ~
+        )
         
         #undef BOOST_NTH_OF_CASE
       }

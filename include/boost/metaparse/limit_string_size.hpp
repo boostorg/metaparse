@@ -6,8 +6,8 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef BOOST_LIMIT_STRING_SIZE
-#  define BOOST_LIMIT_STRING_SIZE 32
+#ifndef BOOST_METAPARSE_LIMIT_STRING_SIZE
+#  define BOOST_METAPARSE_LIMIT_STRING_SIZE 32
 #endif
 
 #endif

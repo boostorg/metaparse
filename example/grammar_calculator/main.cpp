@@ -15,7 +15,7 @@ int main()
 #else
 
 #define BOOST_MPL_LIMIT_STRING_SIZE 64 
-#define BOOST_LIMIT_STRING_SIZE BOOST_MPL_LIMIT_STRING_SIZE
+#define BOOST_METAPARSE_LIMIT_STRING_SIZE BOOST_MPL_LIMIT_STRING_SIZE
 
 #include <boost/metaparse/grammar.hpp>
 #include <boost/metaparse/entire_input.hpp>

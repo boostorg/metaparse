@@ -26,7 +26,7 @@ Based on `constexpr`, a feature provided by C++11, Metaparse provides a macro,
 This defines a [link string `string`] as well, however, it is easier to
 read. The maximum length of the string that can be defined this way is limited,
 however, this limit is configurable. It is specified by the 
-`BOOST_LIMIT_STRING_SIZE` macro.
+`BOOST_METAPARSE_LIMIT_STRING_SIZE` macro.
 
 [endsect]
 

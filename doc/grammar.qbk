@@ -72,7 +72,7 @@ The start symbol of the grammar is specified by the template argument of the
 
 [h1 Example]
 
-  #define BOOST_LIMIT_STRING_SIZE 64
+  #define BOOST_METAPARSE_LIMIT_STRING_SIZE 64
   
   #include <boost/metaparse/grammar.hpp>
   #include <boost/metaparse/token.hpp>

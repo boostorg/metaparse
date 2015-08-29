@@ -33,7 +33,7 @@ namespace boost
 
       template <
         BOOST_PP_ENUM_PARAMS_WITH_A_DEFAULT(
-          BOOST_LIMIT_ONE_OF_SIZE,
+          BOOST_METAPARSE_LIMIT_ONE_OF_SIZE,
           long C,
           BOOST_NO_SCALAR_VALUE
         )
@@ -55,7 +55,7 @@ namespace boost
             BOOST_PP_ENUM_PARAMS(n, C) \
             BOOST_PP_COMMA_IF(n) \
             BOOST_PP_ENUM( \
-              BOOST_PP_SUB(BOOST_LIMIT_ONE_OF_SIZE, n), \
+              BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_ONE_OF_SIZE, n), \
               BOOST_NO_SCALAR_VALUE BOOST_PP_TUPLE_EAT(3), \
               ~ \
             ) \
@@ -63,7 +63,7 @@ namespace boost
           one_of<BOOST_PP_ENUM(n, BOOST_ONE_OF_C_LIT, ~)> \
         {};
 
-      BOOST_PP_REPEAT(BOOST_LIMIT_ONE_OF_SIZE, BOOST_ONE_OF_C_CASE, ~)
+      BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_ONE_OF_SIZE, BOOST_ONE_OF_C_CASE, ~)
 
       #undef BOOST_ONE_OF_C_CASE
       #undef BOOST_ONE_OF_C_LIT

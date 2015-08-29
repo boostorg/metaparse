@@ -33,15 +33,17 @@ namespace boost
         #define BOOST_POP_FRONT(z, n, unused) \
           BOOST_PP_COMMA_IF(BOOST_PP_DEC(n)) BOOST_PP_CAT(C, n)
 
-        template <BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int C)>
+        template < \
+          BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C) \
+        >
         struct
           pop_front<
-            string<BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, C)>
+            string<BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C)>
           > :
           string<
             BOOST_PP_REPEAT_FROM_TO(
               1,
-              BOOST_LIMIT_STRING_SIZE,
+              BOOST_METAPARSE_LIMIT_STRING_SIZE,
               BOOST_POP_FRONT,
               ~
             ),

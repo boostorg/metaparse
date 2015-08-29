@@ -25,7 +25,7 @@ namespace boost
     {
       template <
         BOOST_PP_ENUM_PARAMS_WITH_A_DEFAULT(
-          BOOST_LIMIT_SEQUENCE_SIZE,
+          BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE,
           class P,
           boost::mpl::na
         )
@@ -41,7 +41,7 @@ namespace boost
           BOOST_PP_ENUM_PARAMS(n, P) \
           BOOST_PP_COMMA_IF(n) \
           BOOST_PP_ENUM( \
-            BOOST_PP_SUB(BOOST_LIMIT_SEQUENCE_SIZE, n), \
+            BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE, n), \
             boost::mpl::na BOOST_PP_TUPLE_EAT(3), \
             ~ \
           ) \
@@ -50,7 +50,7 @@ namespace boost
       
       BOOST_PP_REPEAT_FROM_TO(
         1,
-        BOOST_LIMIT_SEQUENCE_SIZE,
+        BOOST_METAPARSE_LIMIT_SEQUENCE_SIZE,
         BOOST_SEQUENCE_N,
         ~
       )

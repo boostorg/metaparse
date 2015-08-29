@@ -61,17 +61,21 @@ namespace boost
         #  error BOOST_SPLIT_AT already defined
         #endif
         #define BOOST_SPLIT_AT(z, n, unused) \
-          template <BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, int C)> \
+          template < \
+            BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C) \
+          > \
           struct \
             split_at_c< \
               n, \
-              string<BOOST_PP_ENUM_PARAMS(BOOST_LIMIT_STRING_SIZE, C)> \
+              string<BOOST_PP_ENUM_PARAMS( \
+                BOOST_METAPARSE_LIMIT_STRING_SIZE, C) \
+              > \
             > : \
             boost::mpl::pair< \
               string<BOOST_PP_ENUM_PARAMS(n, C)>, \
               string< \
                 BOOST_PP_ENUM( \
-                  BOOST_PP_SUB(BOOST_LIMIT_STRING_SIZE, n), \
+                  BOOST_PP_SUB(BOOST_METAPARSE_LIMIT_STRING_SIZE, n), \
                   BOOST_ARG, \
                   n \
                 ) \
@@ -79,7 +83,7 @@ namespace boost
             > \
           {};
 
-        BOOST_PP_REPEAT(BOOST_LIMIT_STRING_SIZE, BOOST_SPLIT_AT, ~)
+        BOOST_PP_REPEAT(BOOST_METAPARSE_LIMIT_STRING_SIZE, BOOST_SPLIT_AT, ~)
 
         #undef BOOST_SPLIT_AT
         #undef BOOST_ARG
