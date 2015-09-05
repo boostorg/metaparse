@@ -2299,9 +2299,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.98994948"
-     inkscape:cx="413.13632"
-     inkscape:cy="2242.6152"
+     inkscape:zoom="0.49497474"
+     inkscape:cx="852.09681"
+     inkscape:cy="545.08595"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -2353,7 +2353,7 @@
            x="358.99652"
            id="tspan5642-9-51"
            sodipodi:role="line"
-           style="font-size:60.07733154px">foldlp&lt;...&gt;</tspan></text>
+           style="font-size:60.07733154px">foldl_start_with_parser&lt;...&gt;</tspan></text>
     </g>
     <g
        transform="matrix(0.54151067,0,0,0.5239281,-15.508811,2043.4015)"

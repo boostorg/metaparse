@@ -4338,23 +4338,23 @@
        sodipodi:linespacing="125%"
        id="text2985-2"
        y="237.93015"
-       x="525.64807"
-       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="560.41565"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
          id="tspan6811-4"
          y="237.93015"
-         x="525.64807"
-         sodipodi:role="line">foldlp-based solution</tspan></text>
+         x="560.41565"
+         sodipodi:role="line">foldl_start_with_parser-based solution</tspan></text>
     <text
        sodipodi:linespacing="125%"
        id="text2985-2-3"
        y="237.93015"
-       x="1811.5426"
-       style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="1935.0055"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
        xml:space="preserve"><tspan
          id="tspan6811-4-0"
          y="237.93015"
-         x="1811.5426"
-         sodipodi:role="line">foldrp-based solution</tspan></text>
+         x="1935.0055"
+         sodipodi:role="line">foldr_start_with_parser-based solution</tspan></text>
   </g>
 </svg>

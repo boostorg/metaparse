@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V1_FOLDRP_HPP
-#define BOOST_METAPARSE_V1_FOLDRP_HPP
+#ifndef BOOST_METAPARSE_V1_FOLDR_START_WITH_PARSER_HPP
+#define BOOST_METAPARSE_V1_FOLDR_START_WITH_PARSER_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2012.
 // Distributed under the Boost Software License, Version 1.0.
@@ -23,7 +23,7 @@ namespace boost
     namespace v1
     {
       template <class P, class StateP, class BackwardOp>
-      struct foldrp
+      struct foldr_start_with_parser
       {
       private:
         template <class Res, class Rem>
@@ -45,10 +45,11 @@ namespace boost
         private:
           typedef
             // I need to use apply_wrap, and not apply, because apply would
-            // build a metafunction class from foldrp<P, StateP, BackwardOp>
-            // when BackwardOp is a lambda expression.
+            // build a metafunction class from
+            // foldr_start_with_parser<P, StateP, BackwardOp> when BackwardOp is
+            // a lambda expression.
             boost::mpl::apply_wrap2<
-              foldrp,
+              foldr_start_with_parser,
               typename get_remaining<Res>::type,
               typename get_position<Res>::type
             >
@@ -63,7 +64,7 @@ namespace boost
             type;
         };
       public:
-        typedef foldrp type;
+        typedef foldr_start_with_parser type;
       
         template <class S, class Pos>
         struct apply :

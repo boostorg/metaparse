@@ -19,7 +19,7 @@
 
 struct plus_exp4 : 
  first_of< 
-   foldlp< 
+   foldl_start_with_parser< 
      sequence<one_of<plus_token, minus_token>, mult_exp6>, 
      mult_exp6, 
      boost::mpl::quote2<binary_op> 

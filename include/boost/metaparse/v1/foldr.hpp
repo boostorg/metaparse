@@ -7,7 +7,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/metaparse/v1/return_.hpp>
-#include <boost/metaparse/v1/foldrp.hpp>
+#include <boost/metaparse/v1/foldr_start_with_parser.hpp>
 
 namespace boost
 {
@@ -16,7 +16,7 @@ namespace boost
     namespace v1
     {
       template <class P, class State, class BackwardOp>
-      struct foldr : foldrp<P, return_<State>, BackwardOp> {};
+      struct foldr : foldr_start_with_parser<P, return_<State>, BackwardOp> {};
     }
   }
 }

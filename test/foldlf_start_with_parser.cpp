@@ -1,21 +1,21 @@
-// Copyright Abel Sinkovics (abel@sinkovics.hu) 2012.
+// Copyright Abel Sinkovics (abel@sinkovics.hu) 2015.
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/foldlp.hpp>
+#include <boost/metaparse/foldlf_start_with_parser.hpp>
 #include <boost/metaparse/start.hpp>
 #include <boost/metaparse/string.hpp>
 #include <boost/metaparse/is_error.hpp>
 #include <boost/metaparse/get_result.hpp>
 #include <boost/metaparse/return_.hpp>
+#include <boost/metaparse/sequence.hpp>
 
 #include "common.hpp"
 
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/char.hpp>
 #include <boost/mpl/assert.hpp>
-#include <boost/mpl/push_back.hpp>
 
 #include "test_case.hpp"
 
@@ -30,19 +30,22 @@ namespace
   };
 }
 
-BOOST_METAPARSE_TEST_CASE(foldlp)
+BOOST_METAPARSE_TEST_CASE(foldlf_start_with_parser)
 {
-  using boost::metaparse::foldlp;
+  using boost::metaparse::foldlf_start_with_parser;
   using boost::metaparse::start;
   using boost::metaparse::is_error;
   using boost::metaparse::lit_c;
   using boost::metaparse::get_result;
+  using boost::metaparse::sequence;
   
   using boost::mpl::equal_to;
   using boost::mpl::apply_wrap2;
   using boost::mpl::char_;
 
-  typedef foldlp<lit_c<'a'>, lit_c<'b'>, keep_state> p;
+  typedef sequence<lit_c<'a'>, lit_c<'a'> > aa;
+
+  typedef foldlf_start_with_parser<aa, lit_c<'b'>, keep_state> p;
 
   // test_b
   BOOST_MPL_ASSERT((
@@ -50,9 +53,7 @@ BOOST_METAPARSE_TEST_CASE(foldlp)
   ));
   
   // test_ba
-  BOOST_MPL_ASSERT((
-    equal_to<get_result<apply_wrap2<p, str_ba, start> >::type, char_<'b'> >
-  ));
+  BOOST_MPL_ASSERT(( is_error<apply_wrap2<p, str_ba, start> > ));
 
   // test_baaaa
   BOOST_MPL_ASSERT((
@@ -66,9 +67,9 @@ BOOST_METAPARSE_TEST_CASE(foldlp)
   BOOST_MPL_ASSERT((is_error<apply_wrap2<p, str_ca, start> >));
 }
 
-// Test foldlp as a normal fold
+// Test foldlf_start_with_parser as a normal fold
 
-using boost::metaparse::foldlp;
+using boost::metaparse::foldlf_start_with_parser;
 using boost::metaparse::return_;
 
 using boost::mpl::vector;
@@ -80,12 +81,16 @@ using boost::mpl::lambda;
 namespace
 {
   template <class P>
-  struct repeated :
-    foldlp<P, return_<vector<> >, lambda<push_back<_1, _2> >::type>
+  struct repeatedf :
+    foldlf_start_with_parser<
+      P,
+      return_<vector<> >,
+      lambda<push_back<_1, _2> >::type
+    >
   {};
 }
 
-#define TEST_NAME foldlp_as_foldl
+#define TEST_NAME foldlf_start_with_parser_as_foldlf
 
-#include "repeated_test.hpp"
+#include "repeatedf_test.hpp"
 

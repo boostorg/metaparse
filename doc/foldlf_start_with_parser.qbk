@@ -1,10 +1,10 @@
-[#foldlfp]
-[section foldlfp]
+[#foldlf_start_with_parser]
+[section foldlf_start_with_parser]
 
 [h1 Synopsis]
 
   template <class P, class StateP, class ForwardOp>
-  struct foldlfp;
+  struct foldlf_start_with_parser;
 
 This is a [link parser_combinator parser combinator].
 
@@ -17,46 +17,47 @@ This is a [link parser_combinator parser combinator].
 
 [h1 Description]
 
-The same as [link foldlp `foldlp`], but once `P` rejects the input, `foldlfp`
-checks if `P` consumes any characters before rejecting the input. If so,
-`foldlfp` rejects the input with the same error message this last application of
-`P` returned. Otherwise `foldlfp` accepts the input and gives the same result as
-[link foldlp `foldlp`].
+The same as [link foldl_start_with_parser `foldl_start_with_parser`], but once
+`P` rejects the input, `foldlf_start_with_parser` checks if `P` consumes any
+characters before rejecting the input. If so, `foldlf_start_with_parser` rejects
+the input with the same error message this last application of `P` returned.
+Otherwise `foldlf_start_with_parser` accepts the input and gives the same result
+as [link foldl_start_with_parser `foldl_start_with_parser`].
 
-Here is a diagram showing how `foldlfp` works by example:
+Here is a diagram showing how `foldlf_start_with_parser` works by example:
 
   using int_token = token<int_>;
   using plus_token = token<lit_c<'+'>>;
   using plus_int = last_of<plus_token, int_token>;
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
 
-[$foldlfp_diag1.png [width 70%]]
+[$foldlf_start_with_parser_diag1.png [width 70%]]
 
 Further details can be found in the
-[link introducing-foldlfp Introducing foldlfp] section of the
-[link manual User Manual].
+[link introducing-foldlf_start_with_parser Introducing foldlf_start_with_parser]
+section of the [link manual User Manual].
 
 [h1 Header]
 
-  #include <boost/metaparse/foldlfp.hpp>
+  #include <boost/metaparse/foldlf_start_with_parser.hpp>
 
 [h1 Expression semantics]
 
 For any `p` parser, `pt` class, `f` metafunction class taking two arguments,
 `s` compile-time string and `pos` source position
 
-  foldlfp<p, pt, f>::apply<s, pos>
+  foldlf_start_with_parser<p, pt, f>::apply<s, pos>
 
 is equivalent to
 
   first_of<
-    foldlp<p, pt, f>,
+    foldl_start_with_parser<p, pt, f>,
     fail_at_first_char_expected<p>
   >::apply<s, pos>
 
 [h1 Example]
 
-  #include <boost/metaparse/foldlfp.hpp>
+  #include <boost/metaparse/foldlf_start_with_parser.hpp>
   #include <boost/metaparse/lit_c.hpp>
   #include <boost/metaparse/last_of.hpp>
   #include <boost/metaparse/token.hpp>
@@ -77,7 +78,7 @@ is equivalent to
   using sum_op =
     boost::mpl::lambda<boost::mpl::plus<boost::mpl::_1, boost::mpl::_2>>::type;
   
-  using ints = foldlfp<plus_int, int_token, sum_op>;
+  using ints = foldlf_start_with_parser<plus_int, int_token, sum_op>;
   
   static_assert(
     get_result<

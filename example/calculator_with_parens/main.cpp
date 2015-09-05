@@ -11,7 +11,7 @@
 #include <boost/metaparse/middle_of.hpp>
 #include <boost/metaparse/space.hpp>
 #include <boost/metaparse/int_.hpp>
-#include <boost/metaparse/foldlfp.hpp>
+#include <boost/metaparse/foldlf_start_with_parser.hpp>
 #include <boost/metaparse/one_of.hpp>
 #include <boost/metaparse/get_result.hpp>
 #include <boost/metaparse/token.hpp>
@@ -41,7 +41,7 @@ using boost::metaparse::space;
 using boost::metaparse::repeated;
 using boost::metaparse::build_parser;
 using boost::metaparse::int_;
-using boost::metaparse::foldlfp;
+using boost::metaparse::foldlf_start_with_parser;
 using boost::metaparse::get_result;
 using boost::metaparse::one_of;
 using boost::metaparse::token;
@@ -114,7 +114,7 @@ typedef middle_of<open_paren_token, plus_exp, close_paren_token> paren_exp;
 typedef one_of<int_token, paren_exp> simple_exp;
 
 typedef
-  foldlfp<
+  foldlf_start_with_parser<
     sequence<one_of<mult_token, div_token>, simple_exp>,
     simple_exp,
     eval_mult
@@ -122,7 +122,7 @@ typedef
   prod_exp;
   
 struct plus_exp :
-  foldlfp<
+  foldlf_start_with_parser<
     sequence<one_of<plus_token, minus_token>, prod_exp>,
     prod_exp,
     eval_plus

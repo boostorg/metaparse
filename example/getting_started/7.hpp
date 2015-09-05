@@ -35,7 +35,7 @@ template <class S, class Item>
 
 using exp_parser13 = 
  build_parser< 
-   foldlp< 
+   foldl_start_with_parser< 
      sequence<one_of<plus_token, minus_token>, int_token>, 
      int_token, 
      boost::mpl::quote2<binary_op> 

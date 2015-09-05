@@ -16,10 +16,10 @@ template <class S, class Item>
    > 
    {};
 
-#include <boost/metaparse/foldrp.hpp>
+#include <boost/metaparse/foldr_start_with_parser.hpp>
 
 using mult_exp3 = 
- foldrp< 
+ foldr_start_with_parser< 
    sequence<int_token, one_of<times_token, divides_token>>, /* The parser applied repeatedly */ 
    int_token, /* The parser parsing the last number */ 
    boost::mpl::quote2<reverse_binary_op> /* The function called for every result */ 
@@ -28,7 +28,7 @@ using mult_exp3 =
 
 using exp_parser17 = 
  build_parser< 
-   foldlp< 
+   foldl_start_with_parser< 
      sequence<one_of<plus_token, minus_token>, mult_exp3>, 
      mult_exp3, 
      boost::mpl::quote2<binary_op> 

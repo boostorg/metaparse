@@ -13,7 +13,7 @@ using minus_token = token<lit_c<'-'>>;
 
 using exp_parser12 = 
  build_parser< 
-   foldlp< 
+   foldl_start_with_parser< 
      sequence<one_of<plus_token, minus_token>, int_token>, 
      int_token, 
      boost::mpl::quote2<sum_items> 

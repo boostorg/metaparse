@@ -20,21 +20,21 @@ using paren_exp4 = middle_of<lparen_token, plus_exp3, rparen_token>;
 using primary_exp3 = one_of<int_token, paren_exp4, fail<missing_primary_expression>>;
 
 using unary_exp3 = 
- foldrp< 
+ foldr_start_with_parser< 
    minus_token, 
    primary_exp3, 
    boost::mpl::lambda<boost::mpl::negate<boost::mpl::_1>>::type 
  >;
 
 using mult_exp6 = 
- foldlp< 
+ foldl_start_with_parser< 
    sequence<one_of<times_token, divides_token>, unary_exp3>, 
    unary_exp3, 
    boost::mpl::quote2<binary_op> 
  >;
 
 struct plus_exp3 : 
- foldlp< 
+ foldl_start_with_parser< 
    sequence<one_of<plus_token, minus_token>, mult_exp6>, 
    mult_exp6, 
    boost::mpl::quote2<binary_op> 

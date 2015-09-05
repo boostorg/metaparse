@@ -913,18 +913,19 @@ This solution can still be improved. The [link foldl `foldl`] summarising the
 the first `<number>` of the input to it in the first iteration. It would be more
 straightforward if [link foldl `foldl`] could use the value of the first
 `<number>` as the initial value of the "['sum we have so far]". Metaparse
-provides [link foldlp `foldlp`] for this:
+provides [link foldl_start_with_parser `foldl_start_with_parser`] for this:
 
-  > #include <boost/metaparse/foldlp.hpp>
+  > #include <boost/metaparse/foldl_start_with_parser.hpp>
 
-[link foldlp `foldlp`] is almost the same as [link foldl `foldl`]. The
-difference is that instead of taking a starting ['value] for the sum it takes a
-['parser]. First it parses the input with this parser and uses the value it
-returns as the starting value. Here is how we can implement our parser using it:
+[link foldl_start_with_parser `foldl_start_with_parser`] is almost the same as
+[link foldl `foldl`]. The difference is that instead of taking a starting
+['value] for the sum it takes a ['parser]. First it parses the input with this
+parser and uses the value it returns as the starting value. Here is how we can
+implement our parser using it:
 
   > using exp_parser11 = \
   ...> build_parser< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<plus_token, int_token>, /* apply this parser repeatedly */ \
   ...>     int_token, /* use this parser to get the initial value */ \
   ...>     boost::mpl::quote2<sum_items> /* use this function to add a new value to the summary */ \
@@ -933,11 +934,11 @@ returns as the starting value. Here is how we can implement our parser using it:
 
 [link getting_started_15 copy-paste friendly version]
 
-This version of `exp_parser` uses [link foldlp `foldlp`]. This implementation
-is more compact than the earlier versions. There is no
-[link sequence `sequence`] element in this: the first `<number>` is parsed by
-`int_token` and its value is used as the initial value for the summary. Let's
-try it out:
+This version of `exp_parser` uses
+[link foldl_start_with_parser `foldl_start_with_parser`]. This implementation is
+more compact than the earlier versions. There is no [link sequence `sequence`]
+element in this: the first `<number>` is parsed by `int_token` and its value is
+used as the initial value for the summary. Let's try it out:
 
   > exp_parser11::apply<BOOST_METAPARSE_STRING("1 + 2 + 3 + 4")>::type
   mpl_::integral_c<int, 10>
@@ -986,7 +987,7 @@ Using this, we can make our parser accept subtractions as well:
 
   > using exp_parser12 = \
   ...> build_parser< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<one_of<plus_token, minus_token>, int_token>, \
   ...>     int_token, \
   ...>     boost::mpl::quote2<sum_items> \
@@ -1095,11 +1096,11 @@ try it out:
 
 We passed it a number (`11`) and a `vector` of a character (`+`) and another
 number (`2`). It added the two numbers as expected. Let's use this function as
-the third argument of [link foldlp `foldlp`]:
+the third argument of [link foldl_start_with_parser `foldl_start_with_parser`]:
 
   > using exp_parser13 = \
   ...> build_parser< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<one_of<plus_token, minus_token>, int_token>, \
   ...>     int_token, \
   ...>     boost::mpl::quote2<binary_op> \
@@ -1148,7 +1149,7 @@ Now we can extend our parser to accept the `*` symbol as an operator:
 
   > using exp_parser14 = \
   ...> build_parser< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<one_of<plus_token, minus_token, times_token>, int_token>, \
   ...>     int_token, \
   ...>     boost::mpl::quote2<binary_op> \
@@ -1182,7 +1183,7 @@ Let's make it possible for different operators to have different precedence. To
 do this, we define a new parser for parsing expressions containing only `*`
 operators (that is the operator with the lowest precedence):
 
-  > using mult_exp1 = foldlp<sequence<times_token, int_token>, int_token, boost::mpl::quote2<binary_op>>;
+  > using mult_exp1 = foldl_start_with_parser<sequence<times_token, int_token>, int_token, boost::mpl::quote2<binary_op>>;
 
 `mult_exp1` can parse expressions containing only `*` operator. For example
 `3 * 2` or `6 * 7 * 8`. Now we can create a parser supporting only the `+` and
@@ -1196,7 +1197,7 @@ Here is the parser implementing this:
 
   > using exp_parser15 = \
   ...> build_parser< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<one_of<plus_token, minus_token>, mult_exp1>, \
   ...>     mult_exp1, \
   ...>     boost::mpl::quote2<binary_op> \
@@ -1239,14 +1240,14 @@ as multiplication, it should be added to that layer:
   > template <class L, class R> struct eval_binary_op<L, '/', R> : boost::mpl::divides<L, R>::type {};
   > using divides_token = token<lit_c<'/'>>;
   > using mult_exp2 = \
-  ...> foldlp< \
+  ...> foldl_start_with_parser< \
   ...>   sequence<one_of<times_token, divides_token>, int_token>, \
   ...>   int_token, \
   ...>   boost::mpl::quote2<binary_op> \
   ...> >;
   > using exp_parser16 = \
   ...> build_parser< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<one_of<plus_token, minus_token>, mult_exp2>, \
   ...>     mult_exp2, \
   ...>     boost::mpl::quote2<binary_op> \
@@ -1304,18 +1305,24 @@ Metaparse provides another folding parser combinator, [link foldr `foldr`]. It
 applies a parser on the input as well but it iterates from ['right] to left over
 the results.
 
-Similarly to [link foldlp `foldlp`], Metaparse provides [link foldrp `foldrp`]
-as well. A major difference between the two ([link foldlp `foldlp`] and
-[link foldrp `foldrp`]) solutions is that while [link foldlp `foldlp`] treats
-the ['first] number as a special one, [link foldrp `foldrp`] treats the ['last]
+Similarly to [link foldl_start_with_parser `foldl_start_with_parser`], Metaparse
+provides [link foldr_start_with_parser `foldr_start_with_parser`] as well. A
+major difference between the two
+([link foldl_start_with_parser `foldl_start_with_parser`] and
+[link foldr_start_with_parser `foldr_start_with-parser`]) solutions is that
+while [link foldl_start_with_parser `foldl_start_with_parser`] treats the
+['first] number as a special one,
+[link foldr_start_with_parser `foldr_start_with_parser`] treats the ['last]
 number as a special one. This might sound strange, but think about it: if you
 want to summarise the elements from right to left, your starting value should be
 the last element, not the first one, as the first one is the one you visit last.
 
-Due to the above difference [link foldrp `foldrp`] is not a drop-in replacement
-of [link foldlp `foldlp`]. While the list of values [link foldl `foldl`] was
-iterating over is "`8`", "`/ 4`", "`/ 2`", the list of values
-[link foldr `foldlr`] has to iterate over is "`2`", "`4 /`", "`8 /`".
+Due to the above difference
+[link foldr_start_with_parser `foldr_start_with_parser`] is not a drop-in
+replacement of [link foldl_start_with_parser `foldl_start_with_parser`]. While
+the list of values [link foldl `foldl`] was iterating over is "`8`", "`/ 4`",
+"`/ 2`", the list of values [link foldr `foldlr`] has to iterate over is "`2`",
+"`4 /`", "`8 /`".
 
 This means that the function we use to ['"add"] a new value to the already
 evaluated part of the expression (this has been `binary_op` so far) has to be
@@ -1345,14 +1352,15 @@ There are multiple differences between `binary_op` and `reverse_binary_op`:
   right operand. This is because in the first case we are going from left to
   right while in the second case we are going from right to left.
 
-We need to include [link foldrp `foldrp`]:
+We need to include [link foldr_start_with_parser `foldr_start_with_parser`]:
 
-  > #include <boost/metaparse/foldrp.hpp>
+  > #include <boost/metaparse/foldr_start_with_parser.hpp>
 
-We can rewrite `mult_exp` using [link foldrp `foldrp`]:
+We can rewrite `mult_exp` using
+[link foldr_start_with_parser `foldr_start_with_parser`]:
 
   > using mult_exp3 = \
-  ...> foldrp< \
+  ...> foldr_start_with_parser< \
   ...>   sequence<int_token, one_of<times_token, divides_token>>, /* The parser applied repeatedly */ \
   ...>   int_token, /* The parser parsing the last number */ \
   ...>   boost::mpl::quote2<reverse_binary_op> /* The function called for every result */ \
@@ -1373,7 +1381,7 @@ We can create a new version of `exp_parser` that uses `mult_exp3` instead of
 
   > using exp_parser17 = \
   ...> build_parser< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<one_of<plus_token, minus_token>, mult_exp3>, \
   ...>     mult_exp3, \
   ...>     boost::mpl::quote2<binary_op> \
@@ -1392,7 +1400,7 @@ parser out:
 This version of the parser gives ['the other] possible result. The one you get
 when division is right associative, which means that the above expression is
 evaluated as `8 / (4 / 2)`. Here is a diagram showing how the
-[link foldrp `foldrp`]-based solution works:
+[link foldr_start_with_parser `foldr_start_with_parser`]-based solution works:
 
 [$tutorial_diag10.png [width 70%]]
 
@@ -1437,7 +1445,7 @@ which means that we should use this new layer where we have been using
 
   > #include <boost/mpl/negate.hpp>
   > using unary_exp1 = \
-  ...> foldrp< \
+  ...> foldr_start_with_parser< \
   ...>   minus_token, \
   ...>   int_token, \
   ...>   boost::mpl::lambda<boost::mpl::negate<boost::mpl::_1>>::type \
@@ -1458,14 +1466,14 @@ as `mult_exp2` and `exp_parser16`. The only difference is that they (directly
 only `exp_parser18`) use `unary_exp1` instead of `int_token`.
 
   > using mult_exp4 = \
-  ...> foldlp< \
+  ...> foldl_start_with_parser< \
   ...>   sequence<one_of<times_token, divides_token>, unary_exp1>, \
   ...>   unary_exp1, \
   ...>   boost::mpl::quote2<binary_op> \
   ...> >;
   > using exp_parser18 = \
   ...> build_parser< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<one_of<plus_token, minus_token>, mult_exp4>, \
   ...>     mult_exp4, \
   ...>     boost::mpl::quote2<binary_op> \
@@ -1506,7 +1514,7 @@ for parsing (and evaluating) an expression containing operators of the highest
 precedence:
 
   > using plus_exp1 = \
-  ...> foldlp< \
+  ...> foldl_start_with_parser< \
   ...>   sequence<one_of<plus_token, minus_token>, mult_exp4>, \
   ...>   mult_exp4, \
   ...>   boost::mpl::quote2<binary_op> \
@@ -1589,13 +1597,13 @@ Now we can write the rest of the parsers and they can refer to `plus_exp2`:
   > using paren_exp3 = middle_of<lparen_token, plus_exp2, rparen_token>;
   > using primary_exp2 = one_of<int_token, paren_exp2>;
   > using unary_exp2 = \
-  ...> foldrp< \
+  ...> foldr_start_with_parser< \
   ...>   minus_token, \
   ...>   primary_exp2, \
   ...>   boost::mpl::lambda<boost::mpl::negate<boost::mpl::_1>>::type \
   ...> >;
   > using mult_exp5 = \
-  ...> foldlp< \
+  ...> foldl_start_with_parser< \
   ...>   sequence<one_of<times_token, divides_token>, unary_exp2>, \
   ...>   unary_exp2, \
   ...>   boost::mpl::quote2<binary_op> \
@@ -1608,7 +1616,7 @@ hierarchy we have worked out in the earlier sections of this tutorial. The only
 element missing is `plus_exp2`:
 
   > struct plus_exp2 : \
-  ...> foldlp< \
+  ...> foldl_start_with_parser< \
   ...>   sequence<one_of<plus_token, minus_token>, mult_exp5>, \
   ...>   mult_exp5, \
   ...>   boost::mpl::quote2<binary_op> \
@@ -1760,19 +1768,19 @@ We need to define the rest of the parsers. Their definition is the same as
 before:
 
   > using unary_exp3 = \
-  ...> foldrp< \
+  ...> foldr_start_with_parser< \
   ...>   minus_token, \
   ...>   primary_exp3, \
   ...>   boost::mpl::lambda<boost::mpl::negate<boost::mpl::_1>>::type \
   ...> >;
   > using mult_exp6 = \
-  ...> foldlp< \
+  ...> foldl_start_with_parser< \
   ...>   sequence<one_of<times_token, divides_token>, unary_exp3>, \
   ...>   unary_exp3, \
   ...>   boost::mpl::quote2<binary_op> \
   ...> >;
   > struct plus_exp3 : \
-  ...> foldlp< \
+  ...> foldl_start_with_parser< \
   ...>   sequence<one_of<plus_token, minus_token>, mult_exp6>, \
   ...>   mult_exp6, \
   ...>   boost::mpl::quote2<binary_op> \
@@ -1811,12 +1819,14 @@ done yet. Let's try a slightly more complex input:
   mpl_::integral_c<int, 0>
 
 This is getting strange now. We parse the `+ <mult_exp>` elements using
-[link foldlp `foldlp`] (see the definition of `plus_exp3`).
-[link foldlp `foldlp`] parses the input as long as it can and stops when it
-fails to parse it. In the above input, it parses `0` as the initial element and
-then it tries to parse the first `+ <mult_exp>` element. But parsing the
-`<mult_exp>` part fails because of the missing closing paren. So
-[link foldlp `foldlp`] stops and ignores this failing part of the input.
+[link foldl_start_with_parser `foldl_start_with_parser`] (see the definition of
+`plus_exp3`). [link foldl_start_with_parser `foldl_start_with_parser`] parses
+the input as long as it can and stops when it fails to parse it. In the above
+input, it parses `0` as the initial element and then it tries to parse the first
+`+ <mult_exp>` element. But parsing the `<mult_exp>` part fails because of the
+missing closing paren. So
+[link foldl_start_with_parser `foldl_start_with_parser`] stops and ignores this
+failing part of the input.
 
 The result of the above is that we parse only the `0` part of the input, ignore
 the "garbage" at the end and assume that the value of the expression is `0`.
@@ -1824,11 +1834,11 @@ This could be fixed by using [link entire_input `entire_input`]. Our parser
 would reject the input (because of the "garbage" at the end), but the error
 message would not be useful. So we take a different approach.
 
-When [link foldlp `foldlp`] stops, we should check if there is an extra broken
-`+ <mult_exp>` there or not. When there is, we should report what is wrong with
-that broken `+ <mult_exp>` (eg. a missing closing paren). Metaparse provides
-[link fail_at_first_char_expected `fail_at_first_char_expected`] to implement
-such validations.
+When [link foldl_start_with_parser `foldl_start_with_parser`] stops, we should
+check if there is an extra broken `+ <mult_exp>` there or not. When there is, we
+should report what is wrong with that broken `+ <mult_exp>` (eg. a missing
+closing paren). Metaparse provides [link fail_at_first_char_expected
+`fail_at_first_char_expected`] to implement such validations.
 [link fail_at_first_char_expected `fail_at_first_char_expected`]`<parser>`
 checks how `parser` fails to parse the input: when it fails right at the first
 character, [link fail_at_first_char_expected `fail_at_first_char_expected`]
@@ -1842,7 +1852,7 @@ following way:
   > #include <boost/metaparse/first_of.hpp>
   > struct plus_exp4 : \
   ...> first_of< \
-  ...>   foldlp< \
+  ...>   foldl_start_with_parser< \
   ...>     sequence<one_of<plus_token, minus_token>, mult_exp6>, \
   ...>     mult_exp6, \
   ...>     boost::mpl::quote2<binary_op> \
@@ -1857,7 +1867,8 @@ following way:
 
 [link first_of `first_of`] is similar to [link middle_of `middle_of`], but
 keeps the result of the first element, not the middle one. We use it to keep the
-"real" result (the result of [link foldlp `foldlp`]) and to throw the dummy
+"real" result (the result of
+[link foldl_start_with_parser `foldl_start_with_parser`]) and to throw the dummy
 result coming from
 [link fail_at_first_char_expected `fail_at_first_char_expected`] away when
 there is no broken expression at the end. [link first_of `first_of`] propagates
@@ -1881,14 +1892,16 @@ the implementation of the parser (`plus_exp4`) is long and repetitive: it
 contains the parser for the repeated element
 ([link sequence `sequence`]`<`[link one_of `one_of`]`<plus_token, minus_token>, mult_exp6>`) twice, and that is not ideal.
 
-`plus_exp4` uses [link foldlp `foldlp`] to implement repetition. Metaparse
-provides [link foldlfp `foldlfp`] which does the same we did with
-[link first_of `first_of`], [link foldlp `foldlp`] and
+`plus_exp4` uses [link foldl_start_with_parser `foldl_start_with_parser`] to
+implement repetition. Metaparse provides
+[link foldlf_start_with_parser `foldlf_start_with_parser`] which does the same
+we did with [link first_of `first_of`],
+[link foldl_start_with_parser `foldl_start_with_parser`] and
 [link fail_at_first_char_expected `fail_at_first_char_expected`] together:
 
-  > #include <boost/metaparse/foldlfp.hpp>
+  > #include <boost/metaparse/foldlf_start_with_parser.hpp>
   > struct plus_exp5 : \
-  ...> foldlfp< \
+  ...> foldlf_start_with_parser< \
   ...>   sequence<one_of<plus_token, minus_token>, mult_exp6>, \
   ...>   mult_exp6, \
   ...>   boost::mpl::quote2<binary_op> \
@@ -1897,11 +1910,13 @@ provides [link foldlfp `foldlfp`] which does the same we did with
 
 [link getting_started_39 copy-paste friendly version]
 
-It parses the input using [link sequence `sequence`]`<`[link one_of `one_of`]`<plus_token, minus_token>, mult_exp6>`)
-repeatedly. When it fails, [link foldlfp `foldlfp`] checks if it consumed any
-character before failing (the same as what
+It parses the input using
+[link sequence `sequence`]`<`[link one_of `one_of`]`<plus_token, minus_token>, mult_exp6>`)
+repeatedly. When it fails,
+[link foldlf_start_with_parser `foldlf_start_with_parser`] checks if it consumed
+any character before failing (the same as what
 [link fail_at_first_char_expected `fail_at_first_char_expected`] does), and if
-yes, then [link foldlfp `foldlfp`] fails.
+yes, then [link foldlf_start_with_parser `foldlf_start_with_parser`] fails.
 
 This makes the implementation of the repetition with advanced error reporting
 simpler. Let's try it out:
@@ -1915,29 +1930,29 @@ Note that other folding parsers have their `f` versions as well (eg.
 [link foldrf `foldrf`], [link foldlf1 `foldlf1`], etc).
 
 [endsect]
-[section 11.3.2 Using `foldlfp` at other places as well]
+[section 11.3.2 Using `foldlf_start_with_parser` at other places as well]
 
-We have replaced one [link foldlp `foldlp`] with [link foldlfp `foldlfp`].
-Other layers (`mult_exp`, `unary_exp`, etc) use folding as well. Let's use it at
-all layers:
+We have replaced one [link foldl_start_with_parser `foldl_start_with_parser`]
+with [link foldlf_start_with_parser `foldlf_start_with_parser`]. Other layers
+(`mult_exp`, `unary_exp`, etc) use folding as well. Let's use it at all layers:
 
   > struct plus_exp6;
   > using paren_exp5 = middle_of<lparen_token, plus_exp6, rparen_token>;
   > using primary_exp4 = one_of<int_token, paren_exp5, fail<missing_primary_expression>>;
   > using unary_exp4 = \
-  ...> foldrp< \
+  ...> foldr_start_with_parser< \
   ...>   minus_token, \
   ...>   primary_exp4, \
   ...>   boost::mpl::lambda<boost::mpl::negate<boost::mpl::_1>>::type \
   ...> >;
   > using mult_exp7 = \
-  ...> foldlfp< \
+  ...> foldlf_start_with_parser< \
   ...>   sequence<one_of<times_token, divides_token>, unary_exp4>, \
   ...>   unary_exp4, \
   ...>   boost::mpl::quote2<binary_op> \
   ...> >;
   > struct plus_exp6 : \
-  ...> foldlfp< \
+  ...> foldlf_start_with_parser< \
   ...>   sequence<one_of<plus_token, minus_token>, mult_exp7>, \
   ...>   mult_exp7, \
   ...>   boost::mpl::quote2<binary_op> \
@@ -1947,11 +1962,14 @@ all layers:
 [link getting_started_40 copy-paste friendly version]
 
 [note
-Note that `unary_exp4` uses [link foldrp `foldrp`] instead of `foldrfp`. The
-reason behind it is that there is no `foldrfp`. [link foldrp `foldrp`]
-applies the `primary_exp4` parser when `minus_token` does not accept the
-input any more. Therefore, it is supposed to catch the errors of incomplete
-expressions after the repetition.
+Note that `unary_exp4` uses
+[link foldr_start_with_parser `foldr_start_with_parser`] instead of
+`foldrf_start_with_parser`. The reason behind it is that there is no
+`foldrf_start_with_parser`.
+[link foldr_start_with_parser `foldr_start_with_parser`] applies the
+`primary_exp4` parser when `minus_token` does not accept the input any more.
+Therefore, it is supposed to catch the errors of incomplete expressions after
+the repetition.
 ]
 
 Let's try different invalid expressions:

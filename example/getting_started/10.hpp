@@ -10,14 +10,14 @@
 #include <boost/mpl/negate.hpp>
 
 using unary_exp1 = 
- foldrp< 
+ foldr_start_with_parser< 
    minus_token, 
    int_token, 
    boost::mpl::lambda<boost::mpl::negate<boost::mpl::_1>>::type 
  >;
 
 using mult_exp4 = 
- foldlp< 
+ foldl_start_with_parser< 
    sequence<one_of<times_token, divides_token>, unary_exp1>, 
    unary_exp1, 
    boost::mpl::quote2<binary_op> 
@@ -25,7 +25,7 @@ using mult_exp4 =
 
 using exp_parser18 = 
  build_parser< 
-   foldlp< 
+   foldl_start_with_parser< 
      sequence<one_of<plus_token, minus_token>, mult_exp4>, 
      mult_exp4, 
      boost::mpl::quote2<binary_op> 

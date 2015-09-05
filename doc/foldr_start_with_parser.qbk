@@ -1,10 +1,10 @@
-[#foldrp]
-[section foldrp]
+[#foldr_start_with_parser]
+[section foldr_start_with_parser]
 
 [h1 Synopsis]
 
   template <class P, class StateP, class BackwardOp>
-  struct foldrp;
+  struct foldr_start_with_parser;
 
 This is a [link parser_combinator parser combinator].
 
@@ -18,27 +18,28 @@ This is a [link parser_combinator parser combinator].
 [h1 Description]
 
 The same as [link foldr `foldr`], but after folding it applies a parser,
-`StateP` on the input. If `StateP` fails, `foldrp` fails. If it succeeds,
-the result of parsing is equivalent to
+`StateP` on the input. If `StateP` fails, `foldr_start_with_parser` fails. If it
+succeeds, the result of parsing is equivalent to
 `boost::reverse_fold<Sequence, State, BackwardOp>`, where `Sequence` is the
 sequence of the results of the applications of `P` and `State` is the result
 `StateP` returned ['after] the repeated application of `P` on the input.
 
-Here is a diagram showing how `foldrp` works by example:
+Here is a diagram showing how `foldr_start_with_parser` works by example:
 
   using int_token = token<int_>;
   using plus_token = token<lit_c<'+'>>;
   using int_plus = first_of<int_token, plus_token>;
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
 
-[$foldrp_diag1.png [width 70%]]
+[$foldr_start_with_parser_diag1.png [width 70%]]
 
-Further details can be found in the [link introducing-foldrp Introducing foldrp]
+Further details can be found in the
+[link introducing-foldr_start_with_parser Introducing foldr_start_with_parser]
 section of the [link manual User Manual].
 
 [h1 Header]
 
-  #include <boost/metaparse/foldrp.hpp>
+  #include <boost/metaparse/foldr_start_with_parser.hpp>
 
 [h1 Expression semantics]
 
@@ -47,7 +48,7 @@ For any `p` parser, `pt` class, `f` metafunction class taking two arguments,
 where the repeated application of `p` on `s` fails for the first time. Let
 `s_` be the postfix of `s` starting at that position.
 
-  foldrp<p, pt, f>::apply<s, pos>
+  foldr_start_with_parser<p, pt, f>::apply<s, pos>
 
 is equivalent to
 
@@ -66,7 +67,7 @@ otherwise.
 
 [h1 Example]
 
-  #include <boost/metaparse/foldrp.hpp>
+  #include <boost/metaparse/foldr_start_with_parser.hpp>
   #include <boost/metaparse/lit_c.hpp>
   #include <boost/metaparse/first_of.hpp>
   #include <boost/metaparse/token.hpp>
@@ -87,7 +88,7 @@ otherwise.
   using sum_op =
     boost::mpl::lambda<boost::mpl::plus<boost::mpl::_1, boost::mpl::_2>>::type;
   
-  using ints = foldrp<int_plus, int_token, sum_op>;
+  using ints = foldr_start_with_parser<int_plus, int_token, sum_op>;
   
   static_assert(
     get_result<

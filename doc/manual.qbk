@@ -261,7 +261,8 @@ approach and would like to reject empty string)
 
 [note
   Note that if you are reading this manual for the first time, you probably want
-  to skip this section and proceed with [link introducing-foldlp Introducing foldlp]
+  to skip this section and proceed with
+  [link introducing-foldl_start_with_parser Introducing foldl_start_with_parser]
 ]
 
 You might have noticed that Metaparse offers [link foldr `foldr`] as well. The
@@ -287,8 +288,8 @@ folds from the right and rejects empty input.
 
 [endsect]
 
-[#introducing-foldlp]
-[section Introducing foldlp]
+[#introducing-foldl_start_with_parser]
+[section Introducing foldl_start_with_parser]
 
 Let's change the grammar of our little language. Instead of a list of numbers,
 let's expect numbers separated by a `+` symbol. Our example input becomes the
@@ -335,22 +336,23 @@ What you could do is parsing the first element with `int_token`, the rest of
 the elements with the above [link foldl `foldl`]-based solution and add the
 result of the two. This is left as an exercise to the reader.
 
-Metaparse offers [link foldlp `foldlp`] to implement this.
-[link foldlp `foldlp`] is the same as [link foldl `foldl`]. The difference is
-that instead of an initial value to combine the list elements with it takes an
-['initial parser]:
+Metaparse offers [link foldl_start_with_parser `foldl_start_with_parser`] to
+implement this. [link foldl_start_wtih_parser `foldl_start_wtih_parser`] is the
+same as [link foldl `foldl`]. The difference is that instead of an initial value
+to combine the list elements with it takes an ['initial parser]:
 
   using plus_token = token<lit_c<'+'>>;
   using plus_int = last_of<plus_token, int_token>;
   
-  using sum_parser3 = foldlp<plus_int, int_token, sum_op>;
+  using sum_parser3 = foldl_start_with_parser<plus_int, int_token, sum_op>;
 
-[link foldlp `foldlp`] starts with applying that initial parser and uses the
-result it returns as the initial value for folding. It does the same as
-[link foldl `foldl`] after that. The following diagram shows how it can be used
-to parse a list of numbers separated by `+` symbols:
+[link foldl_start_with_parser `foldl_start_with_parser`] starts with applying
+that initial parser and uses the result it returns as the initial value for
+folding. It does the same as [link foldl `foldl`] after that. The following
+diagram shows how it can be used to parse a list of numbers separated by `+`
+symbols:
 
-[$foldlp_diag1.png [width 70%]]
+[$foldl_start_with_parser_diag1.png [width 70%]]
 
 As the diagram shows, it start parsing the list of numbers with `int_token`,
 uses its value as the starting value for folding (earlier approaches were using
@@ -359,65 +361,70 @@ list by using `plus_int` multiple times.
 
 [endsect]
 
-[#introducing-foldrp]
-[section Introducing foldrp]
+[#introducing-foldr_start_with_parser]
+[section Introducing foldr_start_with_parser]
 
 [note
   Note that if you are reading this manual for the first time, you probably want
   to skip this section and try creating some parsers using
-  [link foldlp `foldlp`] instead.
+  [link foldl_start_with_parser `foldl_start_with_parser`] instead.
 ]
 
-[@foldlp.hpp `foldlp`] has its ['from the right] pair, [link foldrp `foldrp`].
-It uses the same elements as [link foldlp `foldlp`] but in a different order.
-Here is a parser for our example language implemented with
-[link foldrp `foldrp`]:
+[@foldl_start_with_parser.hpp `foldl_start_with_parser`] has its
+['from the right] pair,
+[link foldr_start_with_parser `foldr_start_with_parser`]. It uses the same
+elements as [link foldl_start_with_parser `foldl_start_with_parser`] but in a
+different order. Here is a parser for our example language implemented with
+[link foldr_start_with_parser `foldr_start_with_parser`]:
 
   using plus_token = token<lit_c<'+'>>;
   using int_plus = first_of<int_token, plus_token>;
   
-  using sum_parser4 = foldrp<int_plus, int_token, sum_op>;
+  using sum_parser4 = foldr_start_with_parser<int_plus, int_token, sum_op>;
 
 Note that it uses `int_plus` instead of `plus_int`. This is because the parser
 the initial value for folding comes from is used after `int_plus` has parsed the
 input as many times as it could. It might sound strange for the first time, but
 the following diagram should help you understand how it works:
 
-[$foldrp_diag1.png [width 70%]]
+[$foldr_start_with_parser_diag1.png [width 70%]]
 
 As you can see, it starts with the parser that is applied repeatedly on the
 input, thus instead of parsing `plus_token int_token` repeatedly, we need to
 parse `int_token plus_token` repeatedly. The last number is not followed by `+`,
 thus `int_plus` fails to parse it and it stops the iteration.
-[link foldrp `foldrp`] then uses the other parser, `int_token` to parse the
-input. It succeeds and the result it returns is used as the starting value for
-folding from the right.
+[link foldr_start_with_parser `foldr_start_with_parser`] then uses the other
+parser, `int_token` to parse the input. It succeeds and the result it returns is
+used as the starting value for folding from the right.
 
 [note
   Note that as the above description also suggests, the implementation of
-  [link foldlp `foldlp`] is more efficient than [link foldrp `foldrp`]. Prefer
-  [link foldlp `foldlp`] whenever possible.
+  [link foldl_start_with_parser `foldl_start_with_parser`] is more efficient
+  than [link foldr_start_with_parser `foldr_start_with_parser`]. Prefer
+  [link foldl_start_with_parser `foldl_start_with_parser`] whenever possible.
 ]
 
 [endsect]
 
-[#introducing-foldlfp]
-[section Introducing foldlfp]
+[#introducing-foldlf_start_with_parser]
+[section Introducing foldlf_start_with_parser]
 
-Using a parser built with [link foldlp `foldlp`] we can parse the input when
-the input is correct. However, it is not always the case. Consider the following
-input for example:
+Using a parser built with
+[link foldl_start_with_parser `foldl_start_with_parser`] we can parse the input
+when the input is correct. However, it is not always the case. Consider the
+following input for example:
 
   BOOST_METAPARSE_STRING("11 + 13 + 3 + 21 +")
 
 This is an ivalid expression. However, if we parse it using the
-[link foldlp `foldlp`]-based parser presented earlier (`sum_parser3`), it
-accepts the input and the result is `48`. This is because
-[link foldlp `foldlp`] parses the input ['as long as it can]. It parses the
-first`int_token` (`11`) and then it starts parsing the `plus_int` elements
-(`+ 13`, `+ 3`, `+ 21`). After parsing all of these, it tries to parse the
-remaining `" +"` input using `plus_int` which fails and therefore
-[link foldlp `foldlp`] stops after `+ 21`.
+[link foldl_start_with_parser `foldl_start_with_parser`]-based parser presented
+earlier (`sum_parser3`), it accepts the input and the result is `48`. This is
+because [link foldl_start_with_parser `foldl_start_with_parser`] parses the
+input ['as long as it can]. It parses the first`int_token` (`11`) and then it
+starts parsing the `plus_int` elements (`+ 13`, `+ 3`, `+ 21`). After parsing
+all of these, it tries to parse the remaining `" +"` input using `plus_int`
+which fails and therefore
+[link foldl_start_with_parser `foldl_start_with_parser`] stops after `+ 21`.
 
 The problem is that the parser parses the longest sub-expression starting from
 the beginning, that represents a valid expression. The rest is ignored. The
@@ -427,17 +434,19 @@ won't make the error message useful. ([link entire_input `entire_input`] can
 only tell the author of the invalid expression that after `+ 21` is something
 wrong).
 
-Metaparse provides [link foldlfp `foldlfp`], which does the same as
-[link foldlp `foldlp`], except that once no further repetitions are found, it
-checks ['where] the repeated parser (in our example `plus_int`) fails. When it
-can make any progress (eg. it finds a `+` symbol), then
-[link foldlfp `foldlfp`] assumes, that the expression's author intended to make
-the repetition longer, but made a mistake and propagates the error message
-coming from that last broken expression.
+Metaparse provides [link foldlf_start_with_parser `foldlf_start_with_parser`],
+which does the same as [link foldl_start_with_parser `foldl_start_with_parser`],
+except that once no further repetitions are found, it checks ['where] the
+repeated parser (in our example `plus_int`) fails. When it can make any progress
+(eg. it finds a `+` symbol), then
+[link foldlf_start_with_parser `foldlf_start_with_parser`] assumes, that the
+expression's author intended to make the repetition longer, but made a mistake
+and propagates the error message coming from that last broken expression.
 
-[$foldlfp_diag1.png [width 70%]]
+[$foldlf_start_with_parser_diag1.png [width 70%]]
 
-The above diagram shows how [link foldlfp `foldlfp`] parses the example
+The above diagram shows how
+[link foldlf_start_with_parser `foldlf_start_with_parser`] parses the example
 invalid input and how it fails. This can be used for better error reporting
 from the parsers.
 
@@ -456,11 +465,11 @@ used:
 [$folds.png [width 70%]]
 
 [note
-  Note that there is no `foldrfp`. The `p` version of the right-folding parsers
-  applies the special parser, whose result is the initial value, after the
-  repeated elements. Therefore, when the parser parsing one repeated element
-  fails, `foldrp` would apply that special final parser instead of checking how
-  the repeated element's parser failed.
+  Note that there is no `foldrf_start_with_parser`. The `p` version of the
+  right-folding parsers applies the special parser, whose result is the initial
+  value, after the repeated elements. Therefore, when the parser parsing one
+  repeated element fails, `foldr_start_with_parser` would apply that special
+  final parser instead of checking how the repeated element's parser failed.
 ]
 
 [endsect]

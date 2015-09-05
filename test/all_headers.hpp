@@ -44,14 +44,14 @@
 #include <boost/metaparse/foldl1.hpp>
 #include <boost/metaparse/foldlf1.hpp>
 #include <boost/metaparse/foldlf.hpp>
-#include <boost/metaparse/foldlfp.hpp>
+#include <boost/metaparse/foldlf_start_with_parser.hpp>
 #include <boost/metaparse/foldl.hpp>
-#include <boost/metaparse/foldlp.hpp>
+#include <boost/metaparse/foldl_start_with_parser.hpp>
 #include <boost/metaparse/foldr1.hpp>
 #include <boost/metaparse/foldrf1.hpp>
 #include <boost/metaparse/foldrf.hpp>
 #include <boost/metaparse/foldr.hpp>
-#include <boost/metaparse/foldrp.hpp>
+#include <boost/metaparse/foldr_start_with_parser.hpp>
 #include <boost/metaparse/get_col.hpp>
 #include <boost/metaparse/get_line.hpp>
 #include <boost/metaparse/get_message.hpp>

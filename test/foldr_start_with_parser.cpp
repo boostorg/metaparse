@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/foldrp.hpp>
+#include <boost/metaparse/foldr_start_with_parser.hpp>
 #include <boost/metaparse/start.hpp>
 #include <boost/metaparse/string.hpp>
 #include <boost/metaparse/is_error.hpp>
@@ -29,9 +29,9 @@ namespace
   };
 }
 
-BOOST_METAPARSE_TEST_CASE(foldrp)
+BOOST_METAPARSE_TEST_CASE(foldr_start_with_parser)
 {
-  using boost::metaparse::foldrp;
+  using boost::metaparse::foldr_start_with_parser;
   using boost::metaparse::start;
   using boost::metaparse::is_error;
   using boost::metaparse::lit_c;
@@ -41,7 +41,7 @@ BOOST_METAPARSE_TEST_CASE(foldrp)
   using boost::mpl::apply_wrap2;
   using boost::mpl::char_;
 
-  typedef foldrp<lit_c<'a'>, lit_c<'b'>, keep_state> p;
+  typedef foldr_start_with_parser<lit_c<'a'>, lit_c<'b'>, keep_state> p;
 
   // test_b
   BOOST_MPL_ASSERT((

@@ -14,7 +14,7 @@ template <class L, class R> struct eval_binary_op<L, '/', R> : boost::mpl::divid
 using divides_token = token<lit_c<'/'>>;
 
 using mult_exp2 = 
- foldlp< 
+ foldl_start_with_parser< 
    sequence<one_of<times_token, divides_token>, int_token>, 
    int_token, 
    boost::mpl::quote2<binary_op> 
@@ -22,7 +22,7 @@ using mult_exp2 =
 
 using exp_parser16 = 
  build_parser< 
-   foldlp< 
+   foldl_start_with_parser< 
      sequence<one_of<plus_token, minus_token>, mult_exp2>, 
      mult_exp2, 
      boost::mpl::quote2<binary_op> 

@@ -1,10 +1,10 @@
-[#foldlp]
-[section foldlp]
+[#foldl_start_with_parser]
+[section foldl_start_with_parser]
 
 [h1 Synopsis]
 
   template <class P, class StateP, class ForwardOp>
-  struct foldlp;
+  struct foldl_start_with_parser;
 
 This is a [link parser_combinator parser combinator].
 
@@ -18,31 +18,33 @@ This is a [link parser_combinator parser combinator].
 [h1 Description]
 
 The same as [link foldl `foldl`], but before folding it applies a parser,
-`StateP` on the input. If it fails, `foldlp` fails. If it succeeds, `foldlp`
-works as `foldl` taking the result of `StateP` as the initial state.
+`StateP` on the input. If it fails, `foldl_start_with_parser` fails. If it
+succeeds, `foldl_start_with_parser` works as `foldl` taking the result of
+`StateP` as the initial state.
 
-Here is a diagram showing how `foldlp` works by example:
+Here is a diagram showing how `foldl_start_with_parser` works by example:
 
   using int_token = token<int_>;
   using plus_token = token<lit_c<'+'>>;
   using plus_int = last_of<plus_token, int_token>;
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
 
-[$foldlp_diag1.png [width 70%]]
+[$foldl_start_with_parser_diag1.png [width 70%]]
 
-Further details can be found in the [link introducing-foldlp Introducing foldlp]
+Further details can be found in the
+[link introducing-foldl_start_with_parser Introducing foldl_start_with_parser]
 section of the [link manual User Manual].
 
 [h1 Header]
 
-  #include <boost/metaparse/foldlp.hpp>
+  #include <boost/metaparse/foldl_start_with_parser.hpp>
 
 [h1 Expression semantics]
 
 For any `p` parser, `pt` class, `f` metafunction class taking two arguments,
 `s` compile-time string and `pos` source position
 
-  foldlp<p, pt, f>::apply<s, pos>
+  foldl_start_with_parser<p, pt, f>::apply<s, pos>
 
 is equivalent to
 
@@ -59,7 +61,7 @@ otherwise.
 
 [h1 Example]
 
-  #include <boost/metaparse/foldlp.hpp>
+  #include <boost/metaparse/foldl_start_with_parser.hpp>
   #include <boost/metaparse/lit_c.hpp>
   #include <boost/metaparse/last_of.hpp>
   #include <boost/metaparse/token.hpp>
@@ -80,7 +82,7 @@ otherwise.
   using sum_op =
     boost::mpl::lambda<boost::mpl::plus<boost::mpl::_1, boost::mpl::_2>>::type;
   
-  using ints = foldlp<plus_int, int_token, sum_op>;
+  using ints = foldl_start_with_parser<plus_int, int_token, sum_op>;
   
   static_assert(
     get_result<

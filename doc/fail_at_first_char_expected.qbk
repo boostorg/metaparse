@@ -50,7 +50,7 @@ Otherwise the following are equivalent:
   #include <boost/metaparse/fail_at_first_char_expected.hpp>
   #include <boost/metaparse/int_.hpp>
   #include <boost/metaparse/lit_c.hpp>
-  #include <boost/metaparse/foldlp.hpp>
+  #include <boost/metaparse/foldl_start_with_parser.hpp>
   #include <boost/metaparse/first_of.hpp>
   #include <boost/metaparse/last_of.hpp>
   #include <boost/metaparse/string.hpp>
@@ -67,7 +67,7 @@ Otherwise the following are equivalent:
   
   using plus_exp =
     first_of<
-      foldlp<
+      foldl_start_with_parser<
         plus_int,
         int_,
         boost::mpl::lambda<boost::mpl::plus<boost::mpl::_1, boost::mpl::_2>>::type

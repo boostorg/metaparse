@@ -20,7 +20,7 @@
 #include <boost/metaparse/v1/always.hpp>
 #include <boost/metaparse/v1/one_char_except_c.hpp>
 #include <boost/metaparse/v1/foldr1.hpp>
-#include <boost/metaparse/v1/foldlp.hpp>
+#include <boost/metaparse/v1/foldl_start_with_parser.hpp>
 #include <boost/metaparse/v1/alphanum.hpp>
 #include <boost/metaparse/v1/build_parser.hpp>
 #include <boost/metaparse/v1/entire_input.hpp>
@@ -241,7 +241,7 @@ namespace boost
           name_expression;
 
         typedef
-          foldlp<
+          foldl_start_with_parser<
             one_of<repeated_token, repeated1_token>,
             name_expression,
             build_repeated
@@ -249,11 +249,15 @@ namespace boost
           repeated_expression;
         
         typedef
-          foldlp<repeated_expression, repeated_expression, build_sequence>
+          foldl_start_with_parser<
+            repeated_expression,
+            repeated_expression,
+            build_sequence
+          >
           seq_expression;
         
         struct expression :
-          foldlp<
+          foldl_start_with_parser<
             last_of<or_token, seq_expression>,
             seq_expression,
             build_selection

@@ -10,12 +10,12 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="1222.2699"
-   height="1215.1938"
+   width="1477.2699"
+   height="1245.453"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="foldlp_diag1.svg">
+   sodipodi:docname="foldlf_start_with_parser.svg">
   <defs
      id="defs4">
     <linearGradient
@@ -527,6 +527,108 @@
          offset="1"
          id="stop5262-7-8" />
     </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4707-5-5"
+       id="linearGradient18612-6"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.42596717,0,0,0.57376114,615.18158,202.43298)"
+       spreadMethod="pad"
+       x1="-1057.1428"
+       y1="-137.63783"
+       x2="-1057.1428"
+       y2="108.07645" />
+    <linearGradient
+       id="linearGradient4707-5-5">
+      <stop
+         id="stop4709-3-6"
+         offset="0"
+         style="stop-color:#c0c0c0;stop-opacity:1;" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0.40000001"
+         id="stop4711-9-1" />
+      <stop
+         id="stop4713-8-6"
+         offset="0.60000002"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+      <stop
+         id="stop4715-8-8"
+         offset="1"
+         style="stop-color:#c0c0c0;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5254-5-3-2"
+       id="linearGradient18614-2"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.42596717,0,0,0.57376114,615.18158,202.43298)"
+       x1="-1057.1428"
+       y1="-137.63783"
+       x2="-1057.1428"
+       y2="108.07645" />
+    <linearGradient
+       id="linearGradient5254-5-3-2">
+      <stop
+         style="stop-color:#c0c0c0;stop-opacity:1;"
+         offset="0"
+         id="stop5256-7-43-8" />
+      <stop
+         style="stop-color:#808080;stop-opacity:1;"
+         offset="1"
+         id="stop5262-7-4-2" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4707-2-5"
+       id="linearGradient18600-2-4"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.5328258,0,0,5.7381019,3617.2189,1145.0436)"
+       spreadMethod="pad"
+       x1="-1057.1428"
+       y1="-137.63783"
+       x2="-1057.1428"
+       y2="108.07645" />
+    <linearGradient
+       id="linearGradient4707-2-5">
+      <stop
+         id="stop4709-30-3"
+         offset="0"
+         style="stop-color:#c0c0c0;stop-opacity:1;" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
+         offset="0.40000001"
+         id="stop4711-8-3" />
+      <stop
+         id="stop4713-9-2"
+         offset="0.60000002"
+         style="stop-color:#ffffff;stop-opacity:1;" />
+      <stop
+         id="stop4715-84-8"
+         offset="1"
+         style="stop-color:#c0c0c0;stop-opacity:1;" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5254-5-4-5"
+       id="linearGradient18602-6-1"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(2.5328258,0,0,5.7381019,3617.2189,1145.0436)"
+       x1="-1057.1428"
+       y1="-137.63783"
+       x2="-1057.1428"
+       y2="108.07645" />
+    <linearGradient
+       id="linearGradient5254-5-4-5">
+      <stop
+         style="stop-color:#c0c0c0;stop-opacity:1;"
+         offset="0"
+         id="stop5256-7-0-7" />
+      <stop
+         style="stop-color:#808080;stop-opacity:1;"
+         offset="1"
+         id="stop5262-7-8-9" />
+    </linearGradient>
   </defs>
   <sodipodi:namedview
      id="base"
@@ -535,11 +637,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.49497475"
-     inkscape:cx="164.60638"
-     inkscape:cy="477.71284"
+     inkscape:zoom="0.5"
+     inkscape:cx="1471.4441"
+     inkscape:cy="701.51454"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g17514-9"
      showgrid="false"
      inkscape:window-width="1855"
      inkscape:window-height="1056"
@@ -566,30 +668,30 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(358.06842,-242.21983)">
+     transform="translate(504.06842,-242.21983)">
     <g
-       transform="matrix(0.54151067,0,0,0.5239281,-43.465317,431.8491)"
+       transform="matrix(0.54151067,0,0,0.5239281,-43.465319,462.88755)"
        id="g17514-9">
       <rect
-         ry="71.560265"
-         y="329.60156"
-         x="26.807543"
-         height="1395.6803"
-         width="1631.6542"
+         ry="71.450478"
+         y="330.67218"
+         x="27.843384"
+         height="1393.5391"
+         width="1830.8712"
          id="rect5215-5-4"
-         style="fill:url(#linearGradient18600-2);fill-opacity:1;stroke:url(#linearGradient18602-6);stroke-width:36.01681519;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
+         style="fill:url(#linearGradient18600-2-4);fill-opacity:1;stroke:url(#linearGradient18602-6-1);stroke-width:38.12297058;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
       <text
          sodipodi:linespacing="125%"
          id="text5640-00-0"
          y="1664.0074"
-         x="97.835716"
+         x="75.675468"
          style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
            y="1664.0074"
-           x="97.835716"
+           x="75.675468"
            id="tspan5642-9-80"
            sodipodi:role="line"
-           style="font-size:60.07733154px">foldlp&lt;plus_int, int_token, sum_op&gt;</tspan></text>
+           style="font-size:60.07733154px">foldlf_start_with_parser&lt;plus_int, int_token, sum_op&gt;</tspan></text>
     </g>
     <path
        style="fill:#c0c0c0;fill-opacity:1"
@@ -614,13 +716,13 @@
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
        id="rect17648-5"
-       d="m 575.55096,284.54116 94.03224,0.12897 57.57796,88.89341 -136.07394,0 z" />
+       d="m 575.55096,284.54116 109.03224,-0.37103 42.57796,89.39341 -136.07394,0 z" />
     <rect
        style="fill:#808080;fill-opacity:1"
        y="243.10817"
-       x="-669.96472"
+       x="-685.96472"
        height="42.426407"
-       width="94.954346"
+       width="110.95435"
        id="rect18516-4-8"
        transform="scale(-1,1)" />
     <rect
@@ -644,17 +746,6 @@
        height="42.426407"
        width="78.791901"
        id="rect18516" />
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="704.77618"
-       y="278.58533"
-       id="text2985"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan2987"
-         x="704.77618"
-         y="278.58533">BOOST_METAPARSE_STRING(&quot;11  + 13  + 3  + 21&quot;)</tspan></text>
     <g
        transform="matrix(0.54151067,0,0,0.5239281,-1.7638252,307.9855)"
        id="g17514">
@@ -859,18 +950,6 @@
              y="200.4129">sum_op</tspan></text>
       </g>
     </g>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="615.82776"
-       y="1450.8102"
-       id="text18736-8-6-4-7"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan18738-3-1-6-1"
-         x="615.82776"
-         y="1450.8102"
-         style="font-size:28px">int_&lt;48&gt;</tspan></text>
     <rect
        style="fill:#000000;fill-opacity:1"
        id="rect18761-34-3"
@@ -938,23 +1017,6 @@
        sodipodi:nodetypes="ccccc" />
     <rect
        style="fill:#000000;fill-opacity:1"
-       id="rect18761-34-23"
-       width="4.0406103"
-       height="151.52289"
-       x="652.96844"
-       y="1268.2749"
-       inkscape:transform-center-x="-147.89218"
-       inkscape:transform-center-y="75.761477" />
-    <path
-       style="fill:#000000;fill-opacity:1"
-       d="m 639.42655,1394.7848 30.30458,0 -15.44939,26.2639 0,0 z"
-       id="rect18817-7-45"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccc"
-       inkscape:transform-center-x="-147.48227"
-       inkscape:transform-center-y="48.728125" />
-    <rect
-       style="fill:#000000;fill-opacity:1"
        id="rect18761-34-4"
        width="4.0406103"
        height="637.40625"
@@ -1009,37 +1071,37 @@
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="-358.06842"
+       x="-504.06842"
        y="789.43256"
        id="text3081-8-1"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         x="-358.06842"
+         x="-504.06842"
          y="789.43256"
          style="font-size:28px;text-align:start;text-anchor:start"
          id="tspan3586-7">parsing with</tspan><tspan
          sodipodi:role="line"
-         x="-358.06842"
+         x="-504.06842"
          y="824.43256"
          style="font-size:28px;text-align:start;text-anchor:start"
-         id="tspan3668">foldlp&lt;</tspan><tspan
+         id="tspan3668">foldlf_start_with_parser&lt;</tspan><tspan
          sodipodi:role="line"
-         x="-358.06842"
+         x="-504.06842"
          y="859.43256"
          style="font-size:28px;text-align:start;text-anchor:start"
          id="tspan3672">   plus_int,</tspan><tspan
          sodipodi:role="line"
-         x="-358.06842"
+         x="-504.06842"
          y="894.43256"
          style="font-size:28px;text-align:start;text-anchor:start"
          id="tspan3674">   int_token,</tspan><tspan
          sodipodi:role="line"
-         x="-358.06842"
+         x="-504.06842"
          y="929.43256"
          style="font-size:28px;text-align:start;text-anchor:start"
          id="tspan3219">   sum_op</tspan><tspan
          sodipodi:role="line"
-         x="-358.06842"
+         x="-504.06842"
          y="964.43256"
          style="font-size:28px;text-align:start;text-anchor:start"
          id="tspan3670">&gt;</tspan></text>
@@ -1141,5 +1203,113 @@
        id="rect18817-0"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
+    <rect
+       style="fill:#c0c0c0;fill-opacity:1"
+       y="242.21988"
+       x="684.9798"
+       height="42.426407"
+       width="33.487324"
+       id="rect18516-8" />
+    <path
+       style="fill:#c0c0c0;fill-opacity:1"
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="rect17648-37-1"
+       d="m 716.8314,282.11478 -31.76096,0.12897 105.04845,88.17912 124.70446,0.71429 z" />
+    <g
+       transform="matrix(0.54151067,0,0,0.5239281,756.35115,305.92454)"
+       id="g17514-3-6">
+      <rect
+         ry="45.900894"
+         y="121.0028"
+         x="11.525307"
+         height="139.342"
+         width="307.91342"
+         id="rect5215-5-7-9"
+         style="fill:url(#linearGradient18612-6);fill-opacity:1;stroke:url(#linearGradient18614-2);stroke-width:4.943717;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
+      <text
+         sodipodi:linespacing="125%"
+         id="text5640-00-7-7"
+         y="206.41183"
+         x="26.949203"
+         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="206.41183"
+           x="26.949203"
+           id="tspan5642-9-85-7"
+           sodipodi:role="line"
+           style="font-size:60.07733154px">plus_int</tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:end;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:end;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="751.02618"
+       y="278.58533"
+       id="text2985"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan2987"
+         x="751.02618"
+         y="278.58533">BOOST_METAPARSE_STRING(&quot;11  + 13  + 3  + 21 +&quot;)</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="849.17969"
+       y="528.84857"
+       id="text18736-5"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan18738-3"
+         x="849.17969"
+         y="528.84857"
+         style="font-size:28px;text-align:center;text-anchor:middle">ERROR:</tspan><tspan
+         sodipodi:role="line"
+         x="849.17969"
+         y="563.84857"
+         style="font-size:28px;text-align:center;text-anchor:middle"
+         id="tspan3325">missing number</tspan></text>
+    <rect
+       style="fill:#000000;fill-opacity:1"
+       id="rect18761-3-5"
+       width="4.0406103"
+       height="46.323441"
+       x="848.1062"
+       y="444.34937" />
+    <path
+       style="fill:#000000;fill-opacity:1"
+       d="m 834.93361,482.56211 30.3045,0 -15.4494,26.26396 0,0 z"
+       id="rect18817-8-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <rect
+       style="fill:#000000;fill-opacity:1"
+       id="rect18761-34-4-4"
+       width="4.0406103"
+       height="820.40625"
+       x="847.41516"
+       y="578.35083" />
+    <path
+       style="fill:#000000;fill-opacity:1"
+       d="m 833.87327,1392.7441 30.30458,0 -15.44939,26.264 0,0 z"
+       id="rect18817-7-71-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccc" />
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;text-align:center;line-height:125%;letter-spacing:0px;word-spacing:0px;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="849.17969"
+       y="1446.8486"
+       id="text18736-5-3"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan18738-3-8"
+         x="849.17969"
+         y="1446.8486"
+         style="font-size:28px;text-align:center;text-anchor:middle">ERROR:</tspan><tspan
+         sodipodi:role="line"
+         x="849.17969"
+         y="1481.8486"
+         style="font-size:28px;text-align:center;text-anchor:middle"
+         id="tspan3325-3">missing number</tspan></text>
   </g>
 </svg>
