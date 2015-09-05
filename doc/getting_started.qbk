@@ -1894,14 +1894,14 @@ contains the parser for the repeated element
 
 `plus_exp4` uses [link foldl_start_with_parser `foldl_start_with_parser`] to
 implement repetition. Metaparse provides
-[link foldlf_start_with_parser `foldlf_start_with_parser`] which does the same
-we did with [link first_of `first_of`],
+[link foldl_reject_incomplete_start_with_parser `foldl_reject_incomplete_start_with_parser`]
+which does the same we did with [link first_of `first_of`],
 [link foldl_start_with_parser `foldl_start_with_parser`] and
 [link fail_at_first_char_expected `fail_at_first_char_expected`] together:
 
-  > #include <boost/metaparse/foldlf_start_with_parser.hpp>
+  > #include <boost/metaparse/foldl_reject_incomplete_start_with_parser.hpp>
   > struct plus_exp5 : \
-  ...> foldlf_start_with_parser< \
+  ...> foldl_reject_incomplete_start_with_parser< \
   ...>   sequence<one_of<plus_token, minus_token>, mult_exp6>, \
   ...>   mult_exp6, \
   ...>   boost::mpl::quote2<binary_op> \
@@ -1913,10 +1913,12 @@ we did with [link first_of `first_of`],
 It parses the input using
 [link sequence `sequence`]`<`[link one_of `one_of`]`<plus_token, minus_token>, mult_exp6>`)
 repeatedly. When it fails,
-[link foldlf_start_with_parser `foldlf_start_with_parser`] checks if it consumed
-any character before failing (the same as what
+[link foldl_reject_incomplete_start_with_parser `foldl_reject_incomplete_start_with_parser`]
+checks if it consumed any character before failing (the same as what
 [link fail_at_first_char_expected `fail_at_first_char_expected`] does), and if
-yes, then [link foldlf_start_with_parser `foldlf_start_with_parser`] fails.
+yes, then
+[link foldl_reject_incomplete_start_with_parser `foldl_reject_incomplete_start_with_parser`]
+fails.
 
 This makes the implementation of the repetition with advanced error reporting
 simpler. Let's try it out:
@@ -1927,14 +1929,17 @@ simpler. Let's try it out:
   << compilation error >>
 
 Note that other folding parsers have their `f` versions as well (eg.
-[link foldrf `foldrf`], [link foldlf1 `foldlf1`], etc).
+[link foldr_reject_incomplete `foldr_reject_incomplete`],
+[link foldl_reject_incomplete1 `foldl_reject_incomplete1`], etc).
 
 [endsect]
-[section 11.3.2 Using `foldlf_start_with_parser` at other places as well]
+[section 11.3.2 Using `foldl_reject_incomplete_start_with_parser` at other places as well]
 
 We have replaced one [link foldl_start_with_parser `foldl_start_with_parser`]
-with [link foldlf_start_with_parser `foldlf_start_with_parser`]. Other layers
-(`mult_exp`, `unary_exp`, etc) use folding as well. Let's use it at all layers:
+with
+[link foldl_reject_incomplete_start_with_parser `foldl_reject_incomplete_start_with_parser`].
+Other layers (`mult_exp`, `unary_exp`, etc) use folding as well. Let's use it at
+all layers:
 
   > struct plus_exp6;
   > using paren_exp5 = middle_of<lparen_token, plus_exp6, rparen_token>;
@@ -1946,13 +1951,13 @@ with [link foldlf_start_with_parser `foldlf_start_with_parser`]. Other layers
   ...>   boost::mpl::lambda<boost::mpl::negate<boost::mpl::_1>>::type \
   ...> >;
   > using mult_exp7 = \
-  ...> foldlf_start_with_parser< \
+  ...> foldl_reject_incomplete_start_with_parser< \
   ...>   sequence<one_of<times_token, divides_token>, unary_exp4>, \
   ...>   unary_exp4, \
   ...>   boost::mpl::quote2<binary_op> \
   ...> >;
   > struct plus_exp6 : \
-  ...> foldlf_start_with_parser< \
+  ...> foldl_reject_incomplete_start_with_parser< \
   ...>   sequence<one_of<plus_token, minus_token>, mult_exp7>, \
   ...>   mult_exp7, \
   ...>   boost::mpl::quote2<binary_op> \
@@ -1964,8 +1969,8 @@ with [link foldlf_start_with_parser `foldlf_start_with_parser`]. Other layers
 [note
 Note that `unary_exp4` uses
 [link foldr_start_with_parser `foldr_start_with_parser`] instead of
-`foldrf_start_with_parser`. The reason behind it is that there is no
-`foldrf_start_with_parser`.
+`foldr_reject_incomplete_start_with_parser`. The reason behind it is that there
+is no `foldr_reject_incomplete_start_with_parser`.
 [link foldr_start_with_parser `foldr_start_with_parser`] applies the
 `primary_exp4` parser when `minus_token` does not accept the input any more.
 Therefore, it is supposed to catch the errors of incomplete expressions after

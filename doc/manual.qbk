@@ -406,8 +406,8 @@ used as the starting value for folding from the right.
 
 [endsect]
 
-[#introducing-foldlf_start_with_parser]
-[section Introducing foldlf_start_with_parser]
+[#introducing-foldl_reject_incomplete_start_with_parser]
+[section Introducing foldl_reject_incomplete_start_with_parser]
 
 Using a parser built with
 [link foldl_start_with_parser `foldl_start_with_parser`] we can parse the input
@@ -434,24 +434,27 @@ won't make the error message useful. ([link entire_input `entire_input`] can
 only tell the author of the invalid expression that after `+ 21` is something
 wrong).
 
-Metaparse provides [link foldlf_start_with_parser `foldlf_start_with_parser`],
+Metaparse provides
+[link foldl_reject_incomplete_start_with_parser `foldl_reject_incomplete_start_with_parser`],
 which does the same as [link foldl_start_with_parser `foldl_start_with_parser`],
 except that once no further repetitions are found, it checks ['where] the
 repeated parser (in our example `plus_int`) fails. When it can make any progress
 (eg. it finds a `+` symbol), then
-[link foldlf_start_with_parser `foldlf_start_with_parser`] assumes, that the
-expression's author intended to make the repetition longer, but made a mistake
-and propagates the error message coming from that last broken expression.
+[link foldl_reject_incomplete_start_with_parser `foldl_reject_incomplete_start_with_parser`]
+assumes, that the expression's author intended to make the repetition longer,
+but made a mistake and propagates the error message coming from that last broken
+expression.
 
-[$foldlf_start_with_parser_diag1.png [width 70%]]
+[$foldl_reject_incomplete_start_with_parser_diag1.png [width 70%]]
 
 The above diagram shows how
-[link foldlf_start_with_parser `foldlf_start_with_parser`] parses the example
-invalid input and how it fails. This can be used for better error reporting
-from the parsers.
+[link foldl_reject_incomplete_start_with_parser `foldl_reject_incomplete_start_with_parser`]
+parses the example invalid input and how it fails. This can be used for better
+error reporting from the parsers.
 
-Other folding parsers also have their `f` version. (eg. [link foldrf `foldrf`],
-[link foldlf1 `foldlf1`], etc).
+Other folding parsers also have their `f` version. (eg.
+[link foldr_reject_incomplete `foldr_reject_incomplete`],
+[link foldl_reject_incomplete1 `foldl_reject_incomplete1`], etc).
 
 [endsect]
 
@@ -465,11 +468,12 @@ used:
 [$folds.png [width 70%]]
 
 [note
-  Note that there is no `foldrf_start_with_parser`. The `p` version of the
-  right-folding parsers applies the special parser, whose result is the initial
-  value, after the repeated elements. Therefore, when the parser parsing one
-  repeated element fails, `foldr_start_with_parser` would apply that special
-  final parser instead of checking how the repeated element's parser failed.
+  Note that there is no `foldr_reject_incomplete_start_with_parser`. The `p`
+  version of the right-folding parsers applies the special parser, whose result
+  is the initial value, after the repeated elements. Therefore, when the parser
+  parsing one repeated element fails, `foldr_start_with_parser` would apply that
+  special final parser instead of checking how the repeated element's parser
+  failed.
 ]
 
 [endsect]

@@ -17,7 +17,7 @@
 #include <boost/metaparse/last_of.hpp>
 #include <boost/metaparse/return_.hpp>
 #include <boost/metaparse/int_.hpp>
-#include <boost/metaparse/foldlf_start_with_parser.hpp>
+#include <boost/metaparse/foldl_reject_incomplete_start_with_parser.hpp>
 #include <boost/metaparse/alphanum.hpp>
 #include <boost/metaparse/transform.hpp>
 #include <boost/metaparse/letter.hpp>
@@ -114,7 +114,7 @@ namespace token
   typedef
     boost::metaparse::token<
       except_keywords<
-        boost::metaparse::foldlf_start_with_parser<
+        boost::metaparse::foldl_reject_incomplete_start_with_parser<
           boost::metaparse::one_of<
             boost::metaparse::alphanum,
             boost::metaparse::lit_c<'_'>

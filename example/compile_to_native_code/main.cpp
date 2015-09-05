@@ -9,7 +9,7 @@
 #include <boost/metaparse/last_of.hpp>
 #include <boost/metaparse/space.hpp>
 #include <boost/metaparse/int_.hpp>
-#include <boost/metaparse/foldlf_start_with_parser.hpp>
+#include <boost/metaparse/foldl_reject_incomplete_start_with_parser.hpp>
 #include <boost/metaparse/one_of.hpp>
 #include <boost/metaparse/get_result.hpp>
 #include <boost/metaparse/token.hpp>
@@ -32,7 +32,7 @@ using boost::metaparse::space;
 using boost::metaparse::repeated;
 using boost::metaparse::build_parser;
 using boost::metaparse::int_;
-using boost::metaparse::foldlf_start_with_parser;
+using boost::metaparse::foldl_reject_incomplete_start_with_parser;
 using boost::metaparse::get_result;
 using boost::metaparse::one_of;
 using boost::metaparse::token;
@@ -187,7 +187,7 @@ typedef
   value_exp;
 
 typedef
-  foldlf_start_with_parser<
+  foldl_reject_incomplete_start_with_parser<
     sequence<one_of<mult_token, div_token>, value_exp>,
     value_exp,
     build_mult
@@ -195,7 +195,7 @@ typedef
   prod_exp;
   
 typedef
-  foldlf_start_with_parser<
+  foldl_reject_incomplete_start_with_parser<
     sequence<one_of<plus_token, minus_token>, prod_exp>,
     prod_exp,
     build_plus

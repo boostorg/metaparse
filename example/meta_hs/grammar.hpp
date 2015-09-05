@@ -14,7 +14,7 @@
 #include <boost/metaparse/sequence.hpp>
 #include <boost/metaparse/last_of.hpp>
 #include <boost/metaparse/one_of.hpp>
-#include <boost/metaparse/foldlf_start_with_parser.hpp>
+#include <boost/metaparse/foldl_reject_incomplete_start_with_parser.hpp>
 #include <boost/metaparse/foldr_start_with_parser.hpp>
 #include <boost/metaparse/entire_input.hpp>
 #include <boost/metaparse/build_parser.hpp>
@@ -66,11 +66,15 @@ namespace grammar
     single_exp;
   
   typedef
-    boost::metaparse::foldlf_start_with_parser<single_exp, single_exp, semantic::application>
+    boost::metaparse::foldl_reject_incomplete_start_with_parser<
+      single_exp,
+      single_exp,
+      semantic::application
+    >
     application;
   
   typedef
-    boost::metaparse::foldlf_start_with_parser<
+    boost::metaparse::foldl_reject_incomplete_start_with_parser<
       boost::metaparse::sequence<
         boost::metaparse::one_of<token::mult, token::div>,
         application
@@ -81,7 +85,7 @@ namespace grammar
     mult_exp;
   
   typedef
-    boost::metaparse::foldlf_start_with_parser<
+    boost::metaparse::foldl_reject_incomplete_start_with_parser<
       boost::metaparse::sequence<
         boost::metaparse::one_of<token::plus, token::minus>,
         mult_exp
@@ -92,7 +96,7 @@ namespace grammar
     plus_exp;
   
   typedef
-    boost::metaparse::foldlf_start_with_parser<
+    boost::metaparse::foldl_reject_incomplete_start_with_parser<
       boost::metaparse::sequence<token::cmp, plus_exp>,
       plus_exp,
       semantic::binary_op

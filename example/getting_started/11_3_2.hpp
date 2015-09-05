@@ -7,10 +7,10 @@
 #include "11_3_1.hpp"
 
 // Definitions of section 11.3.1
-#include <boost/metaparse/foldlf_start_with_parser.hpp>
+#include <boost/metaparse/foldl_reject_incomplete_start_with_parser.hpp>
 
 struct plus_exp5 : 
- foldlf_start_with_parser< 
+ foldl_reject_incomplete_start_with_parser< 
    sequence<one_of<plus_token, minus_token>, mult_exp6>, 
    mult_exp6, 
    boost::mpl::quote2<binary_op> 

@@ -21,14 +21,14 @@ using unary_exp4 =
  >;
 
 using mult_exp7 = 
- foldlf_start_with_parser< 
+ foldl_reject_incomplete_start_with_parser< 
    sequence<one_of<times_token, divides_token>, unary_exp4>, 
    unary_exp4, 
    boost::mpl::quote2<binary_op> 
  >;
 
 struct plus_exp6 : 
- foldlf_start_with_parser< 
+ foldl_reject_incomplete_start_with_parser< 
    sequence<one_of<plus_token, minus_token>, mult_exp7>, 
    mult_exp7, 
    boost::mpl::quote2<binary_op> 
