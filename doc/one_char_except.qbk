@@ -41,7 +41,7 @@ For any `c1`, ..., `cn` boxed characters the following are equivalent
   #include <boost/metaparse/one_char_except.hpp>
   #include <boost/metaparse/lit_c.hpp>
   #include <boost/metaparse/middle_of.hpp>
-  #include <boost/metaparse/any.hpp>
+  #include <boost/metaparse/repeated.hpp>
   #include <boost/metaparse/start.hpp>
   #include <boost/metaparse/string.hpp>
   #include <boost/metaparse/get_result.hpp>
@@ -57,7 +57,7 @@ For any `c1`, ..., `cn` boxed characters the following are equivalent
   using string_literal_parser =
     middle_of<
       lit_c<'"'>,
-      any<one_char_except<std::integral_constant<char, '"'>>>,
+      repeated<one_char_except<std::integral_constant<char, '"'>>>,
       lit_c<'"'>
     >;
   

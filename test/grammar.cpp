@@ -288,7 +288,7 @@ BOOST_METAPARSE_TEST_CASE(grammar)
     >
   ));
 
-  // repeat_0
+  // repeated_0
   BOOST_MPL_ASSERT((
     equal<
       vector<>,
@@ -304,7 +304,7 @@ BOOST_METAPARSE_TEST_CASE(grammar)
     >
   ));
 
-  // repeat_1
+  // repeated_1
   BOOST_MPL_ASSERT((
     equal<
       vector<char_<'x'> >,
@@ -320,7 +320,7 @@ BOOST_METAPARSE_TEST_CASE(grammar)
     >
   ));
 
-  // repeat_2
+  // repeated_2
   BOOST_MPL_ASSERT((
     equal<
       vector<char_<'x'>, char_<'x'> >,
@@ -371,7 +371,7 @@ BOOST_METAPARSE_TEST_CASE(grammar)
     >
   ));
 
-  // repeat+_0
+  // repeated+_0
   BOOST_MPL_ASSERT((
     is_error<
       apply_wrap2<
@@ -384,7 +384,7 @@ BOOST_METAPARSE_TEST_CASE(grammar)
     >
   ));
 
-  // repeat+_1
+  // repeated+_1
   BOOST_MPL_ASSERT((
     equal<
       vector<char_<'x'> >,
@@ -400,7 +400,7 @@ BOOST_METAPARSE_TEST_CASE(grammar)
     >
   ));
 
-  // repeat+_2
+  // repeated+_2
   BOOST_MPL_ASSERT((
     equal<
       vector<char_<'x'>, char_<'x'> >,

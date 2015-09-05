@@ -134,21 +134,21 @@ For example parsing
 Our example input is a list of numbers. Each number can be parsed by
 `int_token`:
 
-[$any_diag0.png [width 70%]]
+[$repeated_diag0.png [width 70%]]
 
 This diagram shows how the repeated application of `int_token` can parse the
-example input. Metaparse provides the [link any `any`] parser to easily
-implement this. The result of parsing is a typelist: the list of the individual
-numbers.
+example input. Metaparse provides the [link repeated `repeated`] parser to
+easily implement this. The result of parsing is a typelist: the list of the
+individual numbers.
 
-[$any_diag1.png [width 70%]]
+[$repeated_diag1.png [width 70%]]
 
-This diagram shows how [link any `any`]`<int_token>` works. It uses the
-`int_token` parser repeatedly and builds a `boost::mpl::vector` from the results
-it provides.
+This diagram shows how [link repeated `repeated`]`<int_token>` works. It uses
+the `int_token` parser repeatedly and builds a `boost::mpl::vector` from the
+results it provides.
 
 But we need the sum of these, so we need to summarise the result. We can do this
-by wrapping our parser, [link any `any`]`<int_token>` with
+by wrapping our parser, [link repeated `repeated`]`<int_token>` with
 [link transform `transform`]. That gives us the opportunity to specify a
 function transforming this typelist to some other value - the sum of the
 elements in our case. Initially let's ignore how to summarise the elements in
@@ -158,31 +158,32 @@ an example using [link transform `transform`] and this lambda expression:
 
   using sum_parser =
     transform<
-      any<int_token>,
+      repeated<int_token>,
       boost::mpl::lambda<...>::type
     >;
 
 The  [link transform `transform`]`<>` parser combinator wraps the
-[link any `any`]`<int_token>` to build the parser we need. Here is a diagram
-showing how it works:
+[link repeated `repeated`]`<int_token>` to build the parser we need. Here is a
+diagram showing how it works:
 
-[$any_diag2.png [width 70%]]
+[$repeated_diag2.png [width 70%]]
 
 As the diagram shows, the
-[link transform `transform`]`<`[link any `any`]`<int_token>, ...>` parser
-parses the input using [link any `any`]`<int_token>` and then does some
-processing on the result of parsing.
+[link transform `transform`]`<`[link repeated `repeated`]`<int_token>, ...>`
+parser parses the input using [link repeated `repeated`]`<int_token>` and then
+does some processing on the result of parsing.
 
 Let's implement the missing lambda expression that tells
 [link transform `transform`] how to change the result coming from
-[link any `any`]`<int_token>`. We can summarise the numbers in a typelist by
-using Boost.MPL's `fold` or `accumulate`. Here is an example doing that:
+[link repeated `repeated`]`<int_token>`. We can summarise the numbers in a
+typelist by using Boost.MPL's `fold` or `accumulate`. Here is an example doing
+that:
 
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
   
   using sum_parser =
     transform<
-      any<int_token>,
+      repeated<int_token>,
       mpl::lambda<
         mpl::fold<mpl::_1, mpl::int_<0>, sum_op>
       >::type
@@ -190,17 +191,17 @@ using Boost.MPL's `fold` or `accumulate`. Here is an example doing that:
 
 Here is an extended version of the above diagram showing what happens here:
 
-[$any_diag3.png [width 70%]]
+[$repeated_diag3.png [width 70%]]
 
 This example parses the input, builds the list of numbers and then loops over it
 and summarises the values. It starts with the second argument of `fold`,
 `int_<0>` and adds every item of the list of numbers (which is the result of
-the parser [link any `any`]`<int_token>`) one by one.
+the parser [link repeated `repeated`]`<int_token>`) one by one.
 
 [note
   Note that [link transform `transform`] wraps another parser,
-  [link any `any`]`<int_token>` here. It parses the input with that parser,
-  gets the result of that parsing and changes that result.
+  [link repeated `repeated`]`<int_token>` here. It parses the input with that
+  parser, gets the result of that parsing and changes that result.
   [link transform `transfrom`] itself will be a parser returning that updated
   result.
 ]
@@ -250,8 +251,8 @@ It summarises the results of the repeated `int_token` application using
 valid input: the sum of it is `0`. It may be good for you, in which case you are
 done. If you don't wan to accept it, you can use [link foldl1 `foldl1`] instead
 of [link foldl `foldl`]. This is the same, but it rejects empty input.
-(Metaparse offers [link any1 `any1`] as well if you choose the first approach
-and would like to reject empty string)
+(Metaparse offers [link repeated1 `repeated1`] as well if you choose the first
+approach and would like to reject empty string)
 
 [endsect]
 
@@ -295,14 +296,14 @@ following:
 
   BOOST_METAPARSE_STRING("11 + 13 + 3 + 21")
 
-Parsing it with [link foldl `foldl`] or [link any `any`] is difficult: there
-has to be a `+` symbol before every element ['except] the first one. None of the
-already introduced repetition constructs offer a way of treating the first
-element in a different way.
+Parsing it with [link foldl `foldl`] or [link repeated `repeated`] is difficult:
+there has to be a `+` symbol before every element ['except] the first one. None
+of the already introduced repetition constructs offer a way of treating the
+first element in a different way.
 
 If we forget about the first number for a moment, the rest of the input is
 `"+ 13 + 3 + 21"`. This can easily be parsed by [link foldl `foldl`] (or
-[link any `any`]):
+[link repeated `repeated`]):
 
   using plus_token = token<lit_c<'+'>>;
   using plus_int = last_of<plus_token, int_token>;

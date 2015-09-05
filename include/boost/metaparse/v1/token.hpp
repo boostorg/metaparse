@@ -7,7 +7,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/metaparse/v1/space.hpp>
-#include <boost/metaparse/v1/any.hpp>
+#include <boost/metaparse/v1/repeated.hpp>
 #include <boost/metaparse/v1/first_of.hpp>
 
 #include <boost/mpl/void.hpp>
@@ -19,7 +19,7 @@ namespace boost
     namespace v1
     {
       template <class P>
-      struct token : first_of<P, any<space> > {};
+      struct token : first_of<P, repeated<space> > {};
     }
   }
 }

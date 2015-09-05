@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/any.hpp>
+#include <boost/metaparse/repeated.hpp>
 #include <boost/metaparse/sequence.hpp>
 #include <boost/metaparse/lit_c.hpp>
 #include <boost/metaparse/debug_parsing_error.hpp>
@@ -15,7 +15,7 @@
 
 using boost::metaparse::sequence;
 using boost::metaparse::lit_c;
-using boost::metaparse::any;
+using boost::metaparse::repeated;
 using boost::metaparse::build_parser;
 using boost::metaparse::debug_parsing_error;
 
@@ -26,7 +26,7 @@ using boost::mpl::apply;
  *
  * s ::= a*b
  */
-typedef sequence<any<lit_c<'a'> >, lit_c<'b'> > s;
+typedef sequence<repeated<lit_c<'a'> >, lit_c<'b'> > s;
 
 typedef build_parser<s> test_parser;
 

@@ -459,19 +459,20 @@ know how many numbers the input will have. We need a parser that:
 Parsing the first number is something we can already do: the `int_token` parser
 does it for us. Parsing the `+ <number>` elements is more tricky. Metaparse
 offers different tools for approaching this. The most simple is
-[link any `any`]:
+[link repeated `repeated`]:
 
   > #include <boost/metaparse/any.hpp>
 
-[link any `any`] needs a parser (which parses one `+ <number>` element) and it
-keeps parsing the input with it as long as it can. This will parse the entire
-input for us. Let's create a parser for our expressions using it:
+[link repeated `repeated`] needs a parser (which parses one `+ <number>`
+element) and it keeps parsing the input with it as long as it can. This will
+parse the entire input for us. Let's create a parser for our expressions using
+it:
 
   > using exp_parser7 = \
   ...> build_parser< \
   ...>   sequence< \
-  ...>     int_token,                           /* The first <number> */ \
-  ...>     any<sequence<plus_token, int_token>> /* The "+ <number>" elements */ \
+  ...>     int_token,                                /* The first <number> */ \
+  ...>     repeated<sequence<plus_token, int_token>> /* The "+ <number>" elements */ \
   ...>   > \
   ...> >;
 
@@ -482,8 +483,8 @@ We have a [link sequence `sequence`] with two elements:
 * The first number (`int_token`)
 * The `+ <number>` parts
 
-The second part is an [link any `any`], which parses the `+ <number>` elements.
-One such element is parsed by
+The second part is an [link repeated `repeated`], which parses the `+ <number>`
+elements. One such element is parsed by
 [link sequence `sequence`]`<plus_token, int_token>`. This is just a sequence of
 the `+` symbol and the number.
 
@@ -497,7 +498,7 @@ Here is a formatted version of the result which is easier to read:
     // The result of int_token
     mpl_::integral_c<int, 1>,
   
-    // The result of any< sequence<plus_token, int_token> >
+    // The result of repeated< sequence<plus_token, int_token> >
     boost_::mpl::vector<
       boost_::mpl::vector<mpl_::char_<'+'>, mpl_::integral_c<int, 2> >,
       boost_::mpl::vector<mpl_::char_<'+'>, mpl_::integral_c<int, 3> >,
@@ -508,7 +509,7 @@ Here is a formatted version of the result which is easier to read:
 The result is a `vector` of two elements. The first element of this `vector` is
 the result of parsing the input with `int_token`, the second element of this
 `vector` is the result of parsing the input with
-[link any `any`]`< `[link sequence `sequence`]`<plus_token, int_token>>`.
+[link repeated `repeated`]`< `[link sequence `sequence`]`<plus_token, int_token>>`.
 This second element is also a `vector`. Each element of this `vector` is the
 result of parsing the input with
 [link sequence `sequence`]`<plus_token, int_token>` once. Here is a diagram
@@ -518,8 +519,8 @@ showing how `exp_parser7` parses the input `1 + 2 + 3 + 4`:
 
 The diagram shows that the `+ <number>` elements are parsed by
 [link sequence `sequence`]`<plus_token, int_token>` elements and their results
-are collected by [link any `any`], which constructs a `vector` of these
-results. The value of the first `<number>` and this `vector` are placed in
+are collected by [link repeated `repeated`], which constructs a `vector` of
+these results. The value of the first `<number>` and this `vector` are placed in
 another `vector`, which is the result of parsing.
 
 [endsect]
@@ -622,7 +623,7 @@ numbers. The result of parsing the `+ <number>` elements is a `vector` of
     // The result of int_token
     mpl_::integral_c<int, 1>,
   
-    // The result of any< sequence<plus_token, int_token> >
+    // The result of repeated< sequence<plus_token, int_token> >
     boost_::mpl::vector<
       boost_::mpl::vector<mpl_::char_<'+'>, mpl_::integral_c<int, 2> >,
       boost_::mpl::vector<mpl_::char_<'+'>, mpl_::integral_c<int, 3> >,
@@ -630,17 +631,18 @@ numbers. The result of parsing the `+ <number>` elements is a `vector` of
     >
   >
 
-First let's summarise the result of [link any `any`]`<...>` using
+First let's summarise the result of [link repeated `repeated`]`<...>` using
 `boost::mpl::fold`. This is a `vector` of `vector`s, but that's fine.
 `boost::mpl::fold` doesn't care about what the elements of the `vector` are.
 They can be numbers, `vector`s or something else as well. The function we use to
 add two numbers together (which was a lambda expression in our previous example)
 gets these elements as its argument and has to deal with them. So to summarise
 the elements of the `vector`s we get as the result of parsing with
-[link any `any`]`<...>`, we need to write a [link metafunction metafunction]
-that can deal with these elements. One such element is
-`boost_::mpl::vector<mpl_::char<'+'>, mpl_::integral_c<int, 2>>`. Here is a
-[link metafunction metafunction] that can be used in a `boost::mpl::fold`:
+[link repeated `repeated`]`<...>`, we need to write a
+[link metafunction metafunction] that can deal with these elements. One such
+element is `boost_::mpl::vector<mpl_::char<'+'>, mpl_::integral_c<int, 2>>`.
+Here is a [link metafunction metafunction] that can be used in a
+`boost::mpl::fold`:
 
   > template <class Sum, class Item> \
   ...>   struct sum_items : \
@@ -727,23 +729,24 @@ shows how the subresults are calculated and then used for further calculations.
 
 Let's use `sum_items` with `boost::mpl::fold` to build the parser that
 summarises the values coming from the `+ <number>` elements. We can extend the
-parser we were using in `exp_parser7` by wrapping the [link any `any`]`<...>`
-part with [link transform `transform`], which transforms the result of
-[link any `any`]`<...>` with the folding expression we have just created:
+parser we were using in `exp_parser7` by wrapping the
+[link repeated `repeated`]`<...>` part with [link transform `transform`], which
+transforms the result of [link repeated `repeated`]`<...>` with the folding
+expression we have just created:
 
   > using exp_parser8 = \
   ...> build_parser< \
   ...>   sequence< \
   ...>     int_token, /* parse the first <number> */ \
   ...>     transform< \
-  ...>       any<sequence<plus_token, int_token>>, /* parse the "+ <number>" elements */ \
+  ...>       repeated<sequence<plus_token, int_token>>, /* parse the "+ <number>" elements */ \
   ...> \
   ...>       /* lambda expression summarising the "+ <number>" elements using fold */ \
   ...>       boost::mpl::lambda< \
   ...>         /* The folding expression we have just created */ \
   ...>         boost::mpl::fold< \
   ...>           boost::mpl::_1, /* the argument of the lambda expression, the result */ \
-  ...>                           /* of the any<...> parser */ \
+  ...>                           /* of the repeated<...> parser */ \
   ...>           boost::mpl::int_<0>, \
   ...>           boost::mpl::quote2<sum_items> \
   ...>         > \
@@ -773,7 +776,7 @@ as well:
   ...>     sequence< \
   ...>       int_token, \
   ...>       transform< \
-  ...>         any<sequence<plus_token, int_token>>, \
+  ...>         repeated<sequence<plus_token, int_token>>, \
   ...>         boost::mpl::lambda< \
   ...>           boost::mpl::fold< \
   ...>             boost::mpl::_1, \
@@ -804,8 +807,9 @@ It gives us the correct result, but it is very inefficient. Let's see why:
 
 There are two loops in this process:
 
-* first [link any `any`] loops over the input to parse all of the `+ <number>`
-  elements. It builds a `vector` during this. (`Loop 1` on the diagram)
+* first [link repeated `repeated`] loops over the input to parse all of the
+  `+ <number>` elements. It builds a `vector` during this. (`Loop 1` on the
+  diagram)
 * then `boost::mpl::fold` loops over this `vector` to summarise the elements.
   (`Loop 2` on the diagram)
 
@@ -864,7 +868,7 @@ side-by-side:
   
   
         transform<                                          foldl<
-          any<sequence<plus_token, int_token>>,               sequence<plus_token, int_token>,
+          repeated<sequence<plus_token, int_token>>,          sequence<plus_token, int_token>,
           boost::mpl::lambda<
             boost::mpl::fold<
               boost::mpl::_1,
@@ -882,11 +886,11 @@ side-by-side:
 
 [link getting_started_14 copy-paste friendly version]
 
-In `exp_parser10` the "_[link any `any`] and then [link transform `transform`]
-with `boost::mpl::fold`_" part (the middle block of `exp_parser9`) has been
-replaced by one [link foldl `foldl`] parser that does the same thing but
-without building a `vector` in the middle. The same starting value
-(`boost::mpl::int_<0>`) and callback function (`sum_items`) could be used.
+In `exp_parser10` the "_[link repeated `repeated`] and then
+[link transform `transform`] with `boost::mpl::fold`_" part (the middle block of
+`exp_parser9`) has been replaced by one [link foldl `foldl`] parser that does
+the same thing but without building a `vector` in the middle. The same starting
+value (`boost::mpl::int_<0>`) and callback function (`sum_items`) could be used.
 
 Here is a diagram showing how `exp_parser10` works:
 

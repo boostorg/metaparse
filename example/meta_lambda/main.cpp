@@ -3,7 +3,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/any.hpp>
+#include <boost/metaparse/repeated.hpp>
 #include <boost/metaparse/sequence.hpp>
 #include <boost/metaparse/lit_c.hpp>
 #include <boost/metaparse/last_of.hpp>
@@ -34,7 +34,7 @@ using boost::metaparse::sequence;
 using boost::metaparse::lit_c;
 using boost::metaparse::last_of;
 using boost::metaparse::space;
-using boost::metaparse::any;
+using boost::metaparse::repeated;
 using boost::metaparse::build_parser;
 using boost::metaparse::int_;
 using boost::metaparse::foldlfp;
@@ -197,7 +197,7 @@ typedef
   >
   plus_exp;
 
-typedef last_of<any<space>, plus_exp> expression;
+typedef last_of<repeated<space>, plus_exp> expression;
 
 typedef build_parser<entire_input<expression> > metafunction_parser;
 

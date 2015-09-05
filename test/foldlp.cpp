@@ -78,14 +78,14 @@ using boost::mpl::_2;
 using boost::mpl::lambda;
 
 namespace
-{ 
+{
   template <class P>
-  struct any :
+  struct repeated :
     foldlp<P, return_<vector<> >, lambda<push_back<_1, _2> >::type>
   {};
 }
 
 #define TEST_NAME foldlp_as_foldl
 
-#include "any_test.hpp"  
+#include "repeated_test.hpp"
 

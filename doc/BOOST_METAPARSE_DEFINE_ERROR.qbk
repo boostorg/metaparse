@@ -41,7 +41,7 @@ the following pairs of expressions are equivalent:
 [h1 Example]
 
   #include <boost/metaparse/define_error.hpp>
-  #include <boost/metaparse/any1.hpp>
+  #include <boost/metaparse/repeated1.hpp>
   #include <boost/metaparse/letter.hpp>
   #include <boost/metaparse/int_.hpp>
   #include <boost/metaparse/token.hpp>
@@ -57,7 +57,7 @@ the following pairs of expressions are equivalent:
   
   BOOST_METAPARSE_DEFINE_ERROR(age_expected, "Age expected");
   
-  using name_token = token<any1<letter>>;
+  using name_token = token<repeated1<letter>>;
   using age_token = token<change_error_message<int_, age_expected>>;
   
   using name_age = sequence<name_token, age_token>;

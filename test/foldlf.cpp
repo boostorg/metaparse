@@ -18,12 +18,12 @@ using boost::mpl::_2;
 using boost::mpl::lambda;
 
 namespace
-{ 
+{
   template <class P>
-  struct anyf : foldlf<P, vector<>, lambda<push_back<_1, _2> >::type> {};
+  struct repeatedf : foldlf<P, vector<>, lambda<push_back<_1, _2> >::type> {};
 }
 
 #define TEST_NAME foldlf
 
-#include "anyf_test.hpp"  
+#include "repeatedf_test.hpp"
 

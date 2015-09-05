@@ -17,12 +17,12 @@ using boost::mpl::_1;
 using boost::mpl::_2;
 
 namespace
-{ 
+{
   template <class P>
-  struct any1 : foldl1<P, vector<>, push_back<_1, _2> > {};
+  struct repeated1 : foldl1<P, vector<>, push_back<_1, _2> > {};
 }
 
 #define TEST_NAME foldl1
 
-#include "any1_test.hpp"  
+#include "repeated1_test.hpp"
 

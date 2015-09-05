@@ -337,7 +337,7 @@
        xlink:href="#linearGradient4707-64-6"
        id="linearGradient4104"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.4965315,0,0,0.28501102,2406.3056,746.79013)"
+       gradientTransform="matrix(1.5990082,0,0,0.28414767,2551.6346,746.77244)"
        spreadMethod="pad"
        x1="-1057.1428"
        y1="-137.63783"
@@ -348,7 +348,7 @@
        xlink:href="#linearGradient5254-5-56-3"
        id="linearGradient4106"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.4965315,0,0,0.28501102,2406.3056,746.79013)"
+       gradientTransform="matrix(1.5990082,0,0,0.28414767,2551.6346,746.77244)"
        x1="-1057.1428"
        y1="-137.63783"
        x2="-1057.1428"
@@ -1078,7 +1078,7 @@
        xlink:href="#linearGradient4707-64"
        id="linearGradient3808"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.7708857,0,0,0.53038786,2523.4581,198.6907)"
+       gradientTransform="matrix(1.9854649,0,0,0.52809319,2827.817,198.64368)"
        spreadMethod="pad"
        x1="-1057.1428"
        y1="-137.63783"
@@ -1089,7 +1089,7 @@
        xlink:href="#linearGradient5254-5-56"
        id="linearGradient3810"
        gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1.7708857,0,0,0.53038786,2523.4581,198.6907)"
+       gradientTransform="matrix(1.9854649,0,0,0.52809319,2827.817,198.64368)"
        x1="-1057.1428"
        y1="-137.63783"
        x2="-1057.1428"
@@ -1524,9 +1524,9 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
      inkscape:cx="808.50239"
-     inkscape:cy="1151.1902"
+     inkscape:cy="522.61877"
      inkscape:document-units="px"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g3954"
      showgrid="false"
      inkscape:window-width="1855"
      inkscape:window-height="1056"
@@ -1675,14 +1675,14 @@
        id="g4091"
        transform="translate(-257.43999,806.22801)">
       <rect
-         ry="12.941206"
-         y="706.34039"
-         x="285.50702"
-         height="69.216972"
-         width="1081.7786"
+         ry="12.902005"
+         y="706.44519"
+         x="285.61188"
+         height="69.007301"
+         width="1155.8546"
          id="rect5215-5-9-5"
-         style="fill:url(#linearGradient4104);fill-opacity:1;stroke:url(#linearGradient4106);stroke-width:6.53090954;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
-         rx="7.0793695" />
+         style="fill:url(#linearGradient4104);fill-opacity:1;stroke:url(#linearGradient4106);stroke-width:6.74058056;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+         rx="7.5641375" />
       <text
          transform="scale(1.0166411,0.98363129)"
          sodipodi:linespacing="125%"
@@ -1695,7 +1695,7 @@
            y="762.37726"
            x="288.7366"
            sodipodi:role="line"
-           style="font-size:32px">sequence&lt;int_token, any&lt;sequence&lt;plus_token, int_token&gt;&gt;&gt;</tspan></text>
+           style="font-size:32px">sequence&lt;int_token, repeated&lt;sequence&lt;plus_token, int_token&gt;&gt;&gt;</tspan></text>
     </g>
     <g
        transform="matrix(0.54151067,0,0,0.5239281,19.877117,412.3156)"
@@ -1734,14 +1734,14 @@
              transform="translate(-64.633998,-194.95587)"
              id="g3954">
             <rect
-               style="fill:url(#linearGradient3808);fill-opacity:1;stroke:url(#linearGradient3810);stroke-width:9.6915226;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+               style="fill:url(#linearGradient3808);fill-opacity:1;stroke:url(#linearGradient3810);stroke-width:10.23967934;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
                id="rect5215-5-9"
-               width="1280.0975"
-               height="128.80847"
-               x="13.860352"
-               y="123.41622"
-               ry="43.505386"
-               rx="35.443195" />
+               width="1435.2075"
+               height="128.25119"
+               x="14.129944"
+               y="123.69487"
+               ry="43.317165"
+               rx="39.737862" />
             <text
                xml:space="preserve"
                style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -1753,7 +1753,7 @@
                  sodipodi:role="line"
                  x="35.857681"
                  y="203.55849"
-                 id="tspan3176">any&lt;sequence&lt;plus_token, int_token&gt;&gt;</tspan></text>
+                 id="tspan3176">repeated&lt;sequence&lt;plus_token, int_token&gt;&gt;</tspan></text>
           </g>
         </g>
       </g>

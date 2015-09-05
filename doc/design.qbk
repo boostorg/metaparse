@@ -46,7 +46,7 @@ parser combinators with minimal overhead, while it is also important to provide
 convenient combinators for beginners and for the cases where that is the best
 option anyway.
 
-[link any `any`] combined with [link sequence `sequence`],
+[link repeated `repeated`] combined with [link sequence `sequence`],
 [link accept_when `accept_when`] and [link transform `transform`] can replace
 any of the folding parsers, however, for the cost of constructing intermediate
 containers, that are (usually) processed sequentially after that.

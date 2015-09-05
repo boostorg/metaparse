@@ -7,7 +7,7 @@
 #include <boost/metaparse/is_error.hpp>
 #include <boost/metaparse/start.hpp>
 #include <boost/metaparse/get_result.hpp>
-#include <boost/metaparse/any.hpp>
+#include <boost/metaparse/repeated.hpp>
 #include <boost/metaparse/one_char.hpp>
 
 #include "common.hpp"
@@ -23,13 +23,13 @@
 
 namespace
 {
-  using boost::metaparse::any;
+  using boost::metaparse::repeated;
   using boost::metaparse::one_char;
 
   using boost::mpl::always;
 
   typedef always<char_x> f;
-  typedef any<one_char> any_one_char;
+  typedef repeated<one_char> repeated_one_char;
 }
 
 BOOST_METAPARSE_TEST_CASE(transform)
@@ -64,7 +64,7 @@ BOOST_METAPARSE_TEST_CASE(transform)
   BOOST_MPL_ASSERT((
     equal_to<
       get_result<
-        apply_wrap2<transform<any_one_char, front<_1> >, str_hello, start>
+        apply_wrap2<transform<repeated_one_char, front<_1> >, str_hello, start>
       >::type,
       char_h
     >

@@ -37,7 +37,7 @@ It is equivalent to `fail<msg>::apply<s, pos>` otherwise.
 [h1 Example]
 
   #include <boost/metaparse/change_error_message.hpp>
-  #include <boost/metaparse/any1.hpp>
+  #include <boost/metaparse/repeated1.hpp>
   #include <boost/metaparse/letter.hpp>
   #include <boost/metaparse/keyword.hpp>
   #include <boost/metaparse/last_of.hpp>
@@ -55,7 +55,7 @@ It is equivalent to `fail<msg>::apply<s, pos>` otherwise.
   BOOST_METAPARSE_DEFINE_ERROR(name_expected, "Name expected");
   
   using keyword_name = token<keyword<BOOST_METAPARSE_STRING("name")>>;
-  using name_token = token<any1<letter>>;
+  using name_token = token<repeated1<letter>>;
   
   using name_parser =
     last_of<keyword_name, change_error_message<name_token, name_expected>>;

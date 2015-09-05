@@ -6,7 +6,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/v1/any1.hpp>
+#include <boost/metaparse/v1/repeated1.hpp>
 #include <boost/metaparse/v1/space.hpp>
 
 namespace boost
@@ -15,7 +15,7 @@ namespace boost
   {
     namespace v1
     {
-      typedef any1<space> spaces;
+      typedef repeated1<space> spaces;
     }
   }
 }

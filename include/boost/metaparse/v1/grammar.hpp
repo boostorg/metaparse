@@ -6,8 +6,8 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/v1/any.hpp>
-#include <boost/metaparse/v1/any1.hpp>
+#include <boost/metaparse/v1/repeated.hpp>
+#include <boost/metaparse/v1/repeated1.hpp>
 #include <boost/metaparse/v1/sequence.hpp>
 #include <boost/metaparse/v1/one_of.hpp>
 #include <boost/metaparse/v1/transform.hpp>
@@ -43,8 +43,8 @@
  *
  * rule_definition ::= name_token define_token expression
  * expression ::= seq_expression (or_token seq_expression)*
- * seq_expression ::= repeat_expression+
- * repeat_expression ::= name_expression (repeat_token | repeat1_token)*
+ * seq_expression ::= repeated_expression+
+ * repeated_expression ::= name_expression (repeated_token | repeated1_token)*
  * name_expression ::= char_token | name_token | bracket_expression
  * bracket_expression ::= open_bracket_token expression close_bracket_token
  */
@@ -58,33 +58,33 @@ namespace boost
       namespace grammar_util
       {
         template <char Op, class FState>
-        struct repeat_apply_impl
+        struct repeated_apply_impl
         {
-          typedef repeat_apply_impl type;
+          typedef repeated_apply_impl type;
         
           template <class G>
           struct apply :
-            any<typename boost::mpl::apply_wrap1<FState, G>::type>
+            repeated<typename boost::mpl::apply_wrap1<FState, G>::type>
           {};
         };
 
         template <class FState>
-        struct repeat_apply_impl<'+', FState>
+        struct repeated_apply_impl<'+', FState>
         {
-          typedef repeat_apply_impl type;
+          typedef repeated_apply_impl type;
         
           template <class G>
           struct apply :
-            any1<typename boost::mpl::apply_wrap1<FState, G>::type>
+            repeated1<typename boost::mpl::apply_wrap1<FState, G>::type>
           {};
         };
 
-        struct build_repeat
+        struct build_repeated
         {
-          typedef build_repeat type;
+          typedef build_repeated type;
         
           template <class FState, class T>
-          struct apply : repeat_apply_impl<T::type::value, FState> {};
+          struct apply : repeated_apply_impl<T::type::value, FState> {};
         };
         
         struct build_sequence
@@ -187,8 +187,8 @@ namespace boost
           struct apply : apply_impl<C> {};
         };
         
-        typedef token<lit_c<'*'> > repeat_token;
-        typedef token<lit_c<'+'> > repeat1_token;
+        typedef token<lit_c<'*'> > repeated_token;
+        typedef token<lit_c<'+'> > repeated1_token;
         typedef token<lit_c<'|'> > or_token;
         typedef token<lit_c<'('> > open_bracket_token;
         typedef token<lit_c<')'> > close_bracket_token;
@@ -242,14 +242,14 @@ namespace boost
 
         typedef
           foldlp<
-            one_of<repeat_token, repeat1_token>,
+            one_of<repeated_token, repeated1_token>,
             name_expression,
-            build_repeat
+            build_repeated
           >
-          repeat_expression;
+          repeated_expression;
         
         typedef
-          foldlp<repeat_expression, repeat_expression, build_sequence>
+          foldlp<repeated_expression, repeated_expression, build_sequence>
           seq_expression;
         
         struct expression :
