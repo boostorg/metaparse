@@ -25,26 +25,23 @@ namespace boost
       struct transform
       {
       private:
-        template <class R>
-        struct apply_transformation_function :
-          boost::mpl::apply<T, typename R::type>
+        template <class S, class Pos>
+        struct no_error :
+          accept<
+            typename boost::mpl::apply<
+              T,
+              typename get_result<boost::mpl::apply<P, S, Pos> >::type
+            >::type,
+            get_remaining<boost::mpl::apply<P, S, Pos> >,
+            get_position<boost::mpl::apply<P, S, Pos> >
+          >
         {};
-        
       public:
         typedef transform type;
         
         template <class S, class Pos>
         struct apply :
-          unless_error<
-            boost::mpl::apply<P, S, Pos>,
-            accept<
-              apply_transformation_function<
-                get_result<boost::mpl::apply<P, S, Pos> >
-              >,
-              get_remaining<boost::mpl::apply<P, S, Pos> >,
-              get_position<boost::mpl::apply<P, S, Pos> >
-            >
-          >
+          unless_error<boost::mpl::apply<P, S, Pos>, no_error<S, Pos> >
         {};
       };
     }

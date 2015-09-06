@@ -8,7 +8,6 @@
 
 #include <boost/metaparse/v1/fwd/accept.hpp>
 #include <boost/metaparse/v1/accept_tag.hpp>
-#include <boost/metaparse/v1/impl/eval_if_possible.hpp>
 
 namespace boost
 {
@@ -22,11 +21,7 @@ namespace boost
         typedef accept_tag tag;
 
         typedef
-          accept<
-            typename impl::eval_if_possible<Result>::type,
-            typename Remaining::type,
-            typename Pos::type
-          >
+          accept<Result, typename Remaining::type, typename Pos::type>
           type;
 
         typedef Result result;

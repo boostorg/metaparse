@@ -42,6 +42,15 @@ namespace boost
             next_char<Pos, C>
           >
         {};
+
+        template <class S, class NextPos>
+        struct unchecked :
+          accept<
+            typename boost::mpl::front<S>::type,
+            boost::mpl::pop_front<S>,
+            NextPos
+          >
+        {};
       public:
         typedef one_char type;
         
@@ -50,11 +59,7 @@ namespace boost
           boost::mpl::eval_if<
             typename boost::mpl::empty<S>::type,
             reject<error::unexpected_end_of_input, Pos>,
-            accept<
-              boost::mpl::front<S>,
-              boost::mpl::pop_front<S>,
-              next_pos<boost::mpl::front<S>, Pos>
-            >
+            unchecked<S, next_pos<boost::mpl::front<S>, Pos> >
           >
         {};
       };

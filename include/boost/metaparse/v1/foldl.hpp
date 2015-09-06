@@ -46,6 +46,9 @@ namespace boost
             typename get_position<Res>::type
           >
         {};
+
+        template <class S, class Pos>
+        struct next_iteration : accept<typename State::type, S, Pos> {};
       public:
         typedef foldl type;
       
@@ -53,7 +56,7 @@ namespace boost
         struct apply :
           boost::mpl::eval_if<
             typename is_error<boost::mpl::apply<P, S, Pos> >::type,
-            accept<State, S, Pos>,
+            next_iteration<S, Pos>,
             apply_unchecked<boost::mpl::apply<P, S, Pos> >
           >
         {};

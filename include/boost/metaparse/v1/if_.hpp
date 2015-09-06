@@ -26,7 +26,11 @@ namespace boost
         template <class S, class Pos>
         struct apply :
           accept<
-            boost::mpl::if_<is_error<boost::mpl::apply<P, S, Pos> >, F, T>,
+            typename boost::mpl::if_<
+              is_error<boost::mpl::apply<P, S, Pos> >,
+              F,
+              T
+            >::type,
             S,
             Pos
           >

@@ -38,7 +38,7 @@ source position the following are equivalent:
 
   accept<r, s, p>::type
   
-  accept<r::type, s::type, p::type>
+  accept<r, s::type, p::type>
 
 [h1 Header]
 

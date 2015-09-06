@@ -29,11 +29,11 @@ namespace boost
         template <class Res, class Rem>
         struct apply_unchecked1 :
           accept<
-            boost::mpl::apply<
+            typename boost::mpl::apply<
               BackwardOp,
               typename get_result<Rem>::type,
               typename get_result<Res>::type
-            >,
+            >::type,
             typename get_remaining<Rem>::type,
             typename get_position<Rem>::type
           >

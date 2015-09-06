@@ -22,6 +22,16 @@ namespace boost
       template <class P>
       struct look_ahead
       {
+      private:
+        template <class S, class Pos>
+        struct no_error :
+          accept<
+            typename get_result<boost::mpl::apply<P, S, Pos> >::type,
+            S,
+            Pos
+          >
+        {};
+      public:
         typedef look_ahead type;
         
         template <class S, class Pos>
@@ -29,7 +39,7 @@ namespace boost
           boost::mpl::eval_if<
             typename is_error<boost::mpl::apply<P, S, Pos> >::type,
             boost::mpl::apply<P, S, Pos>,
-            accept<get_result<boost::mpl::apply<P, S, Pos> >, S, Pos>
+            no_error<S, Pos>
           >
         {};
       };

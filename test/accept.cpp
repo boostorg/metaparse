@@ -23,6 +23,12 @@ namespace
   {
     typedef T type;
   };
+
+  template <class T>
+  struct gets_foo
+  {
+    typedef typename T::foo type;
+  };
 }
 
 BOOST_METAPARSE_TEST_CASE(accept)
@@ -43,11 +49,11 @@ BOOST_METAPARSE_TEST_CASE(accept)
     is_same<accept<int, s, start>, accept<int, s, start>::type>
   ));
 
-  // test_accept_is_lazy
+  // test_accept_is_not_lazy
   BOOST_MPL_ASSERT((
     is_same<
-      accept<int, s, start>,
-      accept<returns<int>, returns<s>, returns<start> >::type
+      accept<gets_foo<int>, s, start>,
+      accept<gets_foo<int>, returns<s>, returns<start> >::type
     >
   ));
 

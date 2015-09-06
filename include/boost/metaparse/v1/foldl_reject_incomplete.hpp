@@ -48,13 +48,16 @@ namespace boost
         {};
 
       template <class S, class Pos>
+      struct accept_state : accept<typename State::type, S, Pos> {};
+
+      template <class S, class Pos>
       struct end_of_folding :
         boost::mpl::eval_if<
           typename boost::mpl::equal_to<
             typename Pos::type,
             typename get_position< boost::mpl::apply<P, S, Pos> >::type
           >::type,
-          accept<State, S, Pos>,
+          accept_state<S, Pos>,
           boost::mpl::apply<P, S, Pos>
         >
       {};
