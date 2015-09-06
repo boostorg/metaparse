@@ -26,7 +26,7 @@ namespace boost
         template <class R>
         struct rejection :
           reject<
-            boost::mpl::apply<F, typename get_message<R>::type>,
+            typename boost::mpl::apply<F, typename get_message<R>::type>::type,
             get_position<R>
           >
         {};

@@ -21,6 +21,12 @@ namespace
   {
     typedef T type;
   };
+
+  template <class T>
+  struct get_foo
+  {
+    typedef typename T::foo type;
+  };
 }
 
 BOOST_METAPARSE_TEST_CASE(reject)
@@ -35,9 +41,12 @@ BOOST_METAPARSE_TEST_CASE(reject)
   // test_reject_is_metaprogramming_value
   BOOST_MPL_ASSERT((is_same<reject<int, start>, reject<int, start>::type>));
 
-  // test_reject_is_lazy
+  // test_reject_is_not_lazy
   BOOST_MPL_ASSERT((
-    is_same<reject<int, start>, reject<returns<int>, returns<start> >::type>
+    is_same<
+      reject<get_foo<int>, start>,
+      reject<get_foo<int>, returns<start> >::type
+    >
   ));
 
   // test_get_message_of_reject

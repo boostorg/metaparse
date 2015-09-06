@@ -24,7 +24,6 @@ test-suite metaparse-unit-tests :
   [ compile empty.cpp ]
   [ run empty_string.cpp /boost/test//boost_unit_test_framework/<link>static ]
   [ compile entire_input.cpp ]
-  [ compile eval_if_possible.cpp ]
   [ compile except.cpp ]
   [ compile fail_at_first_char_expected.cpp ]
   [ compile fail.cpp ]

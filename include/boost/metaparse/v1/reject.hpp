@@ -7,7 +7,6 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/metaparse/v1/fwd/reject.hpp>
-#include <boost/metaparse/v1/impl/eval_if_possible.hpp>
 #include <boost/metaparse/v1/fail_tag.hpp>
 
 namespace boost
@@ -21,12 +20,7 @@ namespace boost
       {
         typedef fail_tag tag;
 
-        typedef
-          reject<
-            typename impl::eval_if_possible<Msg>::type,
-            typename Pos::type
-          >
-          type;
+        typedef reject<Msg, typename Pos::type> type;
         
         typedef Pos source_position;
         typedef Msg message;

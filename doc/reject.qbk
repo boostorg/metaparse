@@ -36,7 +36,7 @@ are equivalent:
 
   reject<m, p>::type
   
-  reject<m::type, p::type>
+  reject<m, p::type>
 
 [h1 Header]
 
