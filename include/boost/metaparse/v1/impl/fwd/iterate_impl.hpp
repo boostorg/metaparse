@@ -13,8 +13,6 @@
 
 #include <boost/mpl/deque.hpp>
 #include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/push_back.hpp>
 
 namespace boost

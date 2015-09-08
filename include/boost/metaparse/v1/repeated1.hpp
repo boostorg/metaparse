@@ -7,10 +7,9 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/metaparse/v1/foldl1.hpp>
+#include <boost/metaparse/v1/impl/back_inserter.hpp>
 
 #include <boost/mpl/vector.hpp>
-#include <boost/mpl/push_back.hpp>
-#include <boost/mpl/lambda.hpp>
 
 namespace boost
 {
@@ -20,13 +19,7 @@ namespace boost
     {
       template <class P>
       struct repeated1 :
-        foldl1<
-          P,
-          boost::mpl::vector<>,
-          boost::mpl::lambda<
-            boost::mpl::push_back<boost::mpl::_1, boost::mpl::_2>
-          >::type
-        >
+        foldl1<P, boost::mpl::vector<>, impl::back_inserter>
       {};
     }
   }

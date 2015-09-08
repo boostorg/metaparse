@@ -18,7 +18,6 @@
 #include <boost/mpl/empty.hpp>
 #include <boost/mpl/pop_front.hpp>
 #include <boost/mpl/front.hpp>
-#include <boost/mpl/apply_wrap.hpp>
 
 namespace boost
 {
@@ -42,13 +41,12 @@ namespace boost
           
           template <class S, class Pos>
           struct apply_unchecked :
-            boost::mpl::apply_wrap2<
-              rest_parser,
+            rest_parser::template apply<
               typename get_remaining<
-                boost::mpl::apply_wrap2<next_char_parser, S, Pos>
+                typename next_char_parser::template apply<S, Pos>
               >::type,
               typename get_position<
-                boost::mpl::apply_wrap2<next_char_parser, S, Pos>
+                typename next_char_parser::template apply<S, Pos>
               >::type
             >
           {};
@@ -57,9 +55,9 @@ namespace boost
           struct apply :
             boost::mpl::eval_if<
               typename is_error<
-                boost::mpl::apply_wrap2<next_char_parser, S, Pos>
+                typename next_char_parser::template apply<S, Pos>
               >::type,
-              boost::mpl::apply_wrap2<next_char_parser, S, Pos>,
+              typename next_char_parser::template apply<S, Pos>,
               apply_unchecked<S, Pos>
             >
           {};
@@ -69,15 +67,11 @@ namespace boost
         
         template <class S, class Pos>
         struct apply :
-          boost::mpl::apply_wrap2<
-            typename boost::mpl::if_<
-              boost::mpl::empty<Kw>,
-              return_<ResultType>,
-              nonempty
-            >::type,
-            S,
-            Pos
-          >
+          boost::mpl::if_<
+            boost::mpl::empty<Kw>,
+            return_<ResultType>,
+            nonempty
+          >::type::template apply<S, Pos>
         {};
       };
     }

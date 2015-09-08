@@ -6,8 +6,6 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/mpl/apply.hpp>
-
 namespace boost
 {
   namespace metaparse
@@ -20,7 +18,7 @@ namespace boost
         typedef swap type;
 
         template <class A, class B>
-        struct apply : boost::mpl::apply<F, B, A> {};
+        struct apply : F::template apply<B, A> {};
       };
     }
   }

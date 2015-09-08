@@ -25,14 +25,13 @@
 #include <boost/metaparse/v1/build_parser.hpp>
 #include <boost/metaparse/v1/entire_input.hpp>
 #include <boost/metaparse/v1/string.hpp>
+#include <boost/metaparse/v1/impl/front_inserter.hpp>
 
-#include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/at.hpp>
 #include <boost/mpl/map.hpp>
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/has_key.hpp>
 #include <boost/mpl/lambda.hpp>
-#include <boost/mpl/push_front.hpp>
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/back.hpp>
 #include <boost/mpl/pair.hpp>
@@ -64,7 +63,7 @@ namespace boost
         
           template <class G>
           struct apply :
-            repeated<typename boost::mpl::apply_wrap1<FState, G>::type>
+            repeated<typename FState::template apply<G>::type>
           {};
         };
 
@@ -75,7 +74,7 @@ namespace boost
         
           template <class G>
           struct apply :
-            repeated1<typename boost::mpl::apply_wrap1<FState, G>::type>
+            repeated1<typename FState::template apply<G>::type>
           {};
         };
 
@@ -99,8 +98,8 @@ namespace boost
             template <class G>
             struct apply :
               sequence<
-                typename boost::mpl::apply_wrap1<FState, G>::type,
-                typename boost::mpl::apply_wrap1<FP, G>::type
+                typename FState::template apply<G>::type,
+                typename FP::template apply<G>::type
               >
             {};
           };
@@ -121,8 +120,8 @@ namespace boost
             template <class G>
             struct apply :
               one_of<
-                typename boost::mpl::apply_wrap1<FState, G>::type,
-                typename boost::mpl::apply_wrap1<FP, G>::type
+                typename FState::template apply<G>::type,
+                typename FP::template apply<G>::type
               >
             {};
           };
@@ -135,10 +134,8 @@ namespace boost
         struct get_parser
         {
           typedef
-            boost::mpl::apply_wrap1<
-              typename boost::mpl::at<typename G::rules, Name>::type,
-              G
-            >
+            typename boost::mpl::at<typename G::rules, Name>::type
+              ::template apply<G>
             p;
         
           template <class Actions>
@@ -219,9 +216,7 @@ namespace boost
             foldr1<
               one_of<alphanum, lit_c<'_'> >,
               string<>,
-              boost::mpl::lambda<
-                boost::mpl::push_front<boost::mpl::_1, boost::mpl::_2>
-              >::type
+              impl::front_inserter
             >
           >
           name_token;
@@ -283,7 +278,7 @@ namespace boost
         template <class S>
         struct build_parsed_parser
         {
-          typedef typename boost::mpl::apply_wrap1<parser_parser, S>::type p;
+          typedef typename parser_parser::apply<S>::type p;
           typedef typename boost::mpl::front<p>::type name;
           typedef typename boost::mpl::back<p>::type exp;
         
@@ -292,7 +287,7 @@ namespace boost
             typedef the_parser type;
         
             template <class G>
-            struct apply : boost::mpl::apply_wrap1<exp, G> {};
+            struct apply : exp::template apply<G> {};
           };
         
           typedef boost::mpl::pair<name, the_parser> type;
@@ -301,7 +296,7 @@ namespace boost
         typedef build_parser<name_token> name_parser;
         
         template <class S>
-        struct rebuild : boost::mpl::apply_wrap1<name_parser, S> {};
+        struct rebuild : name_parser::template apply<S> {};
         
         struct no_action;
         
@@ -321,14 +316,10 @@ namespace boost
           // Make it a parser
           template <class S, class Pos>
           struct apply :
-            boost::mpl::apply_wrap2<
-              typename get_parser<
-                grammar_builder,
-                typename rebuild<Start>::type
-              >::type,
-              S,
-              Pos
-            >
+            get_parser<
+              grammar_builder,
+              typename rebuild<Start>::type
+            >::type::template apply<S, Pos>
           {};
         
           template <class Name, class P>

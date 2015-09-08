@@ -32,8 +32,8 @@ For any `p` parser and `f` metafunction class accepting one argument
 
   transform_error<p, f>::apply<s, pos>
 
-is equivalent to `p::apply<s, pos>` when `p` accepts the input.
-It is equivalent to `boost::mpl::apply<f, p::apply<s, pos>::type>` otherwise.
+is equivalent to `p::apply<s, pos>` when `p` accepts the input. It is equivalent
+to `f::apply<p::apply<s, pos>::type>` otherwise.
 
 [h1 Example]
 

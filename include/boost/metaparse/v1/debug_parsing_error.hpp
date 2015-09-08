@@ -11,7 +11,6 @@
 #include <boost/metaparse/v1/is_error.hpp>
 #include <boost/metaparse/v1/get_remaining.hpp>
 
-#include <boost/mpl/apply.hpp>
 #include <boost/mpl/if.hpp>
 #include <boost/mpl/string.hpp>
 
@@ -33,9 +32,8 @@ namespace boost
           using std::cout;
           using std::endl;
           using boost::mpl::c_str;
-          using boost::mpl::apply;
         
-          typedef display<typename apply<P, S, start>::type> runner;
+          typedef display<typename P::template apply<S, start>::type> runner;
             
           cout << "Compile-time parsing results" << endl;
           cout << "----------------------------" << endl;

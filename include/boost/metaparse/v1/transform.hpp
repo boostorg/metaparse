@@ -13,7 +13,6 @@
 #include <boost/metaparse/v1/unless_error.hpp>
 
 #include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/apply.hpp>
 
 namespace boost
 {
@@ -28,12 +27,11 @@ namespace boost
         template <class S, class Pos>
         struct no_error :
           accept<
-            typename boost::mpl::apply<
-              T,
-              typename get_result<boost::mpl::apply<P, S, Pos> >::type
+            typename T::template apply<
+              typename get_result<typename P::template apply<S, Pos> >::type
             >::type,
-            get_remaining<boost::mpl::apply<P, S, Pos> >,
-            get_position<boost::mpl::apply<P, S, Pos> >
+            get_remaining<typename P::template apply<S, Pos> >,
+            get_position<typename P::template apply<S, Pos> >
           >
         {};
       public:
@@ -41,7 +39,7 @@ namespace boost
         
         template <class S, class Pos>
         struct apply :
-          unless_error<boost::mpl::apply<P, S, Pos>, no_error<S, Pos> >
+          unless_error<typename P::template apply<S, Pos>, no_error<S, Pos> >
         {};
       };
     }

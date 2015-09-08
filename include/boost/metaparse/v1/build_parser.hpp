@@ -15,7 +15,6 @@
 #include <boost/metaparse/v1/get_col.hpp>
 #include <boost/metaparse/v1/is_error.hpp>
 
-#include <boost/mpl/apply.hpp>
 #include <boost/mpl/eval_if.hpp>
 
 #include <boost/static_assert.hpp>
@@ -36,12 +35,12 @@ namespace boost
       struct parsing_failed :
         x__________________PARSING_FAILED__________________x<
           get_line<
-            get_position<boost::mpl::apply<P, S, start> >
+            get_position<typename P::template apply<S, start> >
           >::type::value,
           get_col<
-            get_position<boost::mpl::apply<P, S, start> >
+            get_position<typename P::template apply<S, start> >
           >::type::value,
-          typename get_message<boost::mpl::apply<P, S, start> >::type
+          typename get_message<typename P::template apply<S, start> >::type
         >
       {};
 
@@ -53,9 +52,9 @@ namespace boost
         template <class S>
         struct apply :
           boost::mpl::eval_if<
-            typename is_error<boost::mpl::apply<P, S, start> >::type,
+            typename is_error<typename P::template apply<S, start> >::type,
             parsing_failed<P, S>,
-            get_result<boost::mpl::apply<P, S, start> >
+            get_result<typename P::template apply<S, start> >
           >
         {};
       };

@@ -10,7 +10,6 @@
 
 #include <boost/mpl/eval_if.hpp>
 #include <boost/mpl/bool.hpp>
-#include <boost/mpl/apply_wrap.hpp>
 
 #include <boost/preprocessor/cat.hpp>
 #include <boost/preprocessor/arithmetic/dec.hpp>
@@ -47,12 +46,9 @@ namespace boost
                   == BOOST_PP_CAT(T, BOOST_PP_DEC(n))::type::value \
                 >, \
                 boost::mpl::false_, \
-                boost::mpl::apply_wrap1< \
-                  BOOST_PP_CAT(is_any, BOOST_PP_DEC(n))< \
-                    BOOST_PP_ENUM_PARAMS(BOOST_PP_DEC(n), T) \
-                  >, \
-                  C \
-                > \
+                typename BOOST_PP_CAT(is_any, BOOST_PP_DEC(n))< \
+                  BOOST_PP_ENUM_PARAMS(BOOST_PP_DEC(n), T) \
+                >::template apply<C> \
               > \
             {}; \
           };

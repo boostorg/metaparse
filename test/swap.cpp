@@ -7,6 +7,8 @@
 
 #include <boost/type_traits/is_same.hpp>
 
+#include <boost/mpl/assert.hpp>
+
 #include "test_case.hpp"
 
 namespace

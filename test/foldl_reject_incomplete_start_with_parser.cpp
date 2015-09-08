@@ -10,6 +10,7 @@
 #include <boost/metaparse/get_result.hpp>
 #include <boost/metaparse/return_.hpp>
 #include <boost/metaparse/sequence.hpp>
+#include <boost/metaparse/v1/impl/back_inserter.hpp>
 
 #include "common.hpp"
 
@@ -73,12 +74,9 @@ BOOST_METAPARSE_TEST_CASE(foldl_reject_incomplete_start_with_parser)
 
 using boost::metaparse::foldl_reject_incomplete_start_with_parser;
 using boost::metaparse::return_;
+using boost::metaparse::v1::impl::back_inserter;
 
 using boost::mpl::vector;
-using boost::mpl::push_back;
-using boost::mpl::_1;
-using boost::mpl::_2;
-using boost::mpl::lambda;
 
 namespace
 {
@@ -87,7 +85,7 @@ namespace
     foldl_reject_incomplete_start_with_parser<
       P,
       return_<vector<> >,
-      lambda<push_back<_1, _2> >::type
+      back_inserter
     >
   {};
 }

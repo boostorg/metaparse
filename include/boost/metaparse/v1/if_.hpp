@@ -9,7 +9,6 @@
 #include <boost/metaparse/v1/accept.hpp>
 #include <boost/metaparse/v1/is_error.hpp>
 
-#include <boost/mpl/apply.hpp>
 #include <boost/mpl/if.hpp>
 
 namespace boost
@@ -27,7 +26,7 @@ namespace boost
         struct apply :
           accept<
             typename boost::mpl::if_<
-              is_error<boost::mpl::apply<P, S, Pos> >,
+              is_error<typename P::template apply<S, Pos> >,
               F,
               T
             >::type,

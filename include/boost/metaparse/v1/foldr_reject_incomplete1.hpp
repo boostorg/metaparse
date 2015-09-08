@@ -24,7 +24,7 @@ namespace boost
         template <class S, class Pos>
         struct apply :
           boost::mpl::if_<
-            is_error<boost::mpl::apply<P, S, Pos> >,
+            is_error<typename P::template apply<S, Pos> >,
             P,
             foldr_reject_incomplete<P, State, BackwardOp>
           >::type::template apply<S, Pos>

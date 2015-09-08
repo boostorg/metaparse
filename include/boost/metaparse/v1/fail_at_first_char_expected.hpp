@@ -15,7 +15,6 @@
 #include <boost/metaparse/v1/error/expected_to_fail.hpp>
 
 #include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/apply.hpp>
 #include <boost/mpl/equal_to.hpp>
 
 namespace boost
@@ -33,10 +32,10 @@ namespace boost
           boost::mpl::eval_if<
             typename boost::mpl::equal_to<
               Pos,
-              typename get_position<boost::mpl::apply<P, S, Pos> >::type
+              typename get_position<typename P::template apply<S, Pos> >::type
             >::type,
             accept<impl::void_, S, Pos>,
-            boost::mpl::apply<P, S, Pos>
+            typename P::template apply<S, Pos>
           >
         {};
       public:
@@ -45,7 +44,7 @@ namespace boost
         template <class S, class Pos>
         struct apply :
           boost::mpl::eval_if<
-            typename is_error<boost::mpl::apply<P, S, Pos> >::type,
+            typename is_error<typename P::template apply<S, Pos> >::type,
             apply_err<S, Pos>,
             reject<error::expected_to_fail, Pos>
           >

@@ -12,8 +12,6 @@
 #include <boost/metaparse/v1/get_position.hpp>
 #include <boost/metaparse/v1/get_result.hpp>
 
-#include <boost/mpl/apply.hpp>
-
 namespace boost
 {
   namespace metaparse
@@ -38,20 +36,17 @@ namespace boost
           struct apply_unchecked :
             boost::mpl::eval_if<
               typename is_error<
-                boost::mpl::apply<
-                  P,
+                typename P::template apply<
                   typename get_remaining<Result>::type,
                   typename get_position<Result>::type
                 >
               >::type,
-              boost::mpl::apply<
-                P,
+              typename P::template apply<
                 typename get_remaining<Result>::type,
                 typename get_position<Result>::type
               >,
               change_result<
-                boost::mpl::apply<
-                  P,
+                typename P::template apply<
                   typename get_remaining<Result>::type,
                   typename get_position<Result>::type
                 >,

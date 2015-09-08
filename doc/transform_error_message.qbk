@@ -33,7 +33,7 @@ For any `p` parser and `f` metafunction class accepting one argument
 
 is equivalent to `p::apply<s, pos>` when `p` accepts the input.
 It is equivalent to
-`reject<boost::mpl::apply<f, get_message<p::apply<s, pos>>::type>, get_position<p::apply<s, pos>>>`
+`reject<f::apply<get_message<p::apply<s, pos>>::type>, get_position<p::apply<s, pos>>>`
 otherwise.
 
 [h1 Example]

@@ -9,13 +9,13 @@
 #include <boost/metaparse/is_error.hpp>
 #include <boost/metaparse/get_result.hpp>
 #include <boost/metaparse/return_.hpp>
+#include <boost/metaparse/v1/impl/back_inserter.hpp>
 
 #include "common.hpp"
 
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/char.hpp>
 #include <boost/mpl/assert.hpp>
-#include <boost/mpl/push_back.hpp>
 
 #include "test_case.hpp"
 
@@ -70,22 +70,15 @@ BOOST_METAPARSE_TEST_CASE(foldl_start_with_parser)
 
 using boost::metaparse::foldl_start_with_parser;
 using boost::metaparse::return_;
+using boost::metaparse::v1::impl::back_inserter;
 
 using boost::mpl::vector;
-using boost::mpl::push_back;
-using boost::mpl::_1;
-using boost::mpl::_2;
-using boost::mpl::lambda;
 
 namespace
 {
   template <class P>
   struct repeated :
-    foldl_start_with_parser<
-      P,
-      return_<vector<> >,
-      lambda<push_back<_1, _2> >::type
-    >
+    foldl_start_with_parser<P, return_<vector<> >, back_inserter>
   {};
 }
 

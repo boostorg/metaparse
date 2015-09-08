@@ -8,7 +8,6 @@
 
 #include <boost/metaparse/v1/fwd/next_char.hpp>
 
-#include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/tag.hpp>
 
 namespace boost
@@ -19,11 +18,9 @@ namespace boost
     {
       template <class P, class Ch>
       struct next_char :
-        boost::mpl::apply_wrap2<
-          next_char_impl<typename boost::mpl::tag<typename P::type>::type>,
-          typename P::type,
-          typename Ch::type
-        >
+        next_char_impl<
+          typename boost::mpl::tag<typename P::type>::type
+        >::template apply<typename P::type, typename Ch::type>
       {};
     }
   }

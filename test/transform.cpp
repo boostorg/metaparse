@@ -16,7 +16,6 @@
 #include <boost/mpl/always.hpp>
 #include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/front.hpp>
-#include <boost/mpl/lambda.hpp>
 #include <boost/mpl/assert.hpp>
 
 #include "test_case.hpp"
@@ -30,6 +29,14 @@ namespace
 
   typedef always<char_x> f;
   typedef repeated<one_char> repeated_one_char;
+
+  struct get_front
+  {
+    typedef get_front type;
+
+    template <class C>
+    struct apply : boost::mpl::front<C> {};
+  };
 }
 
 BOOST_METAPARSE_TEST_CASE(transform)
@@ -41,8 +48,6 @@ BOOST_METAPARSE_TEST_CASE(transform)
   
   using boost::mpl::equal_to;
   using boost::mpl::apply_wrap2;
-  using boost::mpl::front;
-  using boost::mpl::_1;
 
   // test_normal_case
   BOOST_MPL_ASSERT((
@@ -64,7 +69,7 @@ BOOST_METAPARSE_TEST_CASE(transform)
   BOOST_MPL_ASSERT((
     equal_to<
       get_result<
-        apply_wrap2<transform<repeated_one_char, front<_1> >, str_hello, start>
+        apply_wrap2<transform<repeated_one_char, get_front>, str_hello, start>
       >::type,
       char_h
     >

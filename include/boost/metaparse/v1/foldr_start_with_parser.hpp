@@ -13,8 +13,6 @@
 #include <boost/metaparse/v1/get_remaining.hpp>
 
 #include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/apply_wrap.hpp>
 
 namespace boost
 {
@@ -29,8 +27,7 @@ namespace boost
         template <class Res, class Rem>
         struct apply_unchecked1 :
           accept<
-            typename boost::mpl::apply<
-              BackwardOp,
+            typename BackwardOp::template apply<
               typename get_result<Rem>::type,
               typename get_result<Res>::type
             >::type,
@@ -48,8 +45,7 @@ namespace boost
             // build a metafunction class from
             // foldr_start_with_parser<P, StateP, BackwardOp> when BackwardOp is
             // a lambda expression.
-            boost::mpl::apply_wrap2<
-              foldr_start_with_parser,
+            typename foldr_start_with_parser::template apply<
               typename get_remaining<Res>::type,
               typename get_position<Res>::type
             >
@@ -69,9 +65,9 @@ namespace boost
         template <class S, class Pos>
         struct apply :
           boost::mpl::eval_if<
-            typename is_error<boost::mpl::apply<P, S, Pos> >::type,
-            boost::mpl::apply<StateP, S, Pos>,
-            apply_unchecked<boost::mpl::apply<P, S, Pos> >
+            typename is_error<typename P::template apply<S, Pos> >::type,
+            typename StateP::template apply<S, Pos>,
+            apply_unchecked<typename P::template apply<S, Pos> >
           >
         {};
       };

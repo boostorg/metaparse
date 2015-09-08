@@ -8,8 +8,6 @@
 
 #include <boost/metaparse/v1/impl/skip_seq.hpp>
 
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/front.hpp>
 #include <boost/mpl/pop_front.hpp>
 #include <boost/mpl/fold.hpp>
@@ -28,11 +26,10 @@ namespace boost
         private:
           template <class NextResult>
           struct apply_unchecked :
-            boost::mpl::apply_wrap2<
-              nth_of_c_impl<
-                N - 1,
-                typename boost::mpl::pop_front<Seq>::type
-              >,
+            nth_of_c_impl<
+              N - 1,
+              typename boost::mpl::pop_front<Seq>::type
+            >::template apply<
               typename get_remaining<NextResult>::type,
               typename get_position<NextResult>::type
             >
@@ -44,11 +41,11 @@ namespace boost
           struct apply :
             boost::mpl::eval_if<
               typename is_error<
-                boost::mpl::apply<typename boost::mpl::front<Seq>::type, S, Pos>
+                typename boost::mpl::front<Seq>::type::template apply<S, Pos>
               >::type,
-              boost::mpl::apply<typename boost::mpl::front<Seq>::type, S, Pos>,
+              typename boost::mpl::front<Seq>::type::template apply<S, Pos>,
               apply_unchecked<
-                boost::mpl::apply<typename boost::mpl::front<Seq>::type, S, Pos>
+                typename boost::mpl::front<Seq>::type::template apply<S, Pos>
               >
             >
           {};
@@ -63,8 +60,7 @@ namespace boost
           struct apply :
             boost::mpl::fold<
               typename boost::mpl::pop_front<Seq>::type,
-              typename boost::mpl::apply<
-                typename boost::mpl::front<Seq>::type,
+              typename boost::mpl::front<Seq>::type::template apply<
                 S,
                 Pos
               >::type,

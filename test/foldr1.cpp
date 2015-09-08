@@ -4,22 +4,19 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/metaparse/foldr1.hpp>
+#include <boost/metaparse/v1/impl/front_inserter.hpp>
 
 #include <boost/mpl/list.hpp>
-#include <boost/mpl/push_front.hpp>
-#include <boost/mpl/lambda.hpp>
 
 using boost::metaparse::foldr1;
+using boost::metaparse::v1::impl::front_inserter;
 
 using boost::mpl::list;
-using boost::mpl::push_front;
-using boost::mpl::_1;
-using boost::mpl::_2;
 
 namespace
 {
   template <class P>
-  struct repeated1 : foldr1<P, list<>, push_front<_1, _2> > {};
+  struct repeated1 : foldr1<P, list<>, front_inserter> {};
 }
 
 #define TEST_NAME foldr1

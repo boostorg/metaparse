@@ -38,7 +38,7 @@ is equivalent to
 
   p::apply<s, pos>::type
 
-when `boost::mpl::apply<p, s, pos>` doesn't return an error and
+when `p::apply<s, pos>` doesn't return an error and
 `pred::apply<get_result<p::apply<s, pos>>>::type` is `true`. Otherwise it is
 equivalent to
 

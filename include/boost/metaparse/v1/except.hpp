@@ -11,7 +11,6 @@
 #include <boost/metaparse/v1/reject.hpp>
 
 #include <boost/mpl/if.hpp>
-#include <boost/mpl/apply.hpp>
 
 namespace boost
 {
@@ -27,7 +26,7 @@ namespace boost
         template <class S, class Pos>
         struct apply :
           boost::mpl::if_<
-            is_error<boost::mpl::apply<P, S, Pos> >,
+            is_error<typename P::template apply<S, Pos> >,
             accept<Result, S, Pos>,
             reject<ErrorMsg, Pos>
           >

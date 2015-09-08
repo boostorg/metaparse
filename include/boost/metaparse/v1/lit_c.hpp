@@ -6,17 +6,11 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-
-#include <boost/mpl/char.hpp>
-
 #include <boost/metaparse/v1/error/literal_expected.hpp>
 #include <boost/metaparse/v1/accept_when.hpp>
 #include <boost/metaparse/v1/one_char.hpp>
 #include <boost/metaparse/v1/change_error_message.hpp>
-
-#include <boost/mpl/equal_to.hpp>
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/char.hpp>
+#include <boost/metaparse/v1/impl/is_char_c.hpp>
 
 namespace boost
 {
@@ -28,9 +22,7 @@ namespace boost
       struct lit_c :
         accept_when<
           change_error_message<one_char, error::literal_expected<C> >,
-          typename boost::mpl::lambda<
-            boost::mpl::equal_to<boost::mpl::_1, boost::mpl::char_<C> >
-          >::type,
+          impl::is_char_c<C>,
           error::literal_expected<C>
         >
       {};

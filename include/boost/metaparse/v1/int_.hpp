@@ -8,10 +8,7 @@
 
 #include <boost/metaparse/v1/digit_val.hpp>
 #include <boost/metaparse/v1/foldl1.hpp>
-
-#include <boost/mpl/lambda.hpp>
-#include <boost/mpl/times.hpp>
-#include <boost/mpl/plus.hpp>
+#include <boost/metaparse/v1/impl/next_digit.hpp>
 
 namespace boost
 {
@@ -19,20 +16,7 @@ namespace boost
   {
     namespace v1
     {
-      typedef
-        foldl1<
-          digit_val,
-          boost::mpl::int_<0>,
-          // I need to wrap it with lambda, because int_ may be used
-          // in an apply and turned into a lambda expression too early.
-          boost::mpl::lambda<
-            boost::mpl::plus<
-              boost::mpl::times<boost::mpl::_1, boost::mpl::int_<10> >,
-              boost::mpl::_2
-            >
-          >::type
-        >
-        int_;
+      typedef foldl1<digit_val, boost::mpl::int_<0>, impl::next_digit> int_;
     }
   }
 }

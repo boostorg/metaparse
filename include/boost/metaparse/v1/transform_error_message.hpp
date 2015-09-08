@@ -11,7 +11,6 @@
 #include <boost/metaparse/v1/get_position.hpp>
 #include <boost/metaparse/v1/get_message.hpp>
 
-#include <boost/mpl/apply.hpp>
 #include <boost/mpl/eval_if.hpp>
 
 namespace boost
@@ -26,7 +25,7 @@ namespace boost
         template <class R>
         struct rejection :
           reject<
-            typename boost::mpl::apply<F, typename get_message<R>::type>::type,
+            typename F::template apply<typename get_message<R>::type>::type,
             get_position<R>
           >
         {};
@@ -34,9 +33,9 @@ namespace boost
         template <class S, class Pos>
         struct apply :
           boost::mpl::eval_if<
-            typename is_error<boost::mpl::apply<P, S, Pos> >::type,
-            rejection<boost::mpl::apply<P, S, Pos> >,
-            boost::mpl::apply<P, S, Pos>
+            typename is_error<typename P::template apply<S, Pos> >::type,
+            rejection<typename P::template apply<S, Pos> >,
+            typename P::template apply<S, Pos>
           >
         {};
         

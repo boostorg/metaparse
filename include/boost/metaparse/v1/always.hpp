@@ -11,7 +11,6 @@
 #include <boost/metaparse/v1/get_remaining.hpp>
 #include <boost/metaparse/v1/get_position.hpp>
 
-#include <boost/mpl/apply.hpp>
 #include <boost/mpl/eval_if.hpp>
 
 namespace boost
@@ -38,9 +37,9 @@ namespace boost
         template <class S, class Pos>
         struct apply :
           boost::mpl::eval_if<
-            typename is_error<boost::mpl::apply<P, S, Pos> >::type,
-            boost::mpl::apply<P, S, Pos>,
-            apply_unchecked<boost::mpl::apply<P, S, Pos> >
+            typename is_error<typename P::template apply<S, Pos> >::type,
+            typename P::template apply<S, Pos>,
+            apply_unchecked<typename P::template apply<S, Pos> >
           >
         {};
       };

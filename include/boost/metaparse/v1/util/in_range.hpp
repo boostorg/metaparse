@@ -8,7 +8,6 @@
 
 #include <boost/mpl/less_equal.hpp>
 #include <boost/mpl/comparison.hpp>
-#include <boost/mpl/apply.hpp>
 #include <boost/mpl/quote.hpp>
 #include <boost/mpl/bool.hpp>
 

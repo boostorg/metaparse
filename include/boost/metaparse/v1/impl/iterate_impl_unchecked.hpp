@@ -11,8 +11,6 @@
 #include <boost/metaparse/v1/get_remaining.hpp>
 #include <boost/metaparse/v1/get_position.hpp>
 
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/push_back.hpp>
 
 namespace boost
@@ -25,17 +23,16 @@ namespace boost
       {
         template <int N, class P, class Accum, class S, class Pos>
         struct iterate_impl_unchecked :
-          boost::mpl::apply_wrap2<
-            iterate_impl<
-              N - 1,
-              P,
-              typename boost::mpl::push_back<
-                Accum,
-                typename get_result<boost::mpl::apply<P, S, Pos> >::type
-              >::type
-            >,
-            typename get_remaining<boost::mpl::apply<P, S, Pos> >::type,
-            typename get_position<boost::mpl::apply<P, S, Pos> >::type
+          iterate_impl<
+            N - 1,
+            P,
+            typename boost::mpl::push_back<
+              Accum,
+              typename get_result<typename P::template apply<S, Pos> >::type
+            >::type
+          >::template apply<
+            typename get_remaining<typename P::template apply<S, Pos> >::type,
+            typename get_position<typename P::template apply<S, Pos> >::type
           >
         {};
       }

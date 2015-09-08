@@ -12,7 +12,6 @@
 #include <boost/metaparse/v1/get_position.hpp>
 #include <boost/metaparse/v1/transform.hpp>
 
-#include <boost/mpl/apply_wrap.hpp>
 #include <boost/mpl/push_back.hpp>
 
 namespace boost
@@ -35,8 +34,7 @@ namespace boost
 
           template <class Accum, class S, class Pos, class Parser>
           struct apply_unchecked :
-            boost::mpl::apply_wrap2<
-              transform<Parser,do_append<typename Accum::type> >,
+            transform<Parser,do_append<typename Accum::type> >::template apply<
               typename S::type,
               typename Pos::type
             >

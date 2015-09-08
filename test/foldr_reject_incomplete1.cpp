@@ -4,23 +4,20 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/metaparse/foldr_reject_incomplete1.hpp>
+#include <boost/metaparse/v1/impl/front_inserter.hpp>
 
 #include <boost/mpl/list.hpp>
-#include <boost/mpl/push_front.hpp>
-#include <boost/mpl/lambda.hpp>
 
 using boost::metaparse::foldr_reject_incomplete1;
+using boost::metaparse::v1::impl::front_inserter;
 
 using boost::mpl::list;
-using boost::mpl::push_front;
-using boost::mpl::_1;
-using boost::mpl::_2;
 
 namespace
 {
   template <class P>
   struct repeated_reject_incomplete1 :
-    foldr_reject_incomplete1<P, list<>, push_front<_1, _2> >
+    foldr_reject_incomplete1<P, list<>, front_inserter>
   {};
 }
 

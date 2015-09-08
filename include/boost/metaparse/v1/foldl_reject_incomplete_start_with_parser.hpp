@@ -13,8 +13,6 @@
 #include <boost/metaparse/v1/is_error.hpp>
 
 #include <boost/mpl/eval_if.hpp>
-#include <boost/mpl/apply.hpp>
-#include <boost/mpl/apply_wrap.hpp>
 
 namespace boost
 {
@@ -28,12 +26,11 @@ namespace boost
       private:
         template <class Res>
         struct apply_unchecked :
-          boost::mpl::apply_wrap2<
-            foldl_reject_incomplete<
-              P,
-              typename get_result<Res>::type,
-              ForwardOp
-            >,
+          foldl_reject_incomplete<
+            P,
+            typename get_result<Res>::type,
+            ForwardOp
+          >::template apply<
             typename get_remaining<Res>::type,
             typename get_position<Res>::type
           >
@@ -44,9 +41,9 @@ namespace boost
         template <class S, class Pos>
         struct apply :
           boost::mpl::eval_if<
-            typename is_error<boost::mpl::apply<StateP, S, Pos> >::type,
-            boost::mpl::apply<StateP, S, Pos>,
-            apply_unchecked<boost::mpl::apply<StateP, S, Pos> >
+            typename is_error<typename StateP::template apply<S, Pos> >::type,
+            typename StateP::template apply<S, Pos>,
+            apply_unchecked<typename StateP::template apply<S, Pos> >
           >
         {};
       };
