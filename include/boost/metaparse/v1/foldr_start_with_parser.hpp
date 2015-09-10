@@ -45,10 +45,11 @@ namespace boost
             // build a metafunction class from
             // foldr_start_with_parser<P, StateP, BackwardOp> when BackwardOp is
             // a lambda expression.
-            typename foldr_start_with_parser::template apply<
-              typename get_remaining<Res>::type,
-              typename get_position<Res>::type
-            >
+            typename foldr_start_with_parser<P, StateP, BackwardOp>
+              ::template apply<
+                typename get_remaining<Res>::type,
+                typename get_position<Res>::type
+              >
             parsed_remaining;
         public:
           typedef
