@@ -37,29 +37,7 @@ namespace boost
         {};
 
         template <class Res>
-        struct apply_unchecked
-        {
-        private:
-          typedef
-            // I need to use apply_wrap, and not apply, because apply would
-            // build a metafunction class from
-            // foldr_start_with_parser<P, StateP, BackwardOp> when BackwardOp is
-            // a lambda expression.
-            typename foldr_start_with_parser<P, StateP, BackwardOp>
-              ::template apply<
-                typename get_remaining<Res>::type,
-                typename get_position<Res>::type
-              >
-            parsed_remaining;
-        public:
-          typedef
-            typename boost::mpl::eval_if<
-              typename is_error<parsed_remaining>::type,
-              parsed_remaining,
-              apply_unchecked1<Res, parsed_remaining>
-            >::type
-            type;
-        };
+        struct apply_unchecked;
       public:
         typedef foldr_start_with_parser type;
       
@@ -71,6 +49,26 @@ namespace boost
             apply_unchecked<typename P::template apply<S, Pos> >
           >
         {};
+      private:
+        template <class Res>
+        struct apply_unchecked
+        {
+        private:
+          typedef
+            typename foldr_start_with_parser::template apply<
+              typename get_remaining<Res>::type,
+              typename get_position<Res>::type
+            >
+            parsed_remaining;
+        public:
+          typedef
+            typename boost::mpl::eval_if<
+              typename is_error<parsed_remaining>::type,
+              parsed_remaining,
+              apply_unchecked1<Res, parsed_remaining>
+            >::type
+            type;
+        };
       };
     }
   }
