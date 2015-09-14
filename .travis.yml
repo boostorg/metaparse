@@ -186,6 +186,8 @@ script:
   -     cd metaparse
   -       cd build
   -         ../../../b2 -d+2 cxxflags="${STDARG} -ftemplate-depth=512"
+  -         sed -i 's/#include <boost\/metaparse\/.*\.hpp>/#include <boost\/metaparse.hpp>/' ../test/*.?pp
+  -         ../../../b2 -d+2 cxxflags="${STDARG} -ftemplate-depth=512"
   -       cd ..
   -       cd doc
   -         ../../../b2 -d+2 cxxflags="-Wno-unused-local-typedefs"
