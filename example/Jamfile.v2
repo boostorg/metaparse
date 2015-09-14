@@ -8,6 +8,7 @@ build-project grammar_calculator ;
 build-project meta_hs ;
 build-project meta_lambda ;
 build-project meta_metaparse ;
+build-project minimal_rational ;
 build-project parsing_error ;
 build-project rational ;
 build-project regexp ;
