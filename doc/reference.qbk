@@ -118,6 +118,7 @@ choosing among the `fold*` parsers.
 * [link nth_of nth_of]
 * [link nth_of_c nth_of_c]
 * [link sequence sequence]
+* [link sequence_apply sequence_apply]
 
 [endsect]
 
@@ -349,6 +350,7 @@ classes.
 [include repeated.qbk]
 [include return_.qbk]
 [include sequence.qbk]
+[include sequence_apply.qbk]
 [include source_position.qbk]
 [include source_position_tag.qbk]
 [include space.qbk]

@@ -90,6 +90,7 @@ test-suite metaparse-unit-tests :
   [ compile return_.cpp ]
   [ compile returns.cpp ]
   [ compile sequence.cpp ]
+  [ compile sequence_apply.cpp ]
   [ compile size.cpp ]
   [ compile source_position.cpp ]
   [ compile space.cpp ]
