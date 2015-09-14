@@ -4,7 +4,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/metaparse/string.hpp>
-#include <boost/metaparse/sequence.hpp>
+#include <boost/metaparse/sequence_apply.hpp>
 #include <boost/metaparse/last_of.hpp>
 #include <boost/metaparse/int_.hpp>
 #include <boost/metaparse/token.hpp>
@@ -19,12 +19,10 @@
 #include <boost/config.hpp>
 
 #include <boost/mpl/int.hpp>
-#include <boost/mpl/front.hpp>
-#include <boost/mpl/back.hpp>
 
 #include <iostream>
 
-using boost::metaparse::sequence;
+using boost::metaparse::sequence_apply2;
 using boost::metaparse::last_of;
 using boost::metaparse::int_;
 using boost::metaparse::token;
@@ -34,8 +32,21 @@ using boost::metaparse::empty;
 using boost::metaparse::entire_input;
 using boost::metaparse::build_parser;
 
+template <class Num, class Denom>
+struct rational
+{
+  typedef rational type;
+
+  static boost::rational<int> run()
+  {
+    return boost::rational<int>(Num::type::value, Denom::type::value);
+  }
+};
+
 typedef
-  sequence<
+  sequence_apply2<
+    rational,
+
     token<int_>,
     one_of<
       last_of<lit_c<'/'>, token<int_> >,
@@ -46,21 +57,11 @@ typedef
 
 typedef build_parser<entire_input<rational_grammar> > rational_parser;
 
-template <class S>
-boost::rational<int> build_rational()
-{
-  typedef typename rational_parser::apply<S>::type r;
-  return
-    boost::rational<int>(
-      boost::mpl::front<r>::type::value,
-      boost::mpl::back<r>::type::value
-    );
-}
-
 #ifdef RATIONAL
 #  error RATIONAL already defined
 #endif
-#define RATIONAL(s) (::build_rational<BOOST_METAPARSE_STRING(s)>())
+#define RATIONAL(s) \
+  (::rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type::run())
 
 #ifdef BOOST_NO_CONSTEXPR
 
