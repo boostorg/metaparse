@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V1_LETTER_HPP
-#define BOOST_METAPARSE_V1_LETTER_HPP
+#ifndef BOOST_METAPARSE_V1_SEQUENCE_APPLY_HPP
+#define BOOST_METAPARSE_V1_SEQUENCE_APPLY_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2015.
 // Distributed under the Boost Software License, Version 1.0.

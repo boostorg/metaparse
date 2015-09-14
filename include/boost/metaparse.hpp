@@ -1,9 +1,10 @@
+#ifndef BOOST_METAPARSE_HPP
+#define BOOST_METAPARSE_HPP
+
 // Copyright Abel Sinkovics (abel@sinkovics.hu) 2013.
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
-
-// No include guards to make it possible to include it multiple times
 
 #include <boost/metaparse/accept.hpp>
 #include <boost/metaparse/accept_tag.hpp>
@@ -90,6 +91,7 @@
 #include <boost/metaparse/reject.hpp>
 #include <boost/metaparse/return_.hpp>
 #include <boost/metaparse/sequence.hpp>
+#include <boost/metaparse/sequence_apply.hpp>
 #include <boost/metaparse/source_position.hpp>
 #include <boost/metaparse/source_position_tag.hpp>
 #include <boost/metaparse/space.hpp>
@@ -114,4 +116,6 @@
 #include <boost/metaparse/util/is_ucase_letter.hpp>
 #include <boost/metaparse/util/is_whitespace_c.hpp>
 #include <boost/metaparse/util/is_whitespace.hpp>
+
+#endif
 

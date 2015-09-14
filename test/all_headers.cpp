@@ -3,6 +3,13 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include "all_headers.hpp"
-#include "all_headers.hpp"
+#include <boost/metaparse.hpp>
+
+// disable the include guard
+#ifndef BOOST_METAPARSE_HPP
+#  error The include guard of boost/metaparse.hpp has changed.
+#endif
+#undef BOOST_METAPARSE_HPP
+
+#include <boost/metaparse.hpp>
 
