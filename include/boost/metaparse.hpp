@@ -86,6 +86,7 @@
 #include <boost/metaparse/one_char.hpp>
 #include <boost/metaparse/one_of_c.hpp>
 #include <boost/metaparse/one_of.hpp>
+#include <boost/metaparse/optional.hpp>
 #include <boost/metaparse/range_c.hpp>
 #include <boost/metaparse/range.hpp>
 #include <boost/metaparse/reject.hpp>
