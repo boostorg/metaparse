@@ -26,10 +26,10 @@ The library is similar to Boost.Spirit, however while parsers built with Spirit
 parse at run-time, parsers built with Metaparse parse at compile-time. Parsers
 built with Metaparse can output:
 
- * types
- * objects (types with public static members)
- * callable C++ functions (types with public static method)
- * template metafunction classes 
+* types
+* objects (types with public static members)
+* callable C++ functions (types with public static method)
+* template metafunction classes
 
 Based on C++11 features the library can provide advanced utilities for defining
 the input string, the rest of the library works on C++98-based compilers as
