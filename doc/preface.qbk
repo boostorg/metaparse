@@ -8,6 +8,37 @@ makes it possible to embed domain specific languages (DSLs) into C++ without
 altering their original syntax (Note that the DSL code snippets will be written
 in string literals, therefore they may need to be escaped).
 
+Assuming that the following template class is available for representing
+rational numbers in template metaprogramming:
+
+  template <class Num, class Denom>
+  struct rational;
+
+Metaparse can be used to construct such values (instantiate the `rational`
+template class) from string literals. Instead of `rational<1, 3>` one can write
+`RATIONAL("1/3")` which can be processed by any standard-compliant C++11
+compiler (and mean the same). This can be implemented using Metaparse the
+following way:
+  
+  using namespace boost::metaparse;
+
+  typedef
+    sequence_apply2<
+      rational,
+  
+      token<int_>,
+      last_of<lit_c<'/'>, token<int_>>
+    >
+    rational_grammar;
+  
+  typedef build_parser<entire_input<rational_grammar>> rational_parser;
+  
+  #define RATIONAL(s) \
+    (::rational_parser::apply<BOOST_METAPARSE_STRING(s)>::type::run())
+
+Note that this is the entire implementation. Also note that this implementation
+can be extended to improve the error reports in certain situations.
+
 [endsect]
 
 
