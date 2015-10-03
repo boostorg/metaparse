@@ -36,6 +36,68 @@ header to start from section 5.2.1.
 
 [endsect]
 
+[section 1.2. Using a "regular" testing environment]
+
+If you have no access to Metashell or you prefer using your regular C++
+development environment while processing this tutorial, this is also possible.
+
+The tutorial (and usually experimenting with Metaparse) requires that you
+evaluate different template metaprogramming expressions and check their result,
+which is a type. Thus, to try the examples of this tutorial you need a way to
+be able to display the result of evaluating a template metaprogram. This section
+shows you two options.
+
+[section 1.2.1. Enforcing an error message or a warning containing the result of
+  the metafunction call]
+
+You can either use `boost::mpl::print` or `mpllibs::metamonad::fail_with_type`
+to enforce a warning or an error message containing the result of a metaprogram
+evaluation. For example to see what
+[link BOOST_METAPARSE_STRING `BOOST_METAPARSE_STRING`]`("11 + 2")` refers to,
+you can create a `test.cpp` with the following content:
+
+  #include <boost/metaparse/string.hpp>
+  #include <boost/mpl/print.hpp>
+
+  boost::mpl::print<BOOST_METAPARSE_STRING("11 + 2")> x;
+
+If you try to compile it, the compiler will display warnings containing the
+type the expression
+[link BOOST_METAPARSE_STRING `BOOST_METAPARSE_STRING`]`("11 + 2")` constructs.
+To use this technique for this tutorial, you need to add all the includes and
+definitions the tutorial suggests typing in the shell to your `test.cpp` file.
+When the shell suggests to try to call some metafunction (or you'd like to try
+something out), you need to replace the template argument of `boost::mpl::print`
+with the expression in question and recompile the code.
+
+[endsect]
+
+[section 1.2.2. Displaying the result of the metafunction call at runtime]
+
+You can also display the result of metaprograms at runtime. You can use the
+[@http://boost.org/libs/type_index Boost.TypeIndex] library to do this. For
+example to see what
+[link BOOST_METAPARSE_STRING `BOOST_METAPARSE_STRING`]`("11 + 2")` refers to,
+you can create a `test.cpp` with the following content:
+
+  #include <boost/metaparse/string.hpp>
+  #include <boost/type_index.hpp>
+  #include <iostream>
+
+  int main()
+  {
+    std::cout
+      << boost::typeindex::type_id_with_cvr<BOOST_METAPARSE_STRING("11 + 2")>()
+      << std::endl;
+  }
+
+If you compile and run this code, it will display the type on the standard
+output.
+
+[endsect]
+
+[endsect]
+
 [endsect]
 
 [section 2. The text to parse]
