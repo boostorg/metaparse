@@ -3,10 +3,10 @@
 
 // Automatically generated header file
 
-// Definitions before section 1.1
-#include "1_1.hpp"
+// Definitions before section 1.2.2
+#include "1_2_2.hpp"
 
-// Definitions of section 1.1
+// Definitions of section 1.2.2
 
 #endif
 
