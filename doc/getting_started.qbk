@@ -48,7 +48,7 @@ be able to display the result of evaluating a template metaprogram. This section
 shows you two options.
 
 [section 1.2.1. Enforcing an error message or a warning containing the result of
-  the metafunction call]
+the metafunction call]
 
 You can either use `boost::mpl::print` or `mpllibs::metamonad::fail_with_type`
 to enforce a warning or an error message containing the result of a metaprogram
@@ -1947,7 +1947,7 @@ Let's try this new expression parser out with a missing closing paren:
 This works as expected now: it tells us that there is a missing paren and it
 points us the open paren which is not closed.
 
-[section 11.3.1 Simplifying the parser]
+[section 11.3.1. Simplifying the parser]
 
 Our parser provides useful error messages for missing closing parens, however,
 the implementation of the parser (`plus_exp4`) is long and repetitive: it
@@ -1995,7 +1995,7 @@ Note that other folding parsers have their `f` versions as well (eg.
 [link foldl_reject_incomplete1 `foldl_reject_incomplete1`], etc).
 
 [endsect]
-[section 11.3.2 Using `foldl_reject_incomplete_start_with_parser` at other places as well]
+[section 11.3.2. Using `foldl_reject_incomplete_start_with_parser` at other places as well]
 
 We have replaced one [link foldl_start_with_parser `foldl_start_with_parser`]
 with
