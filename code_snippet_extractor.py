@@ -6,6 +6,7 @@
 #          http://www.boost.org/LICENSE_1_0.txt)
 
 import sys
+import re
 
 def strip_not_finished_line(s):
   s = s.strip()
@@ -39,7 +40,7 @@ def files_to_write(fn):
           in_copy_paste_friendly_examples = False
           result.append('\n')
           result.extend([
-            '[include {0}_{1}.qbk]\n'.format(fn_base, i) \
+            '[include {0}_{1}.qbk]\n'.format(re.sub('^.*/', '', fn_base), i) \
             for i in range(0, counter)
           ])
           result.append('\n')
@@ -58,15 +59,16 @@ def files_to_write(fn):
             in_cpp_code = False
             if len(code) > 1:
               f = '{0}_{1}'.format(fn_base, counter)
+              basename_f = re.sub('^.*/', '', f)
               files['{0}.qbk'.format(f)] = \
                 '[#{0}]\n\n{1}\n'.format(
-                  f,
+                  basename_f,
                   ''.join(
                     [code_prefix + s for s in make_copy_paste_friendly(code)]
                   )
                 )
               result.append(
-                '[link {0} copy-paste friendly version]\n'.format(f)
+                '[link {0} copy-paste friendly version]\n'.format(basename_f)
               )
               result.append('\n')
               counter = counter + 1
