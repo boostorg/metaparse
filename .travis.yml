@@ -168,8 +168,7 @@ script:
   -   git submodule foreach git checkout master
   -   cd libs
   -     mkdir metaparse
-  -     mv ../../* metaparse
-  -     mv ../../.git metaparse
+  -     mv ../../* ../../.git ../../.travis.yml metaparse
   -   cd ..
   -   cd tools/boostbook
   -      wget http://abel.web.elte.hu/boost_book_dependencies/docbook-xml-4.2.zip
