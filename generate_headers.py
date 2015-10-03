@@ -117,13 +117,13 @@ def main():
   parser.add_argument(
     '--src',
     dest='src',
-    default='../../doc/getting_started.qbk',
+    default='doc/getting_started.qbk',
     help='The .qbk source of the Getting Started guide'
   )
   parser.add_argument(
     '--dst',
     dest='dst',
-    default='.',
+    default='example/getting_started',
     help='The target directory to generate into (all headers in that directory will be deleted!)'
   )
 
