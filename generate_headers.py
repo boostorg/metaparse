@@ -82,34 +82,36 @@ def delete_old_headers(path):
 def gen_headers(md_filename, path):
   (sections, defs) = parse_md(md_filename)
 
-  delete_old_headers(path)
+  files = {}
 
   prev_section = ''
   for s in sections:
     prev_name = prev_section.replace('_', '.')
-    with open(os.path.join(path, s + '.hpp'), 'w') as f:
-      include_guard = 'BOOST_METAPARSE_GETTING_STARTED_%s_HPP' % (s)
-      f.write('#ifndef %s\n' % (include_guard))
-      f.write('#define %s\n' % (include_guard))
-      f.write('\n')
+    include_guard = 'BOOST_METAPARSE_GETTING_STARTED_%s_HPP' % (s)
+    if prev_section == '':
+      prev_include = ''
+    else:
+      prev_include = \
+        '// Definitions before section {0}\n'.format(prev_name) + \
+        '#include "{0}.hpp"\n'.format(prev_section) + \
+        '\n'
 
-      f.write('// Automatically generated header file\n')
-      f.write('\n')
-
-      if prev_section != '':
-        f.write('// Definitions before section %s\n' % (prev_name))
-        f.write('#include "%s.hpp"\n' % (prev_section))
-        f.write('\n')
-
-      f.write('// Definitions of section %s\n' % (prev_name))
-      f.write('\n'.join(
-        ['%s\n' % (d) for (sec, d) in defs if sec == prev_section])
-      )
-      f.write('\n')
-
-      f.write('#endif\n')
-      f.write('\n')
+    files[os.path.join(path, s + '.hpp')] = \
+      '#ifndef {0}\n'.format(include_guard) + \
+      '#define {0}\n'.format(include_guard) + \
+      '\n' + \
+      '// Automatically generated header file\n' + \
+      '\n' + \
+      prev_include + \
+      '// Definitions of section {0}\n'.format(prev_name) + \
+      '\n'.join( \
+        ['%s\n' % (d) for (sec, d) in defs if sec == prev_section] \
+      ) + \
+      '\n' + \
+      '#endif\n' + \
+      '\n'
     prev_section = s
+  return files
 
 def main():
   desc = 'Generate headers with the definitions of a Getting Started guide'
@@ -129,7 +131,12 @@ def main():
 
   args = parser.parse_args()
 
-  gen_headers(args.src, args.dst)
+  delete_old_headers(args.dst)
+  files = gen_headers(args.src, args.dst)
+  for fn in files:
+    with open(fn, 'w') as f:
+      f.write(files[fn])
+
 
 if __name__ == "__main__":
   main()
