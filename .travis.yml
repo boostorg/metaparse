@@ -186,8 +186,7 @@ script:
   -     cd metaparse
   -       echo "Checking if all automatically generated files are up to date"
   -       rm doc/getting_started_*.qbk example/getting_started/*.hpp
-  -       ./code_snippet_extractor.py doc/getting_started.qbk
-  -       ./generate_headers.py
+  -       ./generate_all.py
   -       git add -N .
   -       git diff --exit-code
   -       echo "Building the unit tests and the examples"
