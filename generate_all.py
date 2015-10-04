@@ -34,7 +34,7 @@ def protect_metashell(s):
   else:
     return s
 
-def parse_md(filename):
+def parse_md(qbk):
   sections = []
   defs = []
   current_section = ''
@@ -43,7 +43,7 @@ def parse_md(filename):
   metashell_command = re.compile('^> [^ ]')
   metashell_prompt = re.compile('^(\.\.\.|)>')
   msh_cmd = ''
-  for l in open(filename, 'r'):
+  for l in qbk:
     if l.startswith('  '):
       ll = l[2:]
       if not in_cpp_snippet:
@@ -79,8 +79,8 @@ def delete_old_headers(path):
     if f.endswith('.hpp'):
       os.remove(os.path.join(path, f))
 
-def gen_headers(md_filename, path):
-  (sections, defs) = parse_md(md_filename)
+def gen_headers(qbk, path):
+  (sections, defs) = parse_md(qbk)
 
   files = {}
 
@@ -126,10 +126,9 @@ def make_copy_paste_friendly(lines):
       result[-1] = strip_not_finished_line(result[-1]) + l[5:].lstrip()
   return result
 
-def extract_code_snippets(fn):
+def extract_code_snippets(qbk, fn_base):
   code_prefix = '  '
 
-  fn_base = fn[:-4] if fn.endswith('.qbk') else fn
   files = {}
 
   result = []
@@ -137,7 +136,7 @@ def extract_code_snippets(fn):
   counter = 0
   in_copy_paste_friendly_examples = False
   skip_empty_lines = False
-  for l in open(fn, 'r').readlines():
+  for l in qbk:
     if l.strip() != '' or not skip_empty_lines:
       skip_empty_lines = False
       if in_copy_paste_friendly_examples:
@@ -185,13 +184,15 @@ def extract_code_snippets(fn):
           in_cpp_code = True
           code = [l[len(code_prefix):]]
 
-  files[fn] = ''.join(result)
-  return files
+  return (files, result)
+
+def write_file(fn, content):
+  with open(fn, 'w') as f:
+    f.write(content)
 
 def write_files(files):
   for fn in files:
-    with open(fn, 'w') as f:
-      f.write(files[fn])
+    write_file(fn, files[fn])
 
 def main():
   desc = 'Generate headers with the definitions of a Getting Started guide'
@@ -211,9 +212,20 @@ def main():
 
   args = parser.parse_args()
 
+  qbk = open(args.src, 'r').readlines()
+
   delete_old_headers(args.dst)
-  write_files(gen_headers(args.src, args.dst))
-  write_files(extract_code_snippets(args.src))
+
+  files1 = gen_headers(qbk, args.dst)
+  (files2, qbk) = \
+    extract_code_snippets(
+      qbk,
+      args.src[:-4] if args.src.endswith('.qbk') else args.src
+    )
+
+  write_files(files1)
+  write_files(files2)
+  write_file(args.src, ''.join(qbk))
 
 if __name__ == "__main__":
   main()
