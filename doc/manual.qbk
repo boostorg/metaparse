@@ -529,5 +529,33 @@ Metaparse with parsing libraries based on `constexpr`.
 
 [endsect]
 
+[section What types of grammars can be used?]
+
+It is possible to write parsers for ['context free grammars] using Metaparse.
+However, this is not the most general category of grammars that can be used. As
+Metaparse is a highly extendable framework, it is not clear what should be
+considered to be the limit of Metaparse itself. For example Metaparse provides
+the [link accept_when `accept_when`] [link parser_combinator parser combinator].
+It can be used to provide arbitrary predicates for enabled/disabling a specific
+rule. One can go as far as providing the Turing machine (as a
+[link metafunction metafunction]) of the entire grammar as a predicate, so one
+can build parsers for ['unrestricted grammars] that can be parsed using a Turing
+machine. Note that such a parser would not be considered to be a parser built
+with Metaparse, however, it is not clear how far a solution might go and still
+be considered using Metaparse.
+  
+Metaparse assumes that the parsers are ['deterministic], as they have only "one"
+result. It is of course possible to write parsers and combinators that return a
+set (or list or some other container) of results as that "one" result, but that
+can be considered building a new parser library. There is no clear boundary for
+Metaparse.
+  
+Metaparse supports building ['top-down parsers] and ['left-recursion] is not
+supported as it would lead to infinite recursion. ['Right-recursion] is
+supported, however, in most cases the
+[link repetition iterative parser combinators] provide better alternatives.
+  
+[endsect]
+
 [endsect]
 
