@@ -15,8 +15,8 @@ value. The [link is_error `is_error`] metafunction can be used to determine
 about the result of a parser if it succeeded or failed.
 
 The documentation refers often to the ['result of a parser]. This means that the
-parser accepts the input and refers to what `get_result` returns for the value
-returned by the parser.
+parser accepts the input and refers to what [link get_result `get_result`]
+returns for the value returned by the parser.
 
 [endsect]
 
