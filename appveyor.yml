@@ -5,9 +5,7 @@ configuration: Debug
 clone_folder: c:\build\boost\libs\metaparse
 
 init:
-  - cd c:\
-  - md build
-  - cd build
+  - cd c:\build
   - git clone https://github.com/boostorg/boost.git
   - cd boost
   -   git submodule init --
