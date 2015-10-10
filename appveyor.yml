@@ -56,6 +56,7 @@ init:
         tools/inspect
   -   git submodule update
   -   git submodule foreach git checkout master
+  -   cd libs\metaparse
 
 build_script:
   - cd ..\..
