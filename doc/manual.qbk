@@ -480,6 +480,34 @@ used:
 
 [endsect]
 
+[#result_types]
+[section What can be built from a compile-time string?]
+
+Parsers built using Metaparse are template metaprograms parsing text (or code)
+at compile-time. Here is a list of things that can be the "result" of parsing:
+
+* A ['type]. An example for this is a parser parsing a `printf` format string
+  and returning the typelist (eg. `boost::mpl::vector`) of the expected
+  arguments.
+* A ['constant value]. An example for this is the result of a calculator
+  language. See the [link getting_started Getting Started] section for further
+  details.
+* A ['runtime object]. A static runtime object can be generated that might be
+  used at runtime. An example for this is parsing regular expressions at
+  compile-time and building `boost::xpressive::sregex` objects. See the
+  `regex` example of Metaparse for an example.
+* A C++ ['function], which might be called at runtime. A C++ function can be
+  generated that can be called at runtime. It is good for generating native
+  (and optimisied) code from EDSLs. See the `compile_to_native_code` example of
+  Metaparse as an example for this.
+* A [link metafunction_class ['template metafunction class]]. The result of
+  parsing might be a type, which is a
+  [link metafunction_class template metafunction class]. This is good for
+  building an EDSL for template metaprogramming. See the `meta_hs` example of
+  Metaparse as an example for this.
+
+[endsect]
+
 [section Grammars]
 
 Metaparse provides a way to define grammars in a syntax that resembles EBNF. The
