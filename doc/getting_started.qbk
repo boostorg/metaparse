@@ -121,6 +121,13 @@ Metaparse provides this type for you. Run the following command in Metashell:
   > #include <boost/metaparse/string.hpp>
 
 [note
+Note that the `>` character at the beginning of the above code example is the
+prompt of Metashell. It is added to the code examples as a hint to what you
+should run in Metashell (or add to your test `cpp` file if you are using a
+regular development environment).
+]
+
+[note
 Note that in the [@http://abel.web.elte.hu/shell/metashell.html online-demo]
 of Metashell you can paste code into the shell by right-clicking on the shell
 somewhere and choosing ['Paste from browser] in the context menu.
@@ -443,6 +450,14 @@ this [link metafunction metafunction]:
   ...>   > {};
 
 [link getting_started_2 copy-paste friendly version]
+
+[note
+Note that if the last character of your command is the `\` character in
+Metashell, then the shell assumes that you will continue typing the same command
+and waits for that before evaluating your command. When Metashell is waiting for
+the second (or third, or fourth, etc) line of a command, it uses a special
+prompt, `...>`.
+]
 
 What it does is that using `boost::mpl::at_c` it takes the first (index 0) and
 the third (index 2) elements of the `vector` that is the result of parsing with
