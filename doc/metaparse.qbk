@@ -37,7 +37,9 @@ for further details.
 
 Based on C++11 features the library can provide advanced utilities for defining
 the input string, the rest of the library works on C++98-based compilers as
-well.
+well. Note that if you build the tests and examples with Boost.Build using GCC
+or Clang, the compiler will not have C++11 (or newer) enabled. To build the
+tests and examples in C++11-mode, you need to run `b2 cxxflags="-std=c++11"`.
 
 An external tutorial can be found at
 [@https://github.com/sabel83/metaparse_tutorial#metaparse-tutorial https://github.com/sabel83/metaparse_tutorial#metaparse-tutorial]
