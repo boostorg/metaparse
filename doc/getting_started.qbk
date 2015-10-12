@@ -16,8 +16,17 @@ into a type. These types can later be processed by further template
 metaprograms. While you are working on your parsers, you'll probably want to
 look at the result of parsing a test input. This tutorial assumes that you can
 use [@https://github.com/sabel83/metashell Metashell]. Since the
-[@http://abel.web.elte.hu/shell/metashell.html online demo] makes the Mpllibs
+[@http://abel.web.elte.hu/shell/metashell.html online demo] makes the Boost
 headers available, you can use that in the tutorial as well.
+
+If you install Metashell on your computer, make sure that you have the Boost
+libraries and the `getting_started` example of Metaparse on the include path.
+For example, you can start Metashell with the following arguments:
+
+  $ metashell -I$BOOST_ROOT -I$BOOST_ROOT/libs/metaparse/example/getting_started
+
+`$BOOST_ROOT` refers to the the ['boost root directory] (where you have checked
+out the Boost source code).
 
 This tutorial is long and therefore you might want to make shorter or longer
 breaks while reading it. To make it easy for you to stop at a certain point and
