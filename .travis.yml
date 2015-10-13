@@ -191,9 +191,9 @@ script:
   -       git diff --exit-code
   -       echo "Building the unit tests and the examples"
   -       cd build
-  -         ../../../b2 -d+2 cxxflags="${STDARG} -ftemplate-depth=512"
+  -         ../../../b2 -d+2 cxxflags="${STDARG}"
   -         sed -i 's/#include <boost\/metaparse\/[^/]*\.hpp>/#include <boost\/metaparse.hpp>/' ../test/*.?pp
-  -         ../../../b2 -d+2 cxxflags="${STDARG} -ftemplate-depth=512"
+  -         ../../../b2 -d+2 cxxflags="${STDARG}"
   -       cd ..
   -       echo "Generating the documentation"
   -       cd doc
