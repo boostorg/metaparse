@@ -45,7 +45,7 @@ debug_parsing_error<test_parser, invalid_input> debug;
 int main()
 {
   // This causes an error
-  // apply<TestParser, invalid_input>::type();
+  // apply<test_parser, invalid_input>::type();
 }
 
 
