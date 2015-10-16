@@ -15,6 +15,7 @@
 #include <boost/metaparse/entire_input.hpp>
 #include <boost/metaparse/string.hpp>
 
+#include <boost/detail/iterator.hpp>
 #include <boost/xpressive/xpressive.hpp>
 
 #include <boost/mpl/bool.hpp>
