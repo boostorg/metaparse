@@ -337,7 +337,7 @@ the elements with the above [link foldl `foldl`]-based solution and add the
 result of the two. This is left as an exercise to the reader.
 
 Metaparse offers [link foldl_start_with_parser `foldl_start_with_parser`] to
-implement this. [link foldl_start_wtih_parser `foldl_start_wtih_parser`] is the
+implement this. [link foldl_start_with_parser `foldl_start_with_parser`] is the
 same as [link foldl `foldl`]. The difference is that instead of an initial value
 to combine the list elements with it takes an ['initial parser]:
 
