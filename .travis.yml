@@ -100,7 +100,7 @@ matrix:
       install:
         - "echo \"using gcc : 4.9 : g++-4.9 ;\" > ~/user-config.jam"
 script:
-  - if [ "${STD}" ]; then STDARG="-std=${STD}"; fi
+  - if [ "${STD}" ]; then CXXFLAGS="cxxflags=\"-std=${STD}\""; fi
   - echo "using doxygen ;" >> ~/user-config.jam
   - echo "using xsltproc ;" >> ~/user-config.jam
   - echo "using quickbook ;" >> ~/user-config.jam
@@ -191,9 +191,9 @@ script:
   -       git diff --exit-code
   -       echo "Building the unit tests and the examples"
   -       cd build
-  -         ../../../b2 -d+2 cxxflags="${STDARG}"
+  -         ../../../b2 -d+2 ${CXXFLAGS}
   -         sed -i 's/#include <boost\/metaparse\/[^/]*\.hpp>/#include <boost\/metaparse.hpp>/' ../test/*.?pp
-  -         ../../../b2 -d+2 cxxflags="${STDARG}"
+  -         ../../../b2 -d+2 ${CXXFLAGS}
   -       cd ..
   -       echo "Generating the documentation"
   -       cd doc
