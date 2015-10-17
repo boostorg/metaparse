@@ -124,7 +124,6 @@ def make_code_snippet(s):
 
 def what_we_have_so_far_docs(doc_dir, qbk, defs, sections):
   files = {}
-  result = []
   so_far = ''
   sections_with_definition = []
   for s in sections:
@@ -150,6 +149,7 @@ def what_we_have_so_far_docs(doc_dir, qbk, defs, sections):
 
   in_definitions_before_each_section = False
 
+  result = []
   for l in qbk:
     if in_definitions_before_each_section:
       if l.strip() == '[endsect]':
@@ -170,7 +170,7 @@ def what_we_have_so_far_docs(doc_dir, qbk, defs, sections):
         if section_number in sections_with_definition:
           result.append('{0}{1} here].]\n'.format(note_prefix, section_number))
 
-  return (files, ''.join(result))
+  return (files, result)
 
 def strip_not_finished_line(s):
   s = s.strip()
