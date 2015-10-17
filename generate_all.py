@@ -79,9 +79,7 @@ def delete_old_headers(path):
     if f.endswith('.hpp'):
       os.remove(os.path.join(path, f))
 
-def gen_headers(qbk, path):
-  (sections, defs) = parse_md(qbk)
-
+def gen_headers(sections, defs, path):
   files = {}
 
   prev_section = ''
@@ -112,6 +110,67 @@ def gen_headers(qbk, path):
       '\n'
     prev_section = s
   return files
+
+def remove_metashell_protection(s):
+  prefix = '#ifdef __METASHELL\n'
+  suffix = '#endif'
+  return \
+    s[len(prefix):-len(suffix)] \
+    if s.startswith(prefix) and s.endswith(suffix) \
+    else s
+
+def make_code_snippet(s):
+  return '\n'.join(['  {0}'.format(l) for l in s.split('\n')])
+
+def what_we_have_so_far_docs(doc_dir, qbk, defs, sections):
+  files = {}
+  result = []
+  so_far = ''
+  sections_with_definition = []
+  for s in sections:
+    if so_far != '':
+      files[os.path.join(doc_dir, 'before_{0}.qbk'.format(s))] = \
+        '[#before_{0}]\n[\'Definitions before section {1}]\n\n{2}\n'.format(
+          s,
+          s.replace('_', '.') + '.',
+          so_far
+        )
+      sections_with_definition.append(s)
+
+    so_far = so_far + '\n'.join([
+      '{0}\n'.format(make_code_snippet(remove_metashell_protection(d)))
+      for (sec, d) in defs
+      if sec == s and not d.startswith('//')
+    ])
+
+  is_section = re.compile('^\[section (([0-9]\.)+)')
+  note_prefix = \
+    '[note Note that you can find everything that has been included and' \
+    ' defined so far [link before_'
+
+  in_definitions_before_each_section = False
+
+  for l in qbk:
+    if in_definitions_before_each_section:
+      if l.strip() == '[endsect]':
+        in_definitions_before_each_section = False
+        result.append(l)
+    elif l.strip() == '[section Definitions before each section]':
+      in_definitions_before_each_section = True
+      result.append(l)
+      result.append('\n')
+      for s in sections_with_definition:
+        result.append('[include before_{0}.qbk]\n'.format(s))
+      result.append('\n')
+    elif not l.startswith(note_prefix):
+      result.append(l)
+      m = is_section.match(l)
+      if m:
+        section_number = m.group(1).replace('.', '_')[:-1]
+        if section_number in sections_with_definition:
+          result.append('{0}{1} here].]\n'.format(note_prefix, section_number))
+
+  return (files, ''.join(result))
 
 def strip_not_finished_line(s):
   s = s.strip()
@@ -215,9 +274,12 @@ def main():
   qbk = open(args.src, 'r').readlines()
 
   delete_old_headers(args.dst)
+  doc_dir = os.path.dirname(args.src)
 
-  files1 = gen_headers(qbk, args.dst)
-  (files2, qbk) = \
+  (sections, defs) = parse_md(qbk)
+  files1 = gen_headers(sections, defs, args.dst)
+  (files2, qbk) = what_we_have_so_far_docs(doc_dir, qbk, defs, sections)
+  (files3, qbk) = \
     extract_code_snippets(
       qbk,
       args.src[:-4] if args.src.endswith('.qbk') else args.src
@@ -225,6 +287,7 @@ def main():
 
   write_files(files1)
   write_files(files2)
+  write_files(files3)
   write_file(args.src, ''.join(qbk))
 
 if __name__ == "__main__":

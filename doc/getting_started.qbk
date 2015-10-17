@@ -169,6 +169,7 @@ You will get the same result as you got by instantiating
 [endsect]
 
 [section 3. Creating a simple parser]
+[note Note that you can find everything that has been included and defined so far [link before_3 here].]
 
 Let's try creating a parser. We will start with creating a parser for something
 simple: we will be parsing integer numbers, such as the text `"13"`. You can
@@ -234,6 +235,7 @@ the number in the string. Try it with different numbers and see how it converts
 them.
 
 [section 3.1. Dealing with invalid input]
+[note Note that you can find everything that has been included and defined so far [link before_3_1 here].]
 
 Have you tried parsing an invalid input? Something that is not a number, such
 as:
@@ -251,6 +253,7 @@ will go into further details on error handling.
 [endsect]
 
 [section 3.2. Dealing with input containing more than what is needed]
+[note Note that you can find everything that has been included and defined so far [link before_3_2 here].]
 
 Let's try to give the parser two numbers instead of one:
 
@@ -292,6 +295,7 @@ This generates a compilation error, since the parser failed.
 [endsect]
 
 [section 3.3. Accepting optional whitespaces at the end of the input]
+[note Note that you can find everything that has been included and defined so far [link before_3_3 here].]
 
 Our parser became a bit too
 restrictive now. It doesn't allow ['anything] after the number, not even
@@ -322,6 +326,7 @@ nothing else:
 [endsect]
 
 [section 4. Parsing simple expressions]
+[note Note that you can find everything that has been included and defined so far [link before_4 here].]
 
 We can parse numbers. Let's try parsing something more complicated, such as
 `"11 + 2"`. This is a number followed by a `+` symbol followed by another
@@ -388,6 +393,7 @@ The result of parsing with a [link sequence `sequence`] is the `vector` of the
 individual parsing results.
 
 [section 4.1. Tokenizer]
+[note Note that you can find everything that has been included and defined so far [link before_4_1 here].]
 
 You might have noticed that our parsers have no separate tokenizers.
 Tokenization is part of the parsing process. However, it makes the code of the
@@ -430,6 +436,7 @@ We can use it the same way as `exp_parser4`:
 [endsect]
 
 [section 4.2. Evaluating the expression]
+[note Note that you can find everything that has been included and defined so far [link before_4_2 here].]
 
 It would be nice if we could evaluate the expression as well. Instead of
 returning a `vector` as the result of parsing, we should return the evaluated
@@ -530,12 +537,14 @@ parser.
 [endsect]
 
 [section 5. Parsing longer expressions]
+[note Note that you can find everything that has been included and defined so far [link before_5 here].]
 
 We can parse simple expressions adding two numbers together. But we can't parse
 expressions adding three, four or maybe more numbers together. In this section
 we will implement a parser for expressions adding lots of numbers together.
 
 [section 5.1. Parsing a subexpression repeatedly]
+[note Note that you can find everything that has been included and defined so far [link before_5_1 here].]
 
 We can't solve this problem with [link sequence `sequence`], since we don't
 know how many numbers the input will have. We need a parser that:
@@ -613,6 +622,7 @@ another `vector`, which is the result of parsing.
 [endsect]
 
 [section 5.2. Evaluating the parsed expression]
+[note Note that you can find everything that has been included and defined so far [link before_5_2 here].]
 
 The final result here is a pair of the first number and the `vector` of the rest
 of the values. To calculate the result we need to process that data structure.
@@ -625,6 +635,7 @@ Now we can write a [link metafunction template metafunction] turning this
 structure into the result of the calculation this structure represents.
 
 [section 5.2.1. Learning about `boost::mpl::fold`]
+[note Note that you can find everything that has been included and defined so far [link before_5_2_1 here].]
 
 We have a `vector` containing
 another `vector`. Therefore, we will need to be able to summarise the elements
@@ -813,6 +824,7 @@ shows how the subresults are calculated and then used for further calculations.
 [endsect]
 
 [section 5.2.2. Evaluating the expression using `boost::mpl::fold`]
+[note Note that you can find everything that has been included and defined so far [link before_5_2_2 here].]
 
 Let's use `sum_items` with `boost::mpl::fold` to build the parser that
 summarises the values coming from the `+ <number>` elements. We can extend the
@@ -910,6 +922,7 @@ stopped at the bottom of the recursive chain.
 [endsect]
 
 [section 5.2.3. Using a folding parser combinator]
+[note Note that you can find everything that has been included and defined so far [link before_5_2_3 here].]
 
 It would be nice, if the two loops could be merged together and the temporary
 `vector` wouldn't have to be built in the middle (don't forget: there is no
@@ -994,6 +1007,7 @@ the difference:
 [endsect]
 
 [section 5.2.4. Processing the initial element with the folding parser combinator]
+[note Note that you can find everything that has been included and defined so far [link before_5_2_4 here].]
 
 This solution can still be improved. The [link foldl `foldl`] summarising the
 `+ <number>` elements starts from `0` and once this is done, we add the value of
@@ -1042,12 +1056,14 @@ a diagram showing how this implementation works:
 [endsect]
 
 [section 6. Adding support for other operators]
+[note Note that you can find everything that has been included and defined so far [link before_6 here].]
 
 Our parsers now support expressions adding numbers together. In this section we
 will add support for the `-` operator, so expressions like `1 + 2 - 3` can be
 evaluated.
 
 [section 6.1. Parsing expressions containing `-` operators]
+[note Note that you can find everything that has been included and defined so far [link before_6_1 here].]
 
 Currently we use the `plus_token` for parsing "the" operator, which has to be
 `+`. We can define a new token for parsing the `-` symbol:
@@ -1096,6 +1112,7 @@ we summarise with ignores which operator was used and assumes that it is always
 [endsect]
 
 [section 6.2. Evaluating expressions containing `-` operators]
+[note Note that you can find everything that has been included and defined so far [link before_6_2 here].]
 
 To fix the evaluation of expressions containing subtractions, we need to fix
 the function we use for summarising. We need to write a version that takes the
@@ -1208,10 +1225,12 @@ It returns the correct result.
 [endsect]
 
 [section 7. Dealing with precedence]
+[note Note that you can find everything that has been included and defined so far [link before_7 here].]
 
 We support addition and subtraction. Let's support multiplication as well.
 
 [section 7.1. Adding support for the `*` operator]
+[note Note that you can find everything that has been included and defined so far [link before_7_1 here].]
 
 We can extend the solution we have built for addition and subtraction. To do
 that, we need to add support for multiplication to `eval_binary_op`:
@@ -1265,6 +1284,7 @@ multiplication.
 [endsect]
 
 [section 7.2. Adding support for precedence of operators]
+[note Note that you can find everything that has been included and defined so far [link before_7_2 here].]
 
 Let's make it possible for different operators to have different precedence. To
 do this, we define a new parser for parsing expressions containing only `*`
@@ -1319,6 +1339,7 @@ of the operators.
 [endsect]
 
 [section 8. Dealing with associativity]
+[note Note that you can find everything that has been included and defined so far [link before_8 here].]
 
 Let's add division to our calculator language. Since it has the same precedence
 as multiplication, it should be added to that layer:
@@ -1369,6 +1390,7 @@ Try to guess which result our current implementation gives before trying it
 out. Once you have verified the current behaviour, continue reading.
 
 [section 8.1. Understanding the current implementation]
+[note Note that you can find everything that has been included and defined so far [link before_8_1 here].]
 
 Here is a diagram showing how our current parser processes the expression
 `8 / 4 / 2`:
@@ -1385,6 +1407,7 @@ Another thing to note is that the initial value is `8` and the list of values
 [endsect]
 
 [section 8.2. Folding in reverse order]
+[note Note that you can find everything that has been included and defined so far [link before_8_2 here].]
 
 [link foldl `foldl`] applies a parser repeatedly and iterates over the parsing
 results from ['left] to right. (This is where the `l` in the name comes from).
@@ -1512,6 +1535,7 @@ can be used you should prefer folding from left to right.
 [endsect]
 
 [section 9. Dealing with unary operators]
+[note Note that you can find everything that has been included and defined so far [link before_9 here].]
 
 Our calculator language provides no direct support for negative numbers. To get
 a negative number, we need to do a subtraction. For example to get the number
@@ -2137,6 +2161,43 @@ situations.
 [include getting_started_38.qbk]
 [include getting_started_39.qbk]
 [include getting_started_40.qbk]
+
+[section Definitions before each section]
+
+[include before_3.qbk]
+[include before_3_1.qbk]
+[include before_3_2.qbk]
+[include before_3_3.qbk]
+[include before_4.qbk]
+[include before_4_1.qbk]
+[include before_4_2.qbk]
+[include before_5.qbk]
+[include before_5_1.qbk]
+[include before_5_2.qbk]
+[include before_5_2_1.qbk]
+[include before_5_2_2.qbk]
+[include before_5_2_3.qbk]
+[include before_5_2_4.qbk]
+[include before_6.qbk]
+[include before_6_1.qbk]
+[include before_6_2.qbk]
+[include before_7.qbk]
+[include before_7_1.qbk]
+[include before_7_2.qbk]
+[include before_8.qbk]
+[include before_8_1.qbk]
+[include before_8_2.qbk]
+[include before_9.qbk]
+[include before_10.qbk]
+[include before_11.qbk]
+[include before_11_1.qbk]
+[include before_11_2.qbk]
+[include before_11_3.qbk]
+[include before_11_3_1.qbk]
+[include before_11_3_2.qbk]
+[include before_12.qbk]
+
+[endsect]
 
 [endsect]
 
