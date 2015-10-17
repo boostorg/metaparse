@@ -2162,6 +2162,8 @@ situations.
 [include getting_started_39.qbk]
 [include getting_started_40.qbk]
 
+[endsect]
+
 [section Definitions before each section]
 
 [include before_3.qbk]
@@ -2196,8 +2198,6 @@ situations.
 [include before_11_3_1.qbk]
 [include before_11_3_2.qbk]
 [include before_12.qbk]
-
-[endsect]
 
 [endsect]
 
