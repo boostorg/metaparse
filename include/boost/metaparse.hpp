@@ -117,6 +117,7 @@
 #include <boost/metaparse/util/is_ucase_letter.hpp>
 #include <boost/metaparse/util/is_whitespace_c.hpp>
 #include <boost/metaparse/util/is_whitespace.hpp>
+#include <boost/metaparse/version.hpp>
 
 #endif
 

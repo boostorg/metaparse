@@ -209,6 +209,7 @@ choosing among the `fold*` parsers.
 * [link build_parser build_parser]
 * [link debug_parsing_error debug_parsing_error]
 * [link BOOST_METAPARSE_DEFINE_ERROR BOOST_METAPARSE_DEFINE_ERROR]
+* [link BOOST_METAPARSE_VERSION BOOST_METAPARSE_VERSION]
 * [link unless_error unless_error]
 
 Metaparse uses a number of general purpose metafunctions and metafunction
@@ -256,6 +257,7 @@ classes.
 [include always.qbk]
 [include BOOST_METAPARSE_DEFINE_ERROR.qbk]
 [include BOOST_METAPARSE_STRING.qbk]
+[include BOOST_METAPARSE_VERSION.qbk]
 [include boxed_value.qbk]
 [include build_parser.qbk]
 [include change_error_message.qbk]

@@ -107,4 +107,5 @@ test-suite metaparse-unit-tests :
   [ compile unless_error.cpp ]
   [ compile unpaired.cpp ]
   [ compile update_c.cpp ]
+  [ compile version.cpp ]
   ;
