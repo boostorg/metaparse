@@ -520,7 +520,7 @@ the result of that using `eval_plus`. Let's try it out:
 We have created a simple expression parser. The following diagram shows how it
 works:
 
-[$tutorial_diag0.png [width 50%]]
+[$images/metaparse/tutorial_diag0.png [width 50%]]
 
 The rounded boxes in the diagram are the parsers parsing the input, which are
 functions ([link metafunction_class template metafunction class]es). The arrows
@@ -611,7 +611,7 @@ result of parsing the input with
 [link sequence `sequence`]`<plus_token, int_token>` once. Here is a diagram
 showing how `exp_parser7` parses the input `1 + 2 + 3 + 4`:
 
-[$tutorial_diag1.png [width 90%]]
+[$images/metaparse/tutorial_diag1.png [width 90%]]
 
 The diagram shows that the `+ <number>` elements are parsed by
 [link sequence `sequence`]`<plus_token, int_token>` elements and their results
@@ -707,7 +707,7 @@ Let's try this [link metafunction metafunction] out:
 
 It works as expected. Here is a diagram showing how it works:
 
-[$tutorial_diag2.png [width 50%]]
+[$images/metaparse/tutorial_diag2.png [width 50%]]
 
 As the diagram shows, `boost::mpl::fold` evaluates the lambda expression for
 each element of the `vector` and passes the result of the previous evaluation to
@@ -815,7 +815,7 @@ able to do this, we need to turn it into a
 As we have seen, the result of this is the sum of the elements, which was `9` in
 our case. Here is a diagram showing how `boost::mpl::fold` works:
 
-[$tutorial_diag3.png [width 50%]]
+[$images/metaparse/tutorial_diag3.png [width 50%]]
 
 It starts with the value `boost::mpl::int_<0>` and adds the elements of the
 `boost_::mpl::vector` containing the parsing results one by one. The diagram
@@ -902,7 +902,7 @@ of that two element `vector` together. Since that two element `vector` is a
 
 It gives us the correct result, but it is very inefficient. Let's see why:
 
-[$tutorial_diag4.png [width 90%]]
+[$images/metaparse/tutorial_diag4.png [width 90%]]
 
 There are two loops in this process:
 
@@ -994,7 +994,7 @@ value (`boost::mpl::int_<0>`) and callback function (`sum_items`) could be used.
 
 Here is a diagram showing how `exp_parser10` works:
 
-[$tutorial_diag5.png [width 90%]]
+[$images/metaparse/tutorial_diag5.png [width 90%]]
 
 In this case, the results of the
 [link sequence `sequence`]`<plus_token, int_token>` parsers are passed directly
@@ -1002,7 +1002,7 @@ to a folding algorithm without an intermediate `vector`. Here is a diagram
 showing `exp_parser9` and `exp_parser10` side-by-side to make it easier to see
 the difference:
 
-[$tutorial_diag6.png [width 90%]]
+[$images/metaparse/tutorial_diag6.png [width 90%]]
 
 [endsect]
 
@@ -1047,7 +1047,7 @@ used as the initial value for the summary. Let's try it out:
 It returns the same result as the earlier version but works differently. Here is
 a diagram showing how this implementation works:
 
-[$tutorial_diag7.png [width 90%]]
+[$images/metaparse/tutorial_diag7.png [width 90%]]
 
 [endsect]
 
@@ -1323,7 +1323,7 @@ Let's try it out:
 This takes the precedence rules into account. The following diagram shows how it
 works:
 
-[$tutorial_diag8.png [width 80%]]
+[$images/metaparse/tutorial_diag8.png [width 80%]]
 
 Subexpressions using `*` operators only are evaluated (by `mult_exp1`) and
 treated as single units while interpreting expressions using `+` and `-`
@@ -1395,7 +1395,7 @@ out. Once you have verified the current behaviour, continue reading.
 Here is a diagram showing how our current parser processes the expression
 `8 / 4 / 2`:
 
-[$tutorial_diag8.png [width 70%]]
+[$images/metaparse/tutorial_diag8.png [width 70%]]
 
 It takes the first number, `8`, divides it by the second one, `4` and then it
 divides the result with the third one, `2`. This means, that in our current
@@ -1512,12 +1512,12 @@ when division is right associative, which means that the above expression is
 evaluated as `8 / (4 / 2)`. Here is a diagram showing how the
 [link foldr_start_with_parser `foldr_start_with_parser`]-based solution works:
 
-[$tutorial_diag10.png [width 70%]]
+[$images/metaparse/tutorial_diag10.png [width 70%]]
 
 To make it easier to compare the two solutions, here is a diagram showing the
 two approaches side-by-side:
 
-[$tutorial_diag11.png [width 100%]]
+[$images/metaparse/tutorial_diag11.png [width 100%]]
 
 As we have seen, the associativity of the operators can be controlled by
 choosing between folding solutions. The folding solutions going from left to

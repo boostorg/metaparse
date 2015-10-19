@@ -26,7 +26,7 @@ Here is a diagram showing how `repeated` works by example:
 
   using int_token = token<int_>;
 
-[$repeated_diag1.png [width 70%]]
+[$images/metaparse/repeated_diag1.png [width 70%]]
 
 Further details can be found in the [link repetition Repetition] section
 of the [link manual User Manual].

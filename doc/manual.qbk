@@ -134,14 +134,14 @@ For example parsing
 Our example input is a list of numbers. Each number can be parsed by
 `int_token`:
 
-[$repeated_diag0.png [width 70%]]
+[$images/metaparse/repeated_diag0.png [width 70%]]
 
 This diagram shows how the repeated application of `int_token` can parse the
 example input. Metaparse provides the [link repeated `repeated`] parser to
 easily implement this. The result of parsing is a typelist: the list of the
 individual numbers.
 
-[$repeated_diag1.png [width 70%]]
+[$images/metaparse/repeated_diag1.png [width 70%]]
 
 This diagram shows how [link repeated `repeated`]`<int_token>` works. It uses
 the `int_token` parser repeatedly and builds a `boost::mpl::vector` from the
@@ -166,7 +166,7 @@ The  [link transform `transform`]`<>` parser combinator wraps the
 [link repeated `repeated`]`<int_token>` to build the parser we need. Here is a
 diagram showing how it works:
 
-[$repeated_diag2.png [width 70%]]
+[$images/metaparse/repeated_diag2.png [width 70%]]
 
 As the diagram shows, the
 [link transform `transform`]`<`[link repeated `repeated`]`<int_token>, ...>`
@@ -191,7 +191,7 @@ that:
 
 Here is an extended version of the above diagram showing what happens here:
 
-[$repeated_diag3.png [width 70%]]
+[$images/metaparse/repeated_diag3.png [width 70%]]
 
 This example parses the input, builds the list of numbers and then loops over it
 and summarises the values. It starts with the second argument of `fold`,
@@ -236,7 +236,7 @@ As you can see the implementation of the parser is more compact.
 Here is a diagram showing what happens when you use this parser to parse some
 input:
 
-[$foldl_diag1.png [width 70%]]
+[$images/metaparse/foldl_diag1.png [width 70%]]
 
 As you can see, not only the implementation of the parser is more compact, but
 it achieves the same result by doing less as well. It parses the input by
@@ -244,7 +244,7 @@ applying `int_token` repeatedly, just like the previous solution. But it
 produces the final result without buliding a typelist as an internal step. Here
 is how it works internally:
 
-[$foldl_diag2.png [width 70%]]
+[$images/metaparse/foldl_diag2.png [width 70%]]
 
 It summarises the results of the repeated `int_token` application using
 `sum_op`. This implementation is more efficient. It accepts an empty string as a
@@ -271,7 +271,7 @@ direction in which the results are summarised. (`l` stands for ['from the Left]
 and `r` stands for ['from the Right]) Here is a diagram showing how
 `better_sum_parser` works if it is implemented using [link foldr `foldr`]:
 
-[$foldr_diag1.png [width 70%]]
+[$images/metaparse/foldr_diag1.png [width 70%]]
 
 As you can see this is very similar to using [link foldl `foldl`], but the
 results coming out of the individual applications of `int_token` are summarised
@@ -352,7 +352,7 @@ folding. It does the same as [link foldl `foldl`] after that. The following
 diagram shows how it can be used to parse a list of numbers separated by `+`
 symbols:
 
-[$foldl_start_with_parser_diag1.png [width 70%]]
+[$images/metaparse/foldl_start_with_parser_diag1.png [width 70%]]
 
 As the diagram shows, it start parsing the list of numbers with `int_token`,
 uses its value as the starting value for folding (earlier approaches were using
@@ -387,7 +387,7 @@ the initial value for folding comes from is used after `int_plus` has parsed the
 input as many times as it could. It might sound strange for the first time, but
 the following diagram should help you understand how it works:
 
-[$foldr_start_with_parser_diag1.png [width 70%]]
+[$images/metaparse/foldr_start_with_parser_diag1.png [width 70%]]
 
 As you can see, it starts with the parser that is applied repeatedly on the
 input, thus instead of parsing `plus_token int_token` repeatedly, we need to
@@ -445,7 +445,7 @@ assumes, that the expression's author intended to make the repetition longer,
 but made a mistake and propagates the error message coming from that last broken
 expression.
 
-[$foldl_reject_incomplete_start_with_parser_diag1.png [width 70%]]
+[$images/metaparse/foldl_reject_incomplete_start_with_parser_diag1.png [width 70%]]
 
 The above diagram shows how
 [link foldl_reject_incomplete_start_with_parser `foldl_reject_incomplete_start_with_parser`]
@@ -465,7 +465,7 @@ As you might have noticed, there are a lot of different folding parser
 combinators. To help you find the right one, the following naming convention is
 used:
 
-[$folds.png [width 70%]]
+[$images/metaparse/folds.png [width 70%]]
 
 [note
   Note that there is no `foldr_reject_incomplete_start_with_parser`. The `p`

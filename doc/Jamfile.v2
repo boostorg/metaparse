@@ -1,6 +1,24 @@
 using quickbook ;
 
+#import os ;
+
+# Code snippet from Accumulators' Jamfile to copy the images.
+#
+IMAGES_DST = html/images/metaparse ;
+
+path-constant IMAGES : images ;
+
+actions copy-pngs
+{
+  echo "Copying images of Metaparse documentation"
+  mkdir -p $(IMAGES_DST)
+  cp $(IMAGES)/*.png $(IMAGES_DST)
+  echo "Images copied" > "$(<)"
+}
+
 xml metaparse : metaparse.qbk ;
+
+make images_copied : metaparse : @copy-pngs ;
 
 boostbook standalone
     :
@@ -8,14 +26,13 @@ boostbook standalone
     :
       <xsl:param>boost.root=../../../..
       <xsl:param>chapter.autolabel=0
-      <xsl:param>chunk.section.depth=8
+      <xsl:param>chunk.section.depth=1
       <xsl:param>toc.section.depth=2
       <xsl:param>toc.max.depth=2
       <xsl:param>generate.section.toc.level=1
+      <dependency>images_copied
     ;
 
 install html : ../../../doc/src/boostbook.css ;
 install ../ : ../../../boost.png ;
-
-install images : [ glob images/*.png ] : <location>html ;
 

@@ -29,7 +29,7 @@ Here is a diagram showing how `foldl_start_with_parser` works by example:
   using plus_int = last_of<plus_token, int_token>;
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
 
-[$foldl_start_with_parser_diag1.png [width 70%]]
+[$images/metaparse/foldl_start_with_parser_diag1.png [width 70%]]
 
 Further details can be found in the
 [link introducing-foldl_start_with_parser Introducing foldl_start_with_parser]

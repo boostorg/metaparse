@@ -30,7 +30,7 @@ Here is a diagram showing how `foldr` works by example:
   using int_token = token<int_>;
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
 
-[$foldr_diag1.png [width 70%]]
+[$images/metaparse/foldr_diag1.png [width 70%]]
 
 Further details can be found in the [link introducing-foldr Introducing foldr]
 section of the [link manual User Manual].

@@ -29,7 +29,7 @@ Here is a diagram showing how `repeated_reject_incomplete` works by example:
   using plus_int = last_of<plus_token, int_token>;
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
 
-[$repeated_reject_incomplete_diag1.png [width 70%]]
+[$images/metaparse/repeated_reject_incomplete_diag1.png [width 70%]]
 
 [h1 Header]
 

@@ -31,7 +31,7 @@ Here is a diagram showing how `foldr_start_with_parser` works by example:
   using int_plus = first_of<int_token, plus_token>;
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
 
-[$foldr_start_with_parser_diag1.png [width 70%]]
+[$images/metaparse/foldr_start_with_parser_diag1.png [width 70%]]
 
 Further details can be found in the
 [link introducing-foldr_start_with_parser Introducing foldr_start_with_parser]

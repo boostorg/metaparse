@@ -30,7 +30,7 @@ Here is a diagram showing how `foldl` works by example:
   using int_token = token<int_>;
   using sum_op = mpl::lambda<mpl::plus<mpl::_1, mpl::_2>>::type;
 
-[$foldl_diag2.png [width 70%]]
+[$images/metaparse/foldl_diag2.png [width 70%]]
 
 Further details can be found in the [link introducing-foldl Introducing foldl]
 section of the [link manual User Manual].
