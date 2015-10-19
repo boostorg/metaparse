@@ -82,7 +82,6 @@ choosing among the `fold*` parsers.
 * [link foldl_reject_incomplete1 foldl_reject_incomplete1]
 * [link foldl_reject_incomplete_start_with_parser foldl_reject_incomplete_start_with_parser]
 * [link foldl_start_with_parser foldl_start_with_parser]
-* [link foldl_start_with_parser foldl_start_with_parser]
 * [link foldr foldr]
 * [link foldr1 foldr1]
 * [link foldr_reject_incomplete foldr_reject_incomplete]
