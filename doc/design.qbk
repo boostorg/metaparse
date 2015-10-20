@@ -31,8 +31,8 @@ The key components of the library:
 * [*Why template metaprogramming?]
 
 An alternative is using `constexpr` functions instead of template metaprograms.
-There are ceratin things that are difficult (if possible) using `constexpr`
-functions: building containers (at compile-time) the lenght of which depend on
+There are certain things that are difficult (if possible) using `constexpr`
+functions: building containers (at compile-time) the length of which depend on
 the parsed text (eg. parsing a JSON list), generating and validating types (eg.
 `printf`).
 

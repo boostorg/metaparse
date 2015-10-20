@@ -16,7 +16,7 @@ This is a [link parser_combinator parser combinator].
 
 [h1 Description]
 
-It tries parsing the input with `P`. When `P` succeeds, the rsult of parsing is
+It tries parsing the input with `P`. When `P` succeeds, the result of parsing is
 the result of `P`. Otherwise no characters are consumed and the result of
 parsing is `Default`.
 

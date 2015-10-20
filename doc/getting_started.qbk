@@ -25,7 +25,7 @@ For example, you can start Metashell with the following arguments:
 
   $ metashell -I$BOOST_ROOT -I$BOOST_ROOT/libs/metaparse/example/getting_started
 
-`$BOOST_ROOT` refers to the the ['boost root directory] (where you have checked
+`$BOOST_ROOT` refers to the ['boost root directory] (where you have checked
 out the Boost source code).
 
 This tutorial is long and therefore you might want to make shorter or longer
@@ -40,7 +40,7 @@ section.
 
 [note
 You have access to these headers in the online Metashell demo as well. For
-example you can include the `<boost/metaparase/getting_started/5_2_1.hpp>`
+example you can include the `<boost/metaparse/getting_started/5_2_1.hpp>`
 header to start from section 5.2.1.
 ]
 
@@ -1541,7 +1541,7 @@ Our calculator language provides no direct support for negative numbers. To get
 a negative number, we need to do a subtraction. For example to get the number
 `-13` we need to evaluate the expression `0 - 13`.
 
-We will implement `-` as an unary operator. Therefore the expression `-13` won't
+We will implement `-` as a unary operator. Therefore the expression `-13` won't
 be a ['negative number]. It will be the unary `-` operator applied on the number
 `13`.
 
@@ -1900,7 +1900,7 @@ before:
 
 [link getting_started_37 copy-paste friendly version]
 
-We can can try to give our new parser an invalid input:
+We can try to give our new parser an invalid input:
 
   > exp_parser20::apply<BOOST_METAPARSE_STRING("hello")>::type
   << compilation error >>

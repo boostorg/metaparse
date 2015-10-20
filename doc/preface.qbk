@@ -60,11 +60,11 @@ This technique has the advantages over parsing the content of string literals
 * is faster in most cases
 * APIs using this technique can "emerge" as a process of advancing the API of a
   library step-by-step. Moving to a completely new DSL (with its own syntax) is
-  a realtively big step.
+  a relatively big step.
 
 Using expression templates for DSL embedding has the following disadvantages:
 
-* the syntax of the embededd DSL is limited. It has to be a valid C++
+* the syntax of the embedded DSL is limited. It has to be a valid C++
   expression. For most libraries, people familiar with the original DSL usually
   need to learn the library's syntax to understand the embedded code snippets.
 

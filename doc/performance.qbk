@@ -4,7 +4,7 @@ Parsers work at compile-time, thus their performance affects compilation speed.
 This section shows measurements of compilation time using Metaparse. The
 measurements were done on a Linux laptop with an 1.6 GHz Atom processor and 1 GB
 memory. The measurements were done using GCC 4.6.1 with `-std=c++0x` and no
-optimalisation. Compilation speed was measured using the `time` utility.
+optimisation. Compilation speed was measured using the `time` utility.
 
 To measure a non-trivial parser, the `printf` example program were used for
 measurements. Here is a list of the `printf` calls and their compilation speed

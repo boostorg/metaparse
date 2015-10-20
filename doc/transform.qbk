@@ -17,7 +17,7 @@ This is a [link parser_combinator parser combinator].
 [h1 Description]
 
 `transform` parses the input using `P` and transforms the result `P` returns
-with `T`. The result of parsing is what `T` returns. When `P` fails, the faliure
+with `T`. The result of parsing is what `T` returns. When `P` fails, the failure
 is returned unchanged.
 
 [h1 Header]

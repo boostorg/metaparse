@@ -18,7 +18,7 @@ This is a [link parser_combinator parser combinator].
 
 It applies `P` on the input. When `P` succeeds, `change_error_message` returns
 the result `P` returns, otherwise `change_error_message` rejects the input and
-the reson will be `Msg`.
+the reason will be `Msg`.
 
 [h1 Header]
 

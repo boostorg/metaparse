@@ -202,7 +202,7 @@ the parser [link repeated `repeated`]`<int_token>`) one by one.
   Note that [link transform `transform`] wraps another parser,
   [link repeated `repeated`]`<int_token>` here. It parses the input with that
   parser, gets the result of that parsing and changes that result.
-  [link transform `transfrom`] itself will be a parser returning that updated
+  [link transform `transform`] itself will be a parser returning that updated
   result.
 ]
 
@@ -210,7 +210,7 @@ the parser [link repeated `repeated`]`<int_token>`) one by one.
 [section Introducing foldl]
 
 It works, however, this is rather inefficient: it has a loop parsing the
-integers one by one, building a typlist and then it loops over this typelist to
+integers one by one, building a typelist and then it loops over this typelist to
 summarise the result. Using template metaprograms in your applications can have
 a serious impact on the compiler's memory usage and the speed of the
 compilation, therefore I recommend being careful with these things.
@@ -241,7 +241,7 @@ input:
 As you can see, not only the implementation of the parser is more compact, but
 it achieves the same result by doing less as well. It parses the input by
 applying `int_token` repeatedly, just like the previous solution. But it
-produces the final result without buliding a typelist as an internal step. Here
+produces the final result without building a typelist as an internal step. Here
 is how it works internally:
 
 [$images/metaparse/foldl_diag2.png [width 70%]]
@@ -416,7 +416,7 @@ following input for example:
 
   BOOST_METAPARSE_STRING("11 + 13 + 3 + 21 +")
 
-This is an ivalid expression. However, if we parse it using the
+This is an invalid expression. However, if we parse it using the
 [link foldl_start_with_parser `foldl_start_with_parser`]-based parser presented
 earlier (`sum_parser3`), it accepts the input and the result is `48`. This is
 because [link foldl_start_with_parser `foldl_start_with_parser`] parses the
@@ -498,7 +498,7 @@ at compile-time. Here is a list of things that can be the "result" of parsing:
   `regex` example of Metaparse for an example.
 * A C++ ['function], which might be called at runtime. A C++ function can be
   generated that can be called at runtime. It is good for generating native
-  (and optimisied) code from EDSLs. See the `compile_to_native_code` example of
+  (and optimised) code from EDSLs. See the `compile_to_native_code` example of
   Metaparse as an example for this.
 * A [link metafunction_class ['template metafunction class]]. The result of
   parsing might be a type, which is a
