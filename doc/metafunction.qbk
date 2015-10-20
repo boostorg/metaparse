@@ -16,7 +16,7 @@ Template metafunction are expected to be called with
 
 Template metafunctions are expected to return template metaprogramming values.
 
-For example this is the identitiy template metafunction:
+For example this is the identity template metafunction:
 
   template <class T>
   struct identity

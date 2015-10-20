@@ -9,7 +9,7 @@ their result. This makes it possible to implement
 template metafunctions as arguments or returning template metafunctions as their
 result.
 
-For example this is the identitiy template metafunction class:
+For example this is the identity template metafunction class:
 
   struct identity
   {

@@ -39,7 +39,7 @@ support them.
 Macros defined by the library are prefixed with `BOOST_METAPARSE_V1_`. For
 example `BOOST_METAPARSE_V1_STRING`. It is defined in the
 `<boost/metaparse/v1/string.hpp>` header file. The library provides the
-`<boost/metaparse/srting.hpp>` header file as well, which includes the
+`<boost/metaparse/string.hpp>` header file as well, which includes the
 definition of this macro and provides the following definition:
 
   #define BOOST_METAPARSE_STRING BOOST_METAPARSE_V1_STRING
