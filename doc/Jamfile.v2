@@ -16,9 +16,9 @@ actions copy-pngs
   echo "Images copied" > "$(<)"
 }
 
-xml metaparse : metaparse.qbk ;
+make images_copied : metaparse.qbk : @copy-pngs ;
 
-make images_copied : metaparse : @copy-pngs ;
+xml metaparse : metaparse.qbk : <dependency>images_copied ;
 
 boostbook standalone
     :
@@ -30,7 +30,6 @@ boostbook standalone
       <xsl:param>toc.section.depth=2
       <xsl:param>toc.max.depth=2
       <xsl:param>generate.section.toc.level=1
-      <dependency>images_copied
     ;
 
 install html : ../../../doc/src/boostbook.css ;
