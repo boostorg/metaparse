@@ -7,7 +7,7 @@ clone_folder: c:\build\boost\libs\metaparse
 init:
   - cd c:\build
   - move boost boost_
-  - c:\python27\python.exe tools\build_environment.py --dep_json tools\deps.json --action checkout
+  - c:\python27\python.exe c:\build\boost_\libs\metaparse\tools\build_environment.py --dep_json boost_\libs\metaparse\tools\deps.json --action checkout
   - move boost_\libs\metaparse boost\libs
   - cd boost\libs\metaparse
 
