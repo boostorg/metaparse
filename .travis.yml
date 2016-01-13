@@ -137,5 +137,5 @@ script:
   -       cd ..
   -       echo "Generating the documentation"
   -       cd doc
-  -         ../../../b2 -d+2 cxxflags="-Wno-unused-local-typedefs"
+  -         ../../../b2 boostdoc
 
