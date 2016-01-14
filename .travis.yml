@@ -126,7 +126,7 @@ script:
   -     cd metaparse
   -       echo "Checking if all automatically generated files are up to date"
   -       rm doc/getting_started_*.qbk doc/before_*.qbk example/getting_started/*.hpp
-  -       ./generate_all.py
+  -       tools/generate_all.py
   -       git add -N .
   -       git diff --exit-code
   -       echo "Building the unit tests and the examples"
