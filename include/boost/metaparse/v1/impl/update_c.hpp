@@ -27,10 +27,10 @@ namespace boost
     {
       namespace impl
       {
-        template <class S, int N, char C>
+#ifndef BOOST_METAPARSE_VARIADIC_STRING
+        template <class S, int N, int C>
         struct update_c;
 
-#ifndef BOOST_METAPARSE_VARIADIC_STRING
         #ifdef BOOST_METAPARSE_ARGN
         #  error BOOST_METAPARSE_ARGN already defined
         #endif
@@ -42,7 +42,7 @@ namespace boost
         #define BOOST_METAPARSE_UPDATE(z, n, unused) \
           template < \
             BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, int C), \
-            char Ch \
+            int Ch \
           > \
           struct update_c< \
             string<BOOST_PP_ENUM_PARAMS(BOOST_METAPARSE_LIMIT_STRING_SIZE, C)>,\
