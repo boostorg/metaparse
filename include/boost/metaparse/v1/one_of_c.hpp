@@ -60,7 +60,7 @@ namespace boost
               ~ \
             ) \
           > : \
-          one_of<BOOST_PP_ENUM(n, BOOST_METAPARSE_ONE_OF_C_LIT, ~)> \
+          one_of< BOOST_PP_ENUM(n, BOOST_METAPARSE_ONE_OF_C_LIT, ~) > \
         {};
 
       BOOST_PP_REPEAT(
