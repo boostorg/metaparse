@@ -4,6 +4,8 @@ project metaparse :
   requirements
     <toolset>gcc:<cxxflags>"-ftemplate-depth-300"
     <toolset>clang:<cxxflags>"-ftemplate-depth-300"
+
+    <library>/boost/test//boost_unit_test_framework/<link>static
   ;
 
 test-suite metaparse-unit-tests :
@@ -18,12 +20,12 @@ test-suite metaparse-unit-tests :
   [ compile build_parser.cpp ]
   [ compile change_error_message.cpp ]
   [ compile concat.cpp ]
-  [ run define_error.cpp /boost/test//boost_unit_test_framework/<link>static ]
+  [ run define_error.cpp ]
   [ compile digit.cpp ]
   [ compile digit_to_int.cpp ]
   [ compile digit_val.cpp ]
   [ compile empty.cpp ]
-  [ run empty_string.cpp /boost/test//boost_unit_test_framework/<link>static ]
+  [ run empty_string.cpp ]
   [ compile entire_input.cpp ]
   [ compile except.cpp ]
   [ compile fail_at_first_char_expected.cpp ]
@@ -96,7 +98,7 @@ test-suite metaparse-unit-tests :
   [ compile space.cpp ]
   [ compile spaces.cpp ]
   [ compile split_at_c.cpp ]
-  [ run string.cpp /boost/test//boost_unit_test_framework/<link>static ]
+  [ run string.cpp ]
   [ compile string_iterator_tag.cpp ]
   [ compile string_tag.cpp ]
   [ compile swap.cpp ]
