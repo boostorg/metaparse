@@ -8,6 +8,8 @@
 #include <boost/metaparse/start.hpp>
 #include <boost/metaparse/keyword.hpp>
 
+#include <boost/mpl/assert.hpp>
+
 #include "common.hpp"
 
 #include "test_case.hpp"
