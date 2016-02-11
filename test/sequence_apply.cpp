@@ -63,6 +63,11 @@ namespace
 #undef BOOST_METAPARSE_C_VALUE
 
   template <class T> struct has_no_type {};
+
+  // "is_same<T::type::type, double_eval<T>::type>" - helper tool to avoid
+  // writing type::type (which is interpreted as the constructor of ::type by
+  // msvc-7.1)
+  template <class T> struct double_eval : T::type {};
 }
 
 BOOST_METAPARSE_TEST_CASE(sequence_apply)
@@ -91,9 +96,11 @@ BOOST_METAPARSE_TEST_CASE(sequence_apply)
   BOOST_MPL_ASSERT((
     is_same<
       template_c1<'h'>,
-      get_result<
-        sequence_apply1<template1, lit_h>::apply<str_hello, start>
-      >::type::type
+      double_eval<
+        get_result<
+          sequence_apply1<template1, lit_h>::apply<str_hello, start>
+        >
+      >::type
     >
   ));
 
@@ -106,9 +113,11 @@ BOOST_METAPARSE_TEST_CASE(sequence_apply)
   BOOST_MPL_ASSERT((
     is_same<
       template_c2<'h', 'e'>,
-      get_result<
-        sequence_apply2<template2, lit_h, lit_e>::apply<str_hello, start>
-      >::type::type
+      double_eval<
+        get_result<
+          sequence_apply2<template2, lit_h, lit_e>::apply<str_hello, start>
+        >
+      >::type
     >
   ));
 
@@ -131,9 +140,12 @@ BOOST_METAPARSE_TEST_CASE(sequence_apply)
   BOOST_MPL_ASSERT((
     is_same<
       template_c3<'h', 'e', 'l'>,
-      get_result<
-        sequence_apply3<template3, lit_h, lit_e, lit_l>::apply<str_hello, start>
-      >::type::type
+      double_eval<
+        get_result<
+          sequence_apply3<template3, lit_h, lit_e, lit_l>
+            ::apply<str_hello, start>
+        >
+      >::type
     >
   ));
 
