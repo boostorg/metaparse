@@ -212,7 +212,7 @@ namespace boost
     struct c_str<boost::metaparse::v1::string<Cs...>>
     {
       typedef c_str type;
-      #if defined BOOST_USE_CONSTEXPR && !defined BOOST_NO_CONSTEXPR_C_STR
+      #ifndef BOOST_NO_CONSTEXPR_C_STR
         static constexpr char value[sizeof...(Cs) + 1] = {Cs..., 0};
       #else
         static const char value[sizeof...(Cs) + 1];
@@ -224,7 +224,7 @@ namespace boost
       boost::metaparse::v1::impl::empty_string<>
     {};
 
-    #if defined BOOST_USE_CONSTEXPR && !defined BOOST_NO_CONSTEXPR_C_STR
+    #ifndef BOOST_NO_CONSTEXPR_C_STR
       template <char... Cs>
       constexpr char c_str<boost::metaparse::v1::string<Cs...>>::value[];
     #else
