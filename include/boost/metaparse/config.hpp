@@ -24,15 +24,7 @@
 
 #if \
   !defined BOOST_NO_CONSTEXPR \
-  && !defined BOOST_NO_CXX11_CONSTEXPR \
-  \
-  && !defined BOOST_USE_CONSTEXPR
-
-  #define BOOST_USE_CONSTEXPR
-
-#endif
-
-#ifdef BOOST_USE_CONSTEXPR
+  && !defined BOOST_NO_CXX11_CONSTEXPR
 #  define BOOST_CONSTEXPR constexpr
 #else
 #  define BOOST_CONSTEXPR
