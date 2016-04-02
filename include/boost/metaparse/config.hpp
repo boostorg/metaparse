@@ -9,20 +9,6 @@
 #include <boost/config.hpp>
 
 /*
- * C++11 features
- */
-
-#if \
-  !defined BOOST_NO_CXX11_VARIADIC_TEMPLATES \
-  && !defined BOOST_NO_VARIADIC_TEMPLATES \
-  \
-  && !defined BOOST_USE_VARIADIC_TEMPLATES
-
-  #define BOOST_USE_VARIADIC_TEMPLATES
-
-#endif
-
-/*
  * Compiler workarounds
  */
 
@@ -30,7 +16,9 @@
   defined BOOST_NO_CONSTEXPR || defined BOOST_NO_CXX11_CONSTEXPR || ( \
     defined __GNUC__ && (__GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 7))\
   )
+
 #  define BOOST_NO_CONSTEXPR_C_STR
+
 #endif
 
 /*
@@ -38,9 +26,12 @@
  */
 
 #if \
-  defined BOOST_USE_VARIADIC_TEMPLATES \
+  !defined BOOST_NO_CXX11_VARIADIC_TEMPLATES \
+  && !defined BOOST_NO_VARIADIC_TEMPLATES \
   && !defined BOOST_METAPARSE_VARIADIC_STRING
+
 #  define BOOST_METAPARSE_VARIADIC_STRING
+
 #endif
 
 #endif
