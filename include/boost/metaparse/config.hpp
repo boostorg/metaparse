@@ -13,8 +13,9 @@
  */
 
 #if \
-  defined BOOST_NO_CONSTEXPR || defined BOOST_NO_CXX11_CONSTEXPR || ( \
-    defined __GNUC__ && (__GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 7))\
+  defined BOOST_NO_CXX11_CONSTEXPR || defined BOOST_NO_CONSTEXPR || ( \
+    !defined __clang__ && defined __GNUC__ \
+    && (__GNUC__ < 4 || (__GNUC__ == 4 && __GNUC_MINOR__ < 7)) \
   )
 
 #  define BOOST_NO_CONSTEXPR_C_STR
