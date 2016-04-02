@@ -22,14 +22,6 @@
 
 #endif
 
-#if \
-  !defined BOOST_NO_CONSTEXPR \
-  && !defined BOOST_NO_CXX11_CONSTEXPR
-#  define BOOST_CONSTEXPR constexpr
-#else
-#  define BOOST_CONSTEXPR
-#endif
-
 /*
  * Compiler workarounds
  */
