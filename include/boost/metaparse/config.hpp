@@ -12,6 +12,7 @@
  * Compiler workarounds
  */
 
+// BOOST_NO_CXX11_CONSTEXPR is not defined in gcc 4.6
 #if \
   defined BOOST_NO_CXX11_CONSTEXPR || defined BOOST_NO_CONSTEXPR || ( \
     !defined __clang__ && defined __GNUC__ \
