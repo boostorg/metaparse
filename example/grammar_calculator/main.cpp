@@ -5,7 +5,7 @@
 
 #include <boost/config.hpp>
 
-#ifdef BOOST_NO_CONSTEXPR
+#ifdef BOOST_NO_CXX11_CONSTEXPR
 #include <iostream>
 
 int main()

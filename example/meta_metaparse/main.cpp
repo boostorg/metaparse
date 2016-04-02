@@ -35,7 +35,7 @@ using boost::metaparse::int_;
 using boost::metaparse::grammar;
 using boost::metaparse::transform;
 
-#ifdef BOOST_NO_CONSTEXPR
+#ifdef BOOST_NO_CXX11_CONSTEXPR
 int main()
 {
   std::cout << "Please use a compiler that supports constexpr" << std::endl;

@@ -27,7 +27,7 @@
 #include <iostream>
 #include <string>
 
-#ifdef BOOST_NO_CONSTEXPR
+#ifdef BOOST_NO_CXX11_CONSTEXPR
 
 int main()
 {

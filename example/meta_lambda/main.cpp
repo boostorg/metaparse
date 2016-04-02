@@ -201,7 +201,7 @@ typedef last_of<repeated<space>, plus_exp> expression;
 
 typedef build_parser<entire_input<expression> > metafunction_parser;
 
-#ifdef BOOST_NO_CONSTEXPR
+#ifdef BOOST_NO_CXX11_CONSTEXPR
 
 template <class Exp>
 struct meta_lambda : apply_wrap1<metafunction_parser, Exp> {};

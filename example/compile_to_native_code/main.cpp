@@ -206,7 +206,7 @@ typedef last_of<repeated<space>, plus_exp> expression;
 
 typedef build_parser<entire_input<expression> > function_parser;
 
-#ifdef BOOST_NO_CONSTEXPR
+#ifdef BOOST_NO_CXX11_CONSTEXPR
 
 template <class Exp>
 struct lambda : apply_wrap1<function_parser, Exp> {};
