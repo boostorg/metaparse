@@ -21,19 +21,19 @@ namespace boost
         {
           typedef empty_string type;
 
-          #ifndef BOOST_NO_CONSTEXPR_C_STR
-            static constexpr char value[1] = {0};
-          #else
+          #ifdef BOOST_NO_CONSTEXPR_C_STR
             static const char value[1];
+          #else
+            static constexpr char value[1] = {0};
           #endif
         };
 
-        #ifndef BOOST_NO_CONSTEXPR_C_STR
-          template <class Ignore>
-          constexpr char empty_string<Ignore>::value[1];
-        #else
+        #ifdef BOOST_NO_CONSTEXPR_C_STR
           template <class Ignore>
           const char empty_string<Ignore>::value[1] = {0};
+        #else
+          template <class Ignore>
+          constexpr char empty_string<Ignore>::value[1];
         #endif
       }
     }
