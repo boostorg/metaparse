@@ -42,7 +42,7 @@ namespace boost
           cout << endl;
           runner::run();
           
-          exit(0);
+          std::exit(0);
         }
       
         typedef debug_parsing_error type;
