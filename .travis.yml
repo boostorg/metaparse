@@ -9,6 +9,8 @@ matrix:
           packages:
             - doxygen
             - xsltproc
+      install:
+        - "sudo pip install pep8 pylint"
     - compiler: clang
       env: CXX_VER=3.5 TOOLSET=clang STD=c++98
       addons: &clang35
@@ -20,13 +22,13 @@ matrix:
             - clang-3.5
             - doxygen
             - xsltproc
-      install:
+      install: &iclang35
         - "echo \"using clang : 3.5 : clang++-3.5 ;\" > ~/user-config.jam"
+        - "sudo pip install pep8 pylint"
     - compiler: clang
       env: CXX_VER=3.5 TOOLSET=clang STD=c++11
       addons: *clang35
-      install:
-        - "echo \"using clang : 3.5 : clang++-3.5 ;\" > ~/user-config.jam"
+      install: *iclang35
     - compiler: clang
       env: CXX_VER=3.6 TOOLSET=clang STD=c++98
       addons: &clang36
@@ -38,16 +40,27 @@ matrix:
             - clang-3.6
             - doxygen
             - xsltproc
-      install:
+      install: &iclang36
         - "echo \"using clang : 3.6 : clang++-3.6 ;\" > ~/user-config.jam"
+        - "sudo pip install pep8 pylint"
     - compiler: clang
       env: CXX_VER=3.6 TOOLSET=clang STD=c++11
       addons: *clang36
-      install:
-        - "echo \"using clang : 3.6 : clang++-3.6 ;\" > ~/user-config.jam"
+      install: *iclang36
     - compiler: gcc
       env: CXX_VER=4.6 TOOLSET=gcc STD=c++98
       addons: *doc
+      addons: &gcc46
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - g++-4.6
+            - doxygen
+            - xsltproc
+      install: &igcc47
+        - "echo \"using gcc : 4.6 : g++-4.6 ;\" > ~/user-config.jam"
+        - "sudo pip install pep8 pylint"
     - compiler: gcc
       env: CXX_VER=4.7 TOOLSET=gcc STD=c++98
       addons: &gcc47
@@ -58,13 +71,13 @@ matrix:
             - g++-4.7
             - doxygen
             - xsltproc
-      install:
+      install: &igcc47
         - "echo \"using gcc : 4.7 : g++-4.7 ;\" > ~/user-config.jam"
+        - "sudo pip install pep8 pylint"
     - compiler: gcc
       env: CXX_VER=4.7 TOOLSET=gcc STD=c++11
       addons: *gcc47
-      install:
-        - "echo \"using gcc : 4.7 : g++-4.7 ;\" > ~/user-config.jam"
+      install: *igcc47
     - compiler: gcc
       env: CXX_VER=4.8 TOOLSET=gcc STD=c++98
       addons: &gcc48
@@ -75,13 +88,13 @@ matrix:
             - g++-4.8
             - doxygen
             - xsltproc
-      install:
+      install: &igcc48
         - "echo \"using gcc : 4.8 : g++-4.8 ;\" > ~/user-config.jam"
+        - "sudo pip install pep8 pylint"
     - compiler: gcc
       env: CXX_VER=4.8 TOOLSET=gcc STD=c++11
       addons: *gcc48
-      install:
-        - "echo \"using gcc : 4.8 : g++-4.8 ;\" > ~/user-config.jam"
+      install: *igcc48
     - compiler: gcc
       env: CXX_VER=4.9 TOOLSET=gcc STD=c++98
       addons: &gcc49
@@ -92,14 +105,16 @@ matrix:
             - g++-4.9
             - doxygen
             - xsltproc
-      install:
+      install: &igcc49
         - "echo \"using gcc : 4.9 : g++-4.9 ;\" > ~/user-config.jam"
+        - "sudo pip install pep8 pylint"
     - compiler: gcc
       env: CXX_VER=4.9 TOOLSET=gcc STD=c++11
       addons: *gcc49
-      install:
-        - "echo \"using gcc : 4.9 : g++-4.9 ;\" > ~/user-config.jam"
+      install: *igcc49
 script:
+  - if which pep8; then pep8 tools/string_headers.py; fi
+  - if which pylint; then pylint tools/string_headers.py; fi
   - if [ "${STD}" ]; then CXXFLAGS="cxxflags=\"-std=${STD}\""; fi
   - echo "using doxygen ;" >> ~/user-config.jam
   - echo "using xsltproc ;" >> ~/user-config.jam
