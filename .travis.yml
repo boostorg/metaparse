@@ -1,4 +1,6 @@
 language: cpp
+sudo: required
+dist: trusty
 os: linux
 matrix:
   include:
@@ -12,39 +14,35 @@ matrix:
       install:
         - "sudo pip install pep8 pylint"
     - compiler: clang
-      env: CXX_VER=3.5 TOOLSET=clang STD=c++98
+      env: CXX_VER=3.5.2 TOOLSET=clang STD=c++98
       addons: &clang35
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.5
           packages:
-            - clang-3.5
             - doxygen
             - xsltproc
       install: &iclang35
-        - "echo \"using clang : 3.5 : clang++-3.5 ;\" > ~/user-config.jam"
+        - "echo \"using clang : 3.5 : clang++ ;\" > ~/user-config.jam"
         - "sudo pip install pep8 pylint"
     - compiler: clang
-      env: CXX_VER=3.5 TOOLSET=clang STD=c++11
+      env: CXX_VER=3.5.2 TOOLSET=clang STD=c++11
       addons: *clang35
       install: *iclang35
     - compiler: clang
-      env: CXX_VER=3.6 TOOLSET=clang STD=c++98
+      env: CXX_VER=3.6.2 TOOLSET=clang STD=c++98
       addons: &clang36
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-precise-3.6
           packages:
-            - clang-3.6
             - doxygen
             - xsltproc
       install: &iclang36
-        - "echo \"using clang : 3.6 : clang++-3.6 ;\" > ~/user-config.jam"
+        - "echo \"using clang : 3.6 : clang++ ;\" > ~/user-config.jam"
         - "sudo pip install pep8 pylint"
     - compiler: clang
-      env: CXX_VER=3.6 TOOLSET=clang STD=c++11
+      env: CXX_VER=3.6.2 TOOLSET=clang STD=c++11
       addons: *clang36
       install: *iclang36
     - compiler: gcc
@@ -115,6 +113,8 @@ matrix:
 script:
   - if which pep8; then pep8 tools/string_headers.py; fi
   - if which pylint; then pylint tools/string_headers.py; fi
+  - if [ "TOOLSET" == "clang" ]; then tools/get_clang.sh ${CXX_VER}; fi
+  - export PATH="${PWD}:${PATH}"
   - if [ "${STD}" ]; then CXXFLAGS="cxxflags=\"-std=${STD}\""; fi
   - echo "using doxygen ;" >> ~/user-config.jam
   - echo "using xsltproc ;" >> ~/user-config.jam
