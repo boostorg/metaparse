@@ -340,9 +340,6 @@ namespace boost
 
 #include <boost/metaparse/v1/impl/remove_trailing_no_chars.hpp>
 
-#endif
-
-// outside of include guard to make it re-includable
 #if \
   defined BOOST_METAPARSE_VARIADIC_STRING \
   && !defined BOOST_NO_CONSTEXPR && !defined BOOST_NO_CXX11_CONSTEXPR
@@ -352,6 +349,8 @@ namespace boost
 #else
 
 #  define BOOST_METAPARSE_V1_CONFIG_NO_BOOST_METAPARSE_STRING 1
+
+#endif
 
 #endif
 

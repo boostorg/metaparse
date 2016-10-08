@@ -32,7 +32,7 @@ implementation of the `BOOST_METAPARSE_STRING` macro is generated using
 
 Metaparse supports changing the string length limit within a compilation unit.
 To change the length limit, redefine the `BOOST_METAPARSE_LIMIT_STRING_SIZE`
-macro and then include `<boost/metaparse/string.hpp>` again.
+macro.
 
 [h1 Header]
 
@@ -70,7 +70,6 @@ is equivalent to
 
   #undef BOOST_METAPARSE_LIMIT_STRING_SIZE
   #define BOOST_METAPARSE_LIMIT_STRING_SIZE 32
-  #include <boost/metaparse/string.hpp>
 
   static_assert(
     std::is_same<

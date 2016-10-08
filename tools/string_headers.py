@@ -8,7 +8,6 @@
 
 import argparse
 import os
-import re
 import sys
 
 
@@ -42,10 +41,6 @@ class Namespace(object):
             depth = len(self.names)
         return '  ' * depth
 
-    def path(self):
-        """Returns the full path of the namespace"""
-        return '::' + '::'.join(self.names)
-
     def __enter__(self):
         self.begin()
         return self
@@ -64,22 +59,12 @@ def write_autogen_info(out_f):
     )
 
 
-def write_no_include_guard_info(out_f):
-    """Write a comment explaining why there are is include guard"""
-    out_f.write(
-        '// no include guard: the header might be included multiple times\n'
-    )
-
-
 class IncludeGuard(object):
     """Generate include guards"""
 
-    def __init__(self, out_f, name, undefine=False):
+    def __init__(self, out_f, name):
         self.out_f = out_f
-        if undefine:
-            self.name = 'UNDEF_{0}'.format(name.upper())
-        else:
-            self.name = name.upper()
+        self.name = name.upper()
 
     def begin(self):
         """Generate the beginning part"""
@@ -139,93 +124,6 @@ def filename(out_dir, name, undefine=False):
     return os.path.join(out_dir, '{0}{1}.hpp'.format(prefix, name.lower()))
 
 
-def generate_enum(out_dir, name, internal_name, max_count, undefine):
-    """Generate an enumeration macro"""
-    cat = macro_name('CAT')
-    with open(filename(out_dir, name, undefine), 'wb') as out_f:
-        write_no_include_guard_info(out_f)
-        write_autogen_info(out_f)
-
-        define_macro(
-            out_f,
-            (
-                name, ['count', 'param'],
-                '{0}({1}, count)(param)'.format(cat, macro_name(internal_name))
-            ),
-            undefine
-        )
-
-        define_macro(
-            out_f,
-            ('{0}0'.format(internal_name), ['param'], ''),
-            undefine,
-            False
-        )
-        define_macro(
-            out_f,
-            (
-                '{0}1'.format(internal_name), ['param'],
-                '{0}(param, 0)'.format(cat)
-            ),
-            undefine,
-            False
-        )
-
-        for count in xrange(2, max_count + 1):
-            define_macro(
-                out_f,
-                (
-                    '{0}{1}'.format(internal_name, count), ['param'],
-                    '{0}{1}(param), {2}(param, {1})'
-                    .format(macro_name(internal_name), count - 1, cat)
-                ),
-                undefine,
-                False
-            )
-
-
-def generate_repetition(out_dir, name, internal_name, max_count, undefine):
-    """Generate a repetition macro"""
-    cat = macro_name('CAT')
-    with open(filename(out_dir, name, undefine), 'wb') as out_f:
-        write_no_include_guard_info(out_f)
-        write_autogen_info(out_f)
-
-        define_macro(
-            out_f,
-            (
-                name, ['count', 'param'],
-                '{0}({1}, count)(param)'.format(cat, macro_name(internal_name))
-            ),
-            undefine
-        )
-
-        define_macro(
-            out_f,
-            ('{0}0'.format(internal_name), ['param'], ''),
-            undefine,
-            False
-        )
-        define_macro(
-            out_f,
-            ('{0}1'.format(internal_name), ['param'], 'param'),
-            undefine,
-            False
-        )
-
-        for count in xrange(2, max_count + 1):
-            define_macro(
-                out_f,
-                (
-                    '{0}{1}'.format(internal_name, count), ['param'],
-                    '{0}{1}(param), param'
-                    .format(macro_name(internal_name), count - 1)
-                ),
-                undefine,
-                False
-            )
-
-
 def length_limits(max_length_limit, length_limit_step):
     """Generates the length limits"""
     string_len = len(str(max_length_limit))
@@ -239,185 +137,136 @@ def length_limits(max_length_limit, length_limit_step):
     ]
 
 
-def generate_string_indexing(length_limit):
-    """Generate the code for indexing a string literal"""
-    left = length_limit
-    result = []
-    for exp in xrange(3, 0, -1):
-        step, left = divmod(left, 16 ** exp)
-        result = result + [
-            'BOOST_METAPARSE_V1_STRING_AT{0}((s), {1:X})'.format(exp, i)
-            for i in xrange(0, step)
-        ]
-    result = result + [
-        '::boost::metaparse::v{0}::impl::string_at<{1}>((s), {2})'.format(
-            VERSION,
-            length_limit,
-            i
-        ) for i in xrange(0, left)
-    ]
-    return ', '.join(result)
+def unique_names(count):
+    """Generate count unique variable name"""
+    return ('C{0}'.format(i) for i in xrange(0, count))
 
 
-def generate_with_length_limit(out_dir, length_limit_str):
-    """Generate one string implementation"""
-    length_limit = int(length_limit_str)
-    name = 'string{0}'.format(length_limit_str)
-    with open(filename(out_dir, name), 'wb') as out_f:
-        with IncludeGuard(out_f, name):
-            define_macro(out_f, ('TMP_LENGTH_LIMIT', [], str(length_limit)))
-            with Namespace(
-                out_f,
-                ['boost', 'metaparse', 'v{0}'.format(VERSION), 'impl']
-            ) as nsp:
-                out_f.write('{0}{1}\n'.format(
+def generate_make_string(out_f, max_step):
+    """Generate the make_string template"""
+    with Namespace(
+        out_f,
+        ['boost', 'metaparse', 'v{0}'.format(VERSION), 'impl']
+    ) as nsp:
+        out_f.write(
+            '{0}template <int Len, char... Cs>\n'
+            '{0}struct make_string;\n'
+            '\n'
+            .format(nsp.prefix())
+        )
+
+        for i in xrange(0, max_step + 1):
+            out_f.write(
+                '{0}template <{1}char... Cs>'
+                ' struct make_string<{2},{3}Cs...> :'
+                ' string<{4}> {{}};\n'
+                .format(
                     nsp.prefix(),
-                    macro_name('DEFINE_STRING')
-                ))
-                out_f.write('\n')
-                for spec_length in xrange(1, length_limit):
-                    out_f.write(
-                        '{0}{1}({2}, {3})\n'
-                        .format(
-                            nsp.prefix(),
-                            macro_name(''),
-                            spec_length,
-                            length_limit - spec_length
-                        )
-                    )
-                out_f.write(
-                    '{0}{1}\n'
-                    .format(nsp.prefix(), macro_name('SPECIALISE_STRING0'))
-                )
-            define_macro(out_f, ('TMP_LENGTH_LIMIT', [], ''), True)
-
-            define_macro(
-                out_f,
-                (
-                    'STRING{0}'.format(length_limit),
-                    ['s'],
-                    '{0}::string{1}<{2}>::type'
-                    .format(
-                        nsp.path(),
-                        length_limit,
-                        generate_string_indexing(length_limit)
-                    )
+                    ''.join('char {0},'.format(n) for n in unique_names(i)),
+                    i,
+                    ''.join('{0},'.format(n) for n in unique_names(i)),
+                    ','.join(unique_names(i))
                 )
             )
 
-
-def max_value(values):
-    """Converts the values to int and returns the maximum value"""
-    return max((int(v) for v in values))
-
-
-def generate_headers(out_dir, limits):
-    """Generate all header files"""
-    max_limit = max_value(limits)
-    for undefine in [True, False]:
-        generate_enum(out_dir, 'ENUM_PARAMS', 'EP', max_limit, undefine)
-        generate_repetition(
-            out_dir,
-            'ENUM_CONSTANT', 'EC',
-            max_limit,
-            undefine
+        out_f.write(
+            '\n'
+            '{0}template <int Len,{1}char... Cs>\n'
+            '{0}struct make_string_rec\n'
+            '{0}{{\n'
+            '{0}  static_assert(Len >= 0, "Invalid string length");\n'
+            '{0}  \n'
+            '{0}  typedef typename concat<\n'
+            '{0}    string<{2}>,\n'
+            '{0}    typename make_string<Len - {3}, Cs...>::type\n'
+            '{0}  >::type type;\n'
+            '{0}}};\n'
+            '{0}\n'
+            '{0}template <int Len, char... Cs>\n'
+            '{0}struct make_string :'
+            ' make_string_rec<Len, Cs...> {{}};\n'
+            .format(
+                nsp.prefix(),
+                ''.join(
+                    'char {0},'.format(n) for n in unique_names(max_step + 1)
+                ),
+                ','.join(unique_names(max_step + 1)),
+                max_step + 1
+            )
         )
-
-    for length_limit in limits:
-        generate_with_length_limit(out_dir, length_limit)
 
 
 def generate_string(out_dir, limits):
     """Generate string.hpp"""
+    max_limit = max((int(v) for v in limits))
+
     with open(filename(out_dir, 'string'), 'wb') as out_f:
-        write_no_include_guard_info(out_f)
-        write_autogen_info(out_f)
-
-        headers = [
-            'enum_params',
-            'cat',
-            'enum_constant',
-            'define_string',
-            'specialise_string'
-        ]
-
-        out_f.write(
-            '\n'
-            '#ifndef BOOST_METAPARSE_LIMIT_STRING_SIZE\n'
-            '#  error BOOST_METAPARSE_LIMIT_STRING_SIZE not defined\n'
-            '#endif\n'
-        )
-
-        out_f.write(
-            '\n'
-            '#ifdef BOOST_METAPARSE_V1_STRING\n'
-            '#  undef BOOST_METAPARSE_V1_STRING\n'
-            '#endif\n'
-            '\n'
-        )
-
-        for header in headers:
+        with IncludeGuard(out_f, ''):
             out_f.write(
-                '#include <boost/metaparse/v{0}/impl/{1}.hpp>\n'
-                .format(VERSION, header)
+                '\n'
+                '#include <boost/metaparse/v{0}/impl/concat.hpp>\n'
+                '#include <boost/preprocessor/cat.hpp>\n'
+                .format(VERSION)
             )
 
-        out_f.write('\n')
-
-        for nth, length_limit in enumerate(limits):
-            if_name = '#if' if nth == 0 else '#elif'
+            generate_make_string(out_f, 64)
 
             out_f.write(
-                '{0} BOOST_METAPARSE_LIMIT_STRING_SIZE <= {1}\n'
-                '#  include <boost/metaparse/v{2}/impl/string{3}.hpp>\n'
-                '#  define BOOST_METAPARSE_V1_STRING'
-                ' BOOST_METAPARSE_V1_STRING{1}\n'
-                .format(if_name, int(length_limit), VERSION, length_limit)
+                '\n'
+                '#ifndef BOOST_METAPARSE_LIMIT_STRING_SIZE\n'
+                '#  error BOOST_METAPARSE_LIMIT_STRING_SIZE not defined\n'
+                '#endif\n'
+                '\n'
+                '#if BOOST_METAPARSE_LIMIT_STRING_SIZE > {0}\n'
+                '#  error BOOST_METAPARSE_LIMIT_STRING_SIZE is greater than'
+                ' {0}. To increase the limit run tools/string_headers.py of'
+                ' Boost.Metaparse against your Boost headers.\n'
+                '#endif\n'
+                '\n'
+                .format(max_limit)
             )
 
-        out_f.write(
-            '#else\n'
-            '#  error BOOST_METAPARSE_LIMIT_STRING_SIZE is greater than {0}.'
-            ' To increase the limit run tools/string_headers.py of'
-            ' Boost.Metaparse against your Boost headers.\n'
-            '#endif\n'
-            '\n'
-            .format(max_value(limits))
-        )
+            define_macro(out_f, (
+                'STRING',
+                ['s'],
+                '::boost::metaparse::v{0}::impl::make_string<'
+                'sizeof(s)-1, '
+                'BOOST_PP_CAT({1}, BOOST_METAPARSE_LIMIT_STRING_SIZE)(s)'
+                '>::type'
+                .format(VERSION, macro_name('I'))
+            ))
 
-        for header in headers:
-            out_f.write(
-                '#include <boost/metaparse/v{0}/impl/undef_{1}.hpp>\n'
-                .format(VERSION, header)
-            )
+            out_f.write('\n')
+            for limit in xrange(0, max_limit + 1):
+                out_f.write(
+                    '#define {0} {1}\n'
+                    .format(
+                        macro_name('I{0}'.format(limit)),
+                        macro_name('INDEX_STR{0}'.format(
+                            min(int(l) for l in limits if int(l) >= limit)
+                        ))
+                    )
+                )
+            out_f.write('\n')
 
-
-def remove_file(path, fname):
-    """Delete the file if exists"""
-    try:
-        os.remove(os.path.join(path, fname))
-    except OSError:
-        pass
-
-
-def remove_old_headers(out_dir):
-    """Delete previously generated header files"""
-    for prefix in ['', 'undef_']:
-        remove_file(out_dir, '{0}enum_params.hpp'.format(prefix))
-        remove_file(out_dir, '{0}enum_constant.hpp'.format(prefix))
-        remove_file(out_dir, '{0}string.hpp'.format(prefix))
-
-    string_header = re.compile('string[0-9]+.hpp')
-    for header in os.listdir(out_dir):
-        if string_header.match(header):
-            remove_file(out_dir, header)
-
-
-def generate(out_dir, limits):
-    """Do the header cleanup and generation"""
-    remove_old_headers(out_dir)
-    generate_string(out_dir, limits)
-    generate_headers(out_dir, limits)
+            prev_macro = None
+            prev_limit = 0
+            for length_limit in (int(l) for l in limits):
+                this_macro = macro_name('INDEX_STR{0}'.format(length_limit))
+                out_f.write(
+                    '#define {0}(s) {1}{2}\n'
+                    .format(
+                        this_macro,
+                        '{0}(s),'.format(prev_macro) if prev_macro else '',
+                        ','.join(
+                            '{0}((s), {1})'
+                            .format(macro_name('STRING_AT'), i)
+                            for i in xrange(prev_limit, length_limit)
+                        )
+                    )
+                )
+                prev_macro = this_macro
+                prev_limit = length_limit
 
 
 def positive_integer(value):
@@ -431,7 +280,9 @@ def positive_integer(value):
 
 def existing_path(value):
     """Throws when the path does not exist"""
-    if not os.path.exists(value):
+    if os.path.exists(value):
+        return value
+    else:
         raise argparse.ArgumentTypeError("Path {0} not found".format(value))
 
 
@@ -474,7 +325,7 @@ def main():
         sys.stderr.write('Invalid maximum length limit')
         sys.exit(-1)
 
-    generate(
+    generate_string(
         os.path.join(boost_dir, 'metaparse', 'v{0}'.format(VERSION), 'impl'),
         length_limits(args.max_length_limit, args.length_limit_step)
     )

@@ -27,7 +27,6 @@ BOOST_METAPARSE_TEST_CASE(string_macro)
 
 #undef BOOST_METAPARSE_LIMIT_STRING_SIZE
 #define BOOST_METAPARSE_LIMIT_STRING_SIZE 8
-#include <boost/metaparse/string.hpp>
 
 BOOST_METAPARSE_TEST_CASE(string_macro_redefined_length_limit)
 {
@@ -39,7 +38,6 @@ BOOST_METAPARSE_TEST_CASE(string_macro_redefined_length_limit)
 
 #undef BOOST_METAPARSE_LIMIT_STRING_SIZE
 #define BOOST_METAPARSE_LIMIT_STRING_SIZE 200
-#include <boost/metaparse/string.hpp>
 
 BOOST_METAPARSE_TEST_CASE(creating_long_string_with_macro)
 {
