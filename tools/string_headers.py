@@ -7,6 +7,7 @@
 #          http://www.boost.org/LICENSE_1_0.txt)
 
 import argparse
+import math
 import os
 import sys
 
@@ -142,24 +143,47 @@ def unique_names(count):
     return ('C{0}'.format(i) for i in xrange(0, count))
 
 
+def generate_take(out_f, steps, line_prefix):
+    """Generate the take function"""
+    out_f.write(
+        '{0}constexpr inline int take(int n_)\n'
+        '{0}{{\n'
+        '{0}  return {1} 0 {2};\n'
+        '{0}}}\n'
+        '\n'.format(
+            line_prefix,
+            ''.join('n_ >= {0} ? {0} : ('.format(s) for s in steps),
+            ')' * len(steps)
+        )
+    )
+
+
 def generate_make_string(out_f, max_step):
     """Generate the make_string template"""
+    steps = [2 ** n for n in xrange(int(math.log(max_step, 2)), -1, -1)]
+
     with Namespace(
         out_f,
         ['boost', 'metaparse', 'v{0}'.format(VERSION), 'impl']
     ) as nsp:
+        generate_take(out_f, steps, nsp.prefix())
+
         out_f.write(
-            '{0}template <int Len, char... Cs>\n'
+            '{0}template <int LenNow, int LenRemaining, char... Cs>\n'
             '{0}struct make_string;\n'
             '\n'
+            '{0}template <char... Cs>'
+            ' struct make_string<0, 0, Cs...> : string<> {{}};\n'
             .format(nsp.prefix())
         )
 
-        for i in xrange(0, max_step + 1):
+        for i in reversed(steps):
             out_f.write(
-                '{0}template <{1}char... Cs>'
-                ' struct make_string<{2},{3}Cs...> :'
-                ' string<{4}> {{}};\n'
+                '{0}template <int LenRemaining,{1}char... Cs>'
+                ' struct make_string<{2},LenRemaining,{3}Cs...> :'
+                ' concat<string<{4}>,'
+                ' typename make_string<take(LenRemaining),'
+                'LenRemaining-take(LenRemaining),Cs...>::type> {{}};\n'
                 .format(
                     nsp.prefix(),
                     ''.join('char {0},'.format(n) for n in unique_names(i)),
@@ -168,32 +192,6 @@ def generate_make_string(out_f, max_step):
                     ','.join(unique_names(i))
                 )
             )
-
-        out_f.write(
-            '\n'
-            '{0}template <int Len,{1}char... Cs>\n'
-            '{0}struct make_string_rec\n'
-            '{0}{{\n'
-            '{0}  static_assert(Len >= 0, "Invalid string length");\n'
-            '{0}  \n'
-            '{0}  typedef typename concat<\n'
-            '{0}    string<{2}>,\n'
-            '{0}    typename make_string<Len - {3}, Cs...>::type\n'
-            '{0}  >::type type;\n'
-            '{0}}};\n'
-            '{0}\n'
-            '{0}template <int Len, char... Cs>\n'
-            '{0}struct make_string :'
-            ' make_string_rec<Len, Cs...> {{}};\n'
-            .format(
-                nsp.prefix(),
-                ''.join(
-                    'char {0},'.format(n) for n in unique_names(max_step + 1)
-                ),
-                ','.join(unique_names(max_step + 1)),
-                max_step + 1
-            )
-        )
 
 
 def generate_string(out_dir, limits):
@@ -209,7 +207,7 @@ def generate_string(out_dir, limits):
                 .format(VERSION)
             )
 
-            generate_make_string(out_f, 64)
+            generate_make_string(out_f, 512)
 
             out_f.write(
                 '\n'
@@ -229,11 +227,14 @@ def generate_string(out_dir, limits):
             define_macro(out_f, (
                 'STRING',
                 ['s'],
-                '::boost::metaparse::v{0}::impl::make_string<'
-                'sizeof(s)-1, '
+                '{0}::make_string< '
+                '{0}::take(sizeof(s)-1), sizeof(s)-1-{0}::take(sizeof(s)-1),'
                 'BOOST_PP_CAT({1}, BOOST_METAPARSE_LIMIT_STRING_SIZE)(s)'
                 '>::type'
-                .format(VERSION, macro_name('I'))
+                .format(
+                    '::boost::metaparse::v{0}::impl'.format(VERSION),
+                    macro_name('I')
+                )
             ))
 
             out_f.write('\n')
