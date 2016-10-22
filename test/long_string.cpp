@@ -7,7 +7,7 @@
 
 #ifdef BOOST_METAPARSE_VARIADIC_STRING
 
-#define BOOST_METAPARSE_LIMIT_STRING_SIZE 2048
+#define BOOST_METAPARSE_LIMIT_STRING_SIZE 1024
 #include <boost/metaparse/string.hpp>
 
 #include <boost/type_traits/is_same.hpp>
@@ -27,21 +27,15 @@ BOOST_METAPARSE_TEST_CASE(creating_very_long_string)
     is_same<
       string<
         BOOST_METAPARSE_TEST_CHARS_1000,
-        BOOST_METAPARSE_TEST_CHARS_1000,
         BOOST_METAPARSE_TEST_CHARS_10,
         BOOST_METAPARSE_TEST_CHARS_10,
-        BOOST_METAPARSE_TEST_CHARS_10,
-        BOOST_METAPARSE_TEST_CHARS_10,
-        '0', '1', '2', '3', '4', '5', '6', '7'
+        '0', '1', '2', '3'
       >,
       BOOST_METAPARSE_STRING(
         BOOST_METAPARSE_TEST_STRING_1000
-        BOOST_METAPARSE_TEST_STRING_1000
         BOOST_METAPARSE_TEST_STRING_10
         BOOST_METAPARSE_TEST_STRING_10
-        BOOST_METAPARSE_TEST_STRING_10
-        BOOST_METAPARSE_TEST_STRING_10
-        "01234567"
+        "0123"
       )
     >
   ));
