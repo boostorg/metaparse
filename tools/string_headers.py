@@ -177,7 +177,11 @@ def generate_make_string(out_f, max_step):
             .format(nsp.prefix())
         )
 
+        disable_sun = False
         for i in reversed(steps):
+            if i > 64 and not disable_sun:
+                out_f.write('#ifndef __SUNPRO_CC\n')
+                disable_sun = True
             out_f.write(
                 '{0}template <int LenRemaining,{1}char... Cs>'
                 ' struct make_string<{2},LenRemaining,{3}Cs...> :'
@@ -192,6 +196,8 @@ def generate_make_string(out_f, max_step):
                     ','.join(unique_names(i))
                 )
             )
+        if disable_sun:
+            out_f.write('#endif\n')
 
 
 def generate_string(out_dir, limits):

@@ -37,7 +37,7 @@ BOOST_METAPARSE_TEST_CASE(string_macro_redefined_length_limit)
 }
 
 #undef BOOST_METAPARSE_LIMIT_STRING_SIZE
-#define BOOST_METAPARSE_LIMIT_STRING_SIZE 200
+#define BOOST_METAPARSE_LIMIT_STRING_SIZE 127
 
 BOOST_METAPARSE_TEST_CASE(creating_long_string_with_macro)
 {
@@ -45,11 +45,15 @@ BOOST_METAPARSE_TEST_CASE(creating_long_string_with_macro)
     is_same<
       string<
         BOOST_METAPARSE_TEST_CHARS_100,
-        BOOST_METAPARSE_TEST_CHARS_100
+        BOOST_METAPARSE_TEST_CHARS_10,
+        BOOST_METAPARSE_TEST_CHARS_10,
+        '0', '1', '2', '3', '4', '5', '6'
       >,
       BOOST_METAPARSE_STRING(
         BOOST_METAPARSE_TEST_STRING_100
-        BOOST_METAPARSE_TEST_STRING_100
+        BOOST_METAPARSE_TEST_STRING_10
+        BOOST_METAPARSE_TEST_STRING_10
+        "0123456"
       )
     >
   ));

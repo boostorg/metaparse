@@ -23,6 +23,8 @@ using boost::is_same;
 
 BOOST_METAPARSE_TEST_CASE(creating_very_long_string)
 {
+// The Oracle Studio limit is 127 characters
+#ifndef __SUNPRO_CC
   BOOST_MPL_ASSERT((
     is_same<
       string<
@@ -45,6 +47,7 @@ BOOST_METAPARSE_TEST_CASE(creating_very_long_string)
       )
     >
   ));
+#endif
 }
 
 #endif

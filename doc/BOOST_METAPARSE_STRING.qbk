@@ -29,6 +29,7 @@ Defining this macro before including the header disables the
 The upper limit for the maximum length, which can be used is 2048. The
 implementation of the `BOOST_METAPARSE_STRING` macro is generated using
 `tools/string_headers.py` and can be regenerated to extend this upper limit.
+Note that for Oracle Developer Studio the string length limit is 127.
 
 Metaparse supports changing the string length limit within a compilation unit.
 To change the length limit, redefine the `BOOST_METAPARSE_LIMIT_STRING_SIZE`
