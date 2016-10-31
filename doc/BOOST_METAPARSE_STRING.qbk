@@ -35,6 +35,9 @@ Metaparse supports changing the string length limit within a compilation unit.
 To change the length limit, redefine the `BOOST_METAPARSE_LIMIT_STRING_SIZE`
 macro.
 
+You can find benchmarks of this macro
+[link BOOST_METAPARSE_STRING_benchmark here].
+
 [h1 Header]
 
   #include <boost/metaparse/string.hpp>
