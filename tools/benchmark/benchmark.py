@@ -17,6 +17,7 @@ import random
 import re
 import time
 import psutil
+import PIL
 
 matplotlib.use('Agg')
 import matplotlib.pyplot  # pylint:disable=I0011,C0411,C0412,C0413
@@ -191,36 +192,71 @@ def byte_to_gb(byte):
     return byte / (1024.0 * 1024 * 1024)
 
 
-def plot_diagrams(results, configs, compiler, out_dir):
-    """Plot all diagrams specified by the configs"""
+def join_images(img_files, out_file):
+    """Join the list of images into the out file"""
+    images = [PIL.Image.open(f) for f in img_files]
+    joined = PIL.Image.new(
+        'RGB',
+        (sum(i.size[0] for i in images), max(i.size[1] for i in images))
+    )
+    left = 0
+    for img in images:
+        joined.paste(im=img, box=(left, 0))
+        left = left + img.size[0]
+    joined.save(out_file)
+
+
+def plot_temp_diagrams(config, results, temp_dir):
+    """Plot temporary diagrams"""
     display_name = {
         'time': 'Compilation time (s)',
         'memory': 'Compiler memory usage (MB)',
     }
 
+    files = config['files']
+    img_files = []
+    for measured in ['time', 'memory']:
+        mpts = sorted(int(k) for k in files.keys())
+        img_files.append(os.path.join(temp_dir, '_{0}.png'.format(measured)))
+        plot(
+            {
+                m: [(x, results[files[str(x)][m]][measured]) for x in mpts]
+                for m in config['modes'].keys()
+            },
+            config['modes'],
+            display_name[measured],
+            (config['x_axis_label'], display_name[measured]),
+            img_files[-1]
+        )
+    return img_files
+
+
+def plot_diagram(config, results, images_dir, out_filename):
+    """Plot one diagram"""
+    img_files = plot_temp_diagrams(config, results, images_dir)
+    join_images(img_files, out_filename)
+    for img_file in img_files:
+        os.remove(img_file)
+
+
+def plot_diagrams(results, configs, compiler, out_dir):
+    """Plot all diagrams specified by the configs"""
     compiler_fn = make_filename(compiler)
     total = psutil.virtual_memory().total  # pylint:disable=I0011,E1101
     memory = int(math.ceil(byte_to_gb(total)))
 
+    images_dir = os.path.join(out_dir, 'images')
+
     for config in configs:
         out_prefix = '{0}_{1}'.format(config['name'], compiler_fn)
-        for measured in ['time', 'memory']:
-            files = config['files']
-            mpts = sorted(int(k) for k in files.keys())
-            plot(
-                {
-                    m: [(x, results[files[str(x)][m]][measured]) for x in mpts]
-                    for m in config['modes'].keys()
-                },
-                config['modes'],
-                display_name[measured],
-                (config['x_axis_label'], display_name[measured]),
-                os.path.join(
-                    out_dir,
-                    'images',
-                    '{0}_{1}.png'.format(out_prefix, measured)
-                )
-            )
+
+        plot_diagram(
+            config,
+            results,
+            images_dir,
+            os.path.join(images_dir, '{0}.png'.format(out_prefix))
+        )
+
         with open(
             os.path.join(out_dir, '{0}.qbk'.format(out_prefix)),
             'wb'
@@ -228,8 +264,7 @@ def plot_diagrams(results, configs, compiler, out_dir):
             qbk_content = """{0}
 Measured on a {2} host with {3} GB memory. Compiler used: {4}.
 
-[$images/metaparse/{1}_time.png [width 70%]]
-[$images/metaparse/{1}_memory.png [width 70%]]
+[$images/metaparse/{1}.png [width 100%]]
 """.format(config['desc'], out_prefix, platform.platform(), memory, compiler)
             out_f.write(qbk_content)
 
