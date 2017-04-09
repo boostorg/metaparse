@@ -63,13 +63,12 @@ def write_autogen_info(out_f):
 class IncludeGuard(object):
     """Generate include guards"""
 
-    def __init__(self, out_f, name):
+    def __init__(self, out_f):
         self.out_f = out_f
-        self.name = name.upper()
 
     def begin(self):
         """Generate the beginning part"""
-        name = 'BOOST_METAPARSE_V1_IMPL_{0}_HPP'.format(self.name)
+        name = 'BOOST_METAPARSE_V1_CPP11_IMPL_STRING_HPP'
         self.out_f.write('#ifndef {0}\n#define {0}\n'.format(name))
         write_autogen_info(self.out_f)
 
@@ -98,7 +97,7 @@ def define_macro(out_f, (name, args, body), undefine=False, check=True):
             .format(macro_name(name))
         )
     else:
-        if len(args) > 0:
+        if args:
             arg_list = '({0})'.format(', '.join(args))
         else:
             arg_list = ''
@@ -205,10 +204,10 @@ def generate_string(out_dir, limits):
     max_limit = max((int(v) for v in limits))
 
     with open(filename(out_dir, 'string'), 'wb') as out_f:
-        with IncludeGuard(out_f, ''):
+        with IncludeGuard(out_f):
             out_f.write(
                 '\n'
-                '#include <boost/metaparse/v{0}/impl/concat.hpp>\n'
+                '#include <boost/metaparse/v{0}/cpp11/impl/concat.hpp>\n'
                 '#include <boost/preprocessor/cat.hpp>\n'
                 .format(VERSION)
             )
@@ -333,7 +332,13 @@ def main():
         sys.exit(-1)
 
     generate_string(
-        os.path.join(boost_dir, 'metaparse', 'v{0}'.format(VERSION), 'impl'),
+        os.path.join(
+            boost_dir,
+            'metaparse',
+            'v{0}'.format(VERSION),
+            'cpp11',
+            'impl'
+        ),
         length_limits(args.max_length_limit, args.length_limit_step)
     )
 

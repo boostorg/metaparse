@@ -99,7 +99,6 @@ test-suite metaparse-unit-tests :
   [ compile source_position.cpp ]
   [ compile space.cpp ]
   [ compile spaces.cpp ]
-  [ compile split_at_c.cpp ]
   [ run string.cpp ]
   [ compile string_iterator_tag.cpp ]
   [ compile string_tag.cpp ]

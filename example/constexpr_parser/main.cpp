@@ -27,7 +27,7 @@
 #include <iostream>
 #include <string>
 
-#ifdef BOOST_NO_CXX11_CONSTEXPR
+#if BOOST_METAPARSE_STD < 2011
 
 int main()
 {

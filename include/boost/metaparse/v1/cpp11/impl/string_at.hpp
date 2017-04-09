@@ -1,14 +1,14 @@
-#ifndef BOOST_METAPARSE_V1_IMPL_STRING_AT_HPP
-#define BOOST_METAPARSE_V1_IMPL_STRING_AT_HPP
+#ifndef BOOST_METAPARSE_V1_CPP11_IMPL_STRING_AT_HPP
+#define BOOST_METAPARSE_V1_CPP11_IMPL_STRING_AT_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2016.
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/config.hpp>
-#include <boost/static_assert.hpp>
 #include <boost/metaparse/v1/impl/no_char.hpp>
+
+#include <boost/metaparse/limit_string_size.hpp>
 
 namespace boost
 {
@@ -19,11 +19,11 @@ namespace boost
       namespace impl
       {
         template <int MaxLen, int Len, class T>
-        BOOST_CONSTEXPR int string_at(const T (&s)[Len], int n)
+        constexpr int string_at(const T (&s)[Len], int n)
         {
           // "MaxLen + 1" adds the \0 character of the string literal to the
           // limit
-          BOOST_STATIC_ASSERT((Len <= MaxLen + 1));
+          static_assert(Len <= MaxLen + 1, "String literal is too long.");
           return n >= Len - 1 ? BOOST_NO_CHAR : s[n];
         }
       }

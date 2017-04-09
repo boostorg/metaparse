@@ -1,14 +1,14 @@
-#ifndef BOOST_METAPARSE_V1_IMPL_REMOVE_TRAILING_NO_CHARS_HPP
-#define BOOST_METAPARSE_V1_IMPL_REMOVE_TRAILING_NO_CHARS_HPP
+#ifndef BOOST_METAPARSE_V1_CPP11_IMPL_REMOVE_TRAILING_NO_CHARS_HPP
+#define BOOST_METAPARSE_V1_CPP11_IMPL_REMOVE_TRAILING_NO_CHARS_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/config.hpp>
-#include <boost/metaparse/v1/string.hpp>
-#include <boost/metaparse/v1/impl/push_front_c.hpp>
+#include <boost/metaparse/v1/cpp11/string.hpp>
+#include <boost/metaparse/v1/impl/no_char.hpp>
+#include <boost/metaparse/v1/cpp11/impl/push_front_c.hpp>
 
 namespace boost
 {
@@ -21,7 +21,6 @@ namespace boost
         template <class S>
         struct remove_trailing_no_chars : S {};
 
-#ifdef BOOST_METAPARSE_VARIADIC_STRING
         // this code assumes that BOOST_NO_CHARs are at the end of the string
         template <char... Cs>
         struct remove_trailing_no_chars<string<BOOST_NO_CHAR, Cs...>> :
@@ -46,7 +45,6 @@ namespace boost
 
         template <>
         struct remove_trailing_no_chars<string<>> : string<> {};
-#endif
 #endif
       }
     }

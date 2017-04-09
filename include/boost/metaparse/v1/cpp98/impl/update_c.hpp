@@ -1,15 +1,12 @@
-#ifndef BOOST_METAPARSE_V1_IMPL_UPDATE_C_HPP
-#define BOOST_METAPARSE_V1_IMPL_UPDATE_C_HPP
+#ifndef BOOST_METAPARSE_V1_CPP98_IMPL_UPDATE_C_HPP
+#define BOOST_METAPARSE_V1_CPP98_IMPL_UPDATE_C_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/config.hpp>
-#include <boost/metaparse/v1/fwd/string.hpp>
-#include <boost/metaparse/v1/impl/split_at_c.hpp>
-#include <boost/metaparse/v1/impl/concat.hpp>
+#include <boost/metaparse/v1/cpp98/fwd/string.hpp>
 
 #include <boost/preprocessor/arithmetic/dec.hpp>
 #include <boost/preprocessor/arithmetic/inc.hpp>
@@ -27,7 +24,6 @@ namespace boost
     {
       namespace impl
       {
-#ifndef BOOST_METAPARSE_VARIADIC_STRING
         template <class S, int N, int C>
         struct update_c;
 
@@ -69,21 +65,6 @@ namespace boost
 
         #undef BOOST_METAPARSE_UPDATE
         #undef BOOST_METAPARSE_ARGN
-#else
-        template <class S, int N, char C>
-        struct update_c :
-          concat<
-            typename split_at_c<N, S>::type::first,
-            typename
-              update_c<typename split_at_c<N, S>::type::second, 0, C>::type
-          >
-        {};
-  
-        template <char... Cs, char C, char NewChar>
-        struct update_c<string<C, Cs...>, 0, NewChar> :
-          string<NewChar, Cs...>
-        {};
-#endif
       }
     }
   }

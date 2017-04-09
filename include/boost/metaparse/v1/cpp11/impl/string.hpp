@@ -1,11 +1,11 @@
-#ifndef BOOST_METAPARSE_V1_IMPL__HPP
-#define BOOST_METAPARSE_V1_IMPL__HPP
+#ifndef BOOST_METAPARSE_V1_CPP11_IMPL_STRING_HPP
+#define BOOST_METAPARSE_V1_CPP11_IMPL_STRING_HPP
 
 // This is an automatically generated header file.
 // Generated with the tools/string_headers.py utility of
 // Boost.Metaparse
 
-#include <boost/metaparse/v1/impl/concat.hpp>
+#include <boost/metaparse/v1/cpp11/impl/concat.hpp>
 #include <boost/preprocessor/cat.hpp>
 
 namespace boost

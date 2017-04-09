@@ -5,7 +5,7 @@
 
 #include <boost/metaparse/config.hpp>
 
-#ifdef BOOST_METAPARSE_VARIADIC_STRING
+#if BOOST_METAPARSE_STD >= 2011
 
 #define BOOST_METAPARSE_LIMIT_STRING_SIZE 1024
 #include <boost/metaparse/string.hpp>
