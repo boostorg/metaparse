@@ -297,7 +297,6 @@ int main()
   
   cout
     << "TMP only parsers:" << endl
-    << P() << endl
     << P(aba) << endl
     << P(aaaaaaabbbbaaaa) << endl
     << endl
@@ -309,7 +308,6 @@ int main()
     << endl
 
     << "mixed parsers:" << endl
-    << P_MIXED() << endl
     << P_MIXED(aba) << endl
     << P_MIXED(aaaaaaabbbbaaaa) << endl
     << endl
