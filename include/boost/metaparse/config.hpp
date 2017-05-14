@@ -38,7 +38,8 @@
     && ( \
       (!defined BOOST_NO_CONSTEXPR && !defined BOOST_NO_CXX11_CONSTEXPR) \
       || (defined _MSC_VER && _MSC_VER >= 1900) \
-    )
+    ) \
+    && (!defined BOOST_GCC || BOOST_GCC >= 40700)
 
 #    define BOOST_METAPARSE_STD 2011
 
