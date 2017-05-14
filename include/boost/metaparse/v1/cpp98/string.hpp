@@ -244,7 +244,7 @@ namespace boost
       }; \
       \
       template <BOOST_PP_ENUM_PARAMS(n, int C)> \
-      BOOST_CONSTEXPR const char c_str< \
+      const char c_str< \
         boost::metaparse::v1::string< \
           BOOST_PP_ENUM_PARAMS(n, C) BOOST_PP_COMMA_IF(n) \
           BOOST_PP_ENUM( \
