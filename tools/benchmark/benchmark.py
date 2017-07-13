@@ -47,16 +47,17 @@ def benchmark_command(cmd, progress):
 
 def benchmark_file(
         filename, compiler, include_dirs, (progress_from, progress_to),
-        iter_count):
+        iter_count, extra_flags = ''):
     """Benchmark one file"""
     time_sum = 0
     mem_sum = 0
     for nth_run in xrange(0, iter_count):
         (time_spent, mem_used) = benchmark_command(
-            '{0} -std=c++11 {1} -c {2}'.format(
+            '{0} -std=c++11 {1} -c {2} {3}'.format(
                 compiler,
                 ' '.join('-I{0}'.format(i) for i in include_dirs),
-                filename
+                filename,
+                extra_flags
             ),
             (
                 progress_to * nth_run + progress_from * (iter_count - nth_run)
@@ -129,10 +130,13 @@ def format_time(seconds):
 
 
 def benchmark(src_dir, compiler, include_dirs, iter_count):
-    """Do the benchrmarking"""
+    """Do the benchmarking"""
 
     files = list(files_in_dir(src_dir, 'cpp'))
     random.shuffle(files)
+    has_string_templates = True
+    string_template_file_cnt = sum(1 for file in files if 'bmp' in file)
+    file_count = len(files) + string_template_file_cnt
 
     started_at = time.time()
     result = {}
@@ -142,11 +146,27 @@ def benchmark(src_dir, compiler, include_dirs, iter_count):
             os.path.join(src_dir, filename),
             compiler,
             include_dirs,
-            (float(progress) / len(files), float(progress + 1) / len(files)),
+            (float(progress) / file_count, float(progress + 1) / file_count),
             iter_count
         )
+        if 'bmp' in filename and has_string_templates:
+            try:
+                temp_result = benchmark_file(
+                    os.path.join(src_dir, filename),
+                    compiler,
+                    include_dirs,
+                    (float(progress + 1) / file_count, float(progress + 2) / file_count),
+                    iter_count,
+                    '-Xclang -fstring-literal-templates'
+                )
+                result[filename.replace('bmp', 'slt')] = temp_result
+            except:
+                has_string_templates = False
+                file_count -= string_template_file_cnt
+                print 'Stopping the benchmarking of string literal templates'
+
         elapsed = time.time() - started_at
-        total = float(len(files) * elapsed) / len(result)
+        total = float(file_count * elapsed) / len(result)
         print 'Elapsed time: {0}, Remaining time: {1}'.format(
             format_time(elapsed),
             format_time(total - elapsed)
@@ -215,6 +235,12 @@ def plot_temp_diagrams(config, results, temp_dir):
 
     files = config['files']
     img_files = []
+
+    if any('slt' in result for result in results) and 'bmp' in files.values()[0]:
+        config['modes']['slt'] = 'Using BOOST_METAPARSE_STRING with string literal templates'
+        for f in files.values():
+            f['slt'] = f['bmp'].replace('bmp', 'slt')
+
     for measured in ['time', 'memory']:
         mpts = sorted(int(k) for k in files.keys())
         img_files.append(os.path.join(temp_dir, '_{0}.png'.format(measured)))
