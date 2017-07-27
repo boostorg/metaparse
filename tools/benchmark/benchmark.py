@@ -28,7 +28,7 @@ def benchmark_command(cmd, progress):
     full_cmd = '/usr/bin/time --format="%U %M" {0}'.format(cmd)
     print '{0:6.2f}% Running {1}'.format(100.0 * progress, full_cmd)
     (_, err) = subprocess.Popen(
-        ['/bin/bash', '-c', full_cmd],
+        ['/bin/sh', '-c', full_cmd],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
@@ -75,7 +75,7 @@ def benchmark_file(
 def compiler_info(compiler):
     """Determine the name + version of the compiler"""
     (out, err) = subprocess.Popen(
-        ['/bin/bash', '-c', '{0} -v'.format(compiler)],
+        ['/bin/sh', '-c', '{0} -v'.format(compiler)],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE
