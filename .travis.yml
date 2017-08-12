@@ -145,9 +145,12 @@ script:
   -       git add -N .
   -       git diff --exit-code
   -       echo "Building the unit tests and the examples"
-  -       cd build
+  -       cd test
   -         ../../../b2 -d+2 ${CXXFLAGS}
-  -         sed -i 's/#include <boost\/metaparse\/[^/]*\.hpp>/#include <boost\/metaparse.hpp>/' ../test/*.?pp
+  -         sed -i 's/#include <boost\/metaparse\/[^/]*\.hpp>/#include <boost\/metaparse.hpp>/' *.?pp
+  -         ../../../b2 -d+2 ${CXXFLAGS}
+  -       cd ..
+  -       cd example
   -         ../../../b2 -d+2 ${CXXFLAGS}
   -       cd ..
   -       echo "Generating the documentation"

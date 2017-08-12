@@ -18,5 +18,8 @@ build_script:
   -     ..\..\..\b2 -d+2
   -   cd ..\..
   -   cd metaparse
-  -     cd build
+  -     cd test
+  -       ..\..\..\b2 -d+2
+  -     cd ..
+  -     cd example
   -       ..\..\..\b2 -d+2
