@@ -1,12 +1,12 @@
-#ifndef BOOST_METAPARSE_V1_IMPL_NTH_OF_C_HPP
-#define BOOST_METAPARSE_V1_IMPL_NTH_OF_C_HPP
+#ifndef BOOST_METAPARSE_V1_CPP98_IMPL_NTH_OF_C_HPP
+#define BOOST_METAPARSE_V1_CPP98_IMPL_NTH_OF_C_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/v1/impl/nth_of_c_impl.hpp>
+#include <boost/metaparse/v1/cpp98/impl/nth_of_c_impl.hpp>
 #include <boost/metaparse/v1/error/index_out_of_range.hpp>
 #include <boost/metaparse/v1/fail.hpp>
 #include <boost/metaparse/limit_sequence_size.hpp>
