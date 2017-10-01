@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V1_IMPL_IS_ANY_HPP
-#define BOOST_METAPARSE_V1_IMPL_IS_ANY_HPP
+#ifndef BOOST_METAPARSE_V1_CPP98_IMPL_IS_NONE_HPP
+#define BOOST_METAPARSE_V1_CPP98_IMPL_IS_NONE_HPP
 
 // Copyright Abel Sinkovics (abel@sinkovics.hu)  2013.
 // Distributed under the Boost Software License, Version 1.0.
@@ -25,18 +25,18 @@ namespace boost
       namespace impl
       {
         template <class Stub = int>
-        struct is_any0
+        struct is_none0
         {
           template <class C>
           struct apply : boost::mpl::true_ {};
         };
 
-        #ifdef BOOST_METAPARSE_DEFINE_IS_ANY
-        #  error BOOST_METAPARSE_DEFINE_IS_ANY already defined
+        #ifdef BOOST_METAPARSE_DEFINE_IS_NONE
+        #  error BOOST_METAPARSE_DEFINE_IS_NONE already defined
         #endif
-        #define BOOST_METAPARSE_DEFINE_IS_ANY(z, n, unused) \
+        #define BOOST_METAPARSE_DEFINE_IS_NONE(z, n, unused) \
           template <BOOST_PP_ENUM_PARAMS(n, class T)> \
-          struct BOOST_PP_CAT(is_any, n) \
+          struct BOOST_PP_CAT(is_none, n) \
           { \
             template <class C> \
             struct apply : \
@@ -46,7 +46,7 @@ namespace boost
                   == BOOST_PP_CAT(T, BOOST_PP_DEC(n))::type::value \
                 >, \
                 boost::mpl::false_, \
-                typename BOOST_PP_CAT(is_any, BOOST_PP_DEC(n))< \
+                typename BOOST_PP_CAT(is_none, BOOST_PP_DEC(n))< \
                   BOOST_PP_ENUM_PARAMS(BOOST_PP_DEC(n), T) \
                 >::template apply<C> \
               > \
@@ -56,11 +56,11 @@ namespace boost
         BOOST_PP_REPEAT_FROM_TO(
           1,
           BOOST_METAPARSE_LIMIT_ONE_CHAR_EXCEPT_SIZE,
-          BOOST_METAPARSE_DEFINE_IS_ANY,
+          BOOST_METAPARSE_DEFINE_IS_NONE,
           ~
         )
 
-        #undef BOOST_METAPARSE_DEFINE_IS_ANY
+        #undef BOOST_METAPARSE_DEFINE_IS_NONE
       }
     }
   }
