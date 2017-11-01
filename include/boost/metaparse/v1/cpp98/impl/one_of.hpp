@@ -9,7 +9,7 @@
 #include <boost/metaparse/v1/error/none_of_the_expected_cases_found.hpp>
 #include <boost/metaparse/v1/fail.hpp>
 
-#include <boost/metaparse/v1/impl/one_of_fwd_op.hpp>
+#include <boost/metaparse/v1/cpp98/impl/one_of_fwd_op.hpp>
 
 #include <boost/mpl/fold.hpp>
 

@@ -7,7 +7,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <boost/metaparse/v1/is_error.hpp>
-#include <boost/metaparse/v1/impl/later_result.hpp>
+#include <boost/metaparse/v1/cpp98/impl/later_result.hpp>
 
 #include <boost/mpl/eval_if.hpp>
 

@@ -3,25 +3,26 @@
 
 [h1 Synopsis]
 
-  template <class P1, class P2, /* ... */, class Pn>
+  template <class... Ps>
   struct one_of;
 
 This is a [link parser_combinator parser combinator].
 
 [table Arguments
-  [[Name]         [Type]]
-  [[`P1` .. `Pn`] [[link parser parser]s]]
+  [[Name] [Type]]
+  [[`Ps`] [[link parser parser]s]]
 ]
 
 [h1 Description]
 
-It accepts an input when any of the `P1`, ... `Pn` parsers accept it. The result
-of parsing is the result of applying the first parser that accepts the input.
-The parsers are tried in order, therefore in case of ambiguous grammars the
-result of parsing depends on the order of the `P1` ... `Pn` parsers.
+It accepts an input when any of the `Ps...` parsers accept it. The result of
+parsing is the result of applying the first parser that accepts the input. The
+parsers are tried in order, therefore in case of ambiguous grammars the result
+of parsing depends on the order of the `Ps...` parsers.
 
-The maximum number of accepted parsers is defined by the
-`BOOST_METAPARSE_LIMIT_ONE_OF_SIZE` macro. Its default value is `20`.
+On compilers, which are not C++11-compliant, the maximum number of accepted
+parsers is defined by the `BOOST_METAPARSE_LIMIT_ONE_OF_SIZE` macro. Its default
+value is `20`.
 
 [h1 Header]
 

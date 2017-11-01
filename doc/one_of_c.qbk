@@ -3,23 +3,24 @@
 
 [h1 Synopsis]
 
-  template <long P1, long P2, /* ... */ long Pn>
+  template <char... Cs>
   struct one_of_c;
 
 This is a [link parser parser].
 
 [table Arguments
-  [[Name]         [Type]]
-  [[`P1` .. `Pn`] [character values]]
+  [[Name] [Type]]
+  [[`Cs`] [character values]]
 ]
 
 [h1 Description]
 
-It accepts inputs beginning with any of the `P1`, ..., `Pn` characters. The
-result of parsing is the first character of the input.
+It accepts inputs beginning with any of the `Cs...` characters. The result of
+parsing is the first character of the input.
 
-The maximum number of characters that can be provided is defined by the
-`BOOST_METAPARSE_LIMIT_ONE_OF_SIZE` macro. Its default value is `20`.
+On compilers, which are not C++11-compliant, the maximum number of characters
+that can be provided is defined by the `BOOST_METAPARSE_LIMIT_ONE_OF_SIZE`
+macro. Its default value is `20`.
 
 [h1 Header]
 
