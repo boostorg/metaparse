@@ -37,6 +37,15 @@ namespace boost
           template <class Chr>
           struct apply : boost::mpl::bool_<any_of_c::run(Chr::type::value)> {};
         };
+
+        template <>
+        struct any_of_c<>
+        {
+          typedef any_of_c type;
+
+          template <class>
+          struct apply : boost::mpl::false_ {};
+        };
       }
     }
   }
