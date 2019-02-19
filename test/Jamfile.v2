@@ -84,7 +84,6 @@ test-suite metaparse-unit-tests :
   [ compile range_c.cpp ]
   [ compile range.cpp ]
   [ compile reject.cpp ]
-  [ compile remove_trailing_no_chars.cpp ]
   [ compile repeated1.cpp ]
   [ compile repeated.cpp ]
   [ compile repeated_one_of1.cpp ]
