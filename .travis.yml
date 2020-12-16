@@ -56,7 +56,7 @@ matrix:
             - g++-4.6
             - doxygen
             - xsltproc
-      install: &igcc47
+      install: &igcc46
         - "echo \"using gcc : 4.6 : g++-4.6 ;\" > ~/user-config.jam"
         - "sudo pip install pep8 pylint"
     - compiler: gcc
