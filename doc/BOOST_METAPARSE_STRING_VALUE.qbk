@@ -24,6 +24,8 @@ requires C++11.
 
 [*C++17]: The macro uses constexpr string literal.
 
+[caution It is [*not recommended] to use an expression with BOOST_METAPARSE_STRING_VALUE as the argument of `decltype`, for example `decltype(BOOST_METAPARSE_STRING_VALUE("foo"))`. Although such constructs may compile successfully in some environments, they tend to be [*non-portable]. ]
+
 [h1 Header]
 
   #include <boost/metaparse/string_value.hpp>
