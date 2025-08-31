@@ -21,6 +21,10 @@ string literal. The macro requires C++11.
 The maximal length of the string is limited. This limit is defined by the
 `BOOST_METAPARSE_LIMIT_STRING_SIZE` macro.
 
+For C++17 and later, consider using
+[link BOOST_METAPARSE_STRING_VALUE `BOOST_METAPARSE_STRING_VALUE`]
+instead, as it doesn't have these limitations.
+
 On platforms where `BOOST_METAPARSE_STRING` is not supported, the `string.hpp`
 header defines the `BOOST_METAPARSE_V1_CONFIG_NO_BOOST_METAPARSE_STRING` macro.
 Defining this macro before including the header disables the

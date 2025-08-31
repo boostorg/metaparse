@@ -16,7 +16,13 @@ This is a macro.
 [h1 Description]
 
 This is a convenience macro for creating instances of the string types created
-using [link BOOST_METAPARSE_STRING `BOOST_METAPARSE_STRING`].
+using [link BOOST_METAPARSE_STRING `BOOST_METAPARSE_STRING`]. The macro
+requires C++11.
+
+[*C++11]: The maximum length of these strings is controlled by the
+`BOOST_METAPARSE_LIMIT_STRING_SIZE` macro.
+
+[*C++17]: The macro uses constexpr string literal.
 
 [h1 Header]
 
