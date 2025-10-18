@@ -6,7 +6,7 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#include <boost/metaparse/v1/cpp17/impl/fixed_string.hpp>
+#include <boost/metaparse/v1/impl/fixed_string.hpp>
 #include <boost/metaparse/v1/cpp17/impl/convert_string.hpp>
 
 #include <utility> // for std::make_index_sequence
@@ -17,7 +17,7 @@
 
 #define BOOST_METAPARSE_V1_STRING_VALUE(s) ([]{                                                \
     namespace impl = ::boost::metaparse::v1::impl;                                             \
-    static constexpr impl::fixed_string fs(s);                                                 \
+    static constexpr auto fs = impl::make_fixed_string(s);                                     \
     return impl::convert_string<fs>::apply(std::make_index_sequence<fs.size() - 1>{});         \
 }())
 

@@ -1,5 +1,5 @@
-#ifndef BOOST_METAPARSE_V1_CPP17_IMPL_FIXED_STRING_HPP
-#define BOOST_METAPARSE_V1_CPP17_IMPL_FIXED_STRING_HPP
+#ifndef BOOST_METAPARSE_V1_IMPL_FIXED_STRING_HPP
+#define BOOST_METAPARSE_V1_IMPL_FIXED_STRING_HPP
 
 // Copyright Denis Mikhailov 2025.
 // Distributed under the Boost Software License, Version 1.0.
@@ -22,12 +22,14 @@ namespace boost
             constexpr fixed_string(const CharT (&s)[N]) noexcept
               : data{s}
             {}
-            constexpr auto operator[](std::size_t i) const noexcept { return data[i]; }
+            constexpr CharT operator[](std::size_t i) const noexcept { return data[i]; }
             constexpr std::size_t size() const noexcept { return N; }
         };
 
         template<typename CharT, std::size_t N>
-        fixed_string(const CharT(&)[N]) -> fixed_string<CharT, N>;
+        constexpr fixed_string<CharT, N> make_fixed_string(const CharT(&s)[N]) noexcept {
+            return {s};
+        }
       }
     }
   }
