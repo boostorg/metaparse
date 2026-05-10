@@ -40,8 +40,11 @@
       || (defined _MSC_VER && _MSC_VER >= 1900) \
     ) \
     && (!defined BOOST_GCC || BOOST_GCC >= 40700)
+#    if !defined BOOST_NO_CXX17_DEDUCTION_GUIDES
 
-#    if !defined BOOST_NO_CXX14_CONSTEXPR
+#      define BOOST_METAPARSE_STD 2017
+
+#    elif !defined BOOST_NO_CXX14_CONSTEXPR
 
 #      define BOOST_METAPARSE_STD 2014
 

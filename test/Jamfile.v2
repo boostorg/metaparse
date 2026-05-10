@@ -1,4 +1,5 @@
 import testing ;
+import config : requires ;
 
 project :
   requirements
@@ -103,6 +104,7 @@ test-suite metaparse-unit-tests :
   [ compile string_iterator_tag.cpp ]
   [ compile string_tag.cpp ]
   [ compile string_value.cpp ]
+  [ compile string_value_unlimited_cxx17.cpp : [ requires cxx17_deduction_guides ] ]
   [ compile swap.cpp ]
   [ compile token.cpp ]
   [ compile-fail too_long_string.cpp ]
